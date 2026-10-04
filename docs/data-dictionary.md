@@ -33,6 +33,7 @@ three rows. That is deliberate: the retries are where the money leaks.
 | ------ | ---- | ------- |
 | `policy_id` | int | Primary key, → `dim_policy` |
 | `customer_id` | int | → `dim_customer` |
+| `method_id` | int | → `dim_payment_method`. The payment method on file when the policy ended. For a lapse, it's the one whose payments kept failing |
 | `end_date` | date | → `dim_date` |
 | `end_type` | varchar | `Cancelled` = the customer chose to leave. `Lapsed` = nobody chose anything; the payments stopped working |
 | `end_reason` | varchar | `Customer request` or `Payment failure` |

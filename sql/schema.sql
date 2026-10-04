@@ -96,10 +96,12 @@ CREATE TABLE fact_payments (
 );
 
 -- Grain: one ended policy. end_type is the headline split — did the customer decide to go,
--- or did the payments simply stop working?
+-- or did the payments simply stop working? method_id is the payment method on file when it
+-- ended, which is what lets the report compare cards with direct debits.
 CREATE TABLE fact_lapse_events (
     policy_id         INTEGER PRIMARY KEY REFERENCES dim_policy (policy_id),
     customer_id       INTEGER      NOT NULL REFERENCES dim_customer (customer_id),
+    method_id         INTEGER      NOT NULL REFERENCES dim_payment_method (method_id),
     end_date          DATE         NOT NULL REFERENCES dim_date (date_id),
     end_type          VARCHAR(10)  NOT NULL CHECK (end_type IN ('Cancelled', 'Lapsed')),
     end_reason        VARCHAR(40)  NOT NULL,

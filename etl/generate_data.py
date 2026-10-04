@@ -423,7 +423,7 @@ def simulate_payments(
                     else:
                         # Pattern 1: nobody decided anything. The policy just died.
                         lapses.append(
-                            (policy_id, customer_id, attempt_date, "Lapsed",
+                            (policy_id, customer_id, method_id, attempt_date, "Lapsed",
                              "Payment failure", decline_id)
                         )
                         ended = True
@@ -432,7 +432,7 @@ def simulate_payments(
             # --- the customer may also simply choose to leave -----------------------
             cancel_chance = MONTHLY_CANCEL_HAZARD * (1 if monthly else 12)
             if rng.random() < cancel_chance:
-                lapses.append((policy_id, customer_id, due, "Cancelled",
+                lapses.append((policy_id, customer_id, method_id, due, "Cancelled",
                                "Customer request", None))
                 ended = True
                 break
@@ -444,10 +444,12 @@ def simulate_payments(
         columns=["payment_id", "policy_id", "customer_id", "method_id", "date_id",
                  "amount", "fee", "attempt_number", "payment_status", "decline_id"],
     )
+    # method_id is the payment method on file when the policy ended. Without it nothing links an
+    # ended policy to how it was paid, and the report could not compare cards with direct debits.
     fact_lapse_events = pd.DataFrame(
         lapses,
-        columns=["policy_id", "customer_id", "end_date", "end_type", "end_reason",
-                 "final_decline_id"],
+        columns=["policy_id", "customer_id", "method_id", "end_date", "end_type",
+                 "end_reason", "final_decline_id"],
     )
     return fact_payments, fact_lapse_events
 

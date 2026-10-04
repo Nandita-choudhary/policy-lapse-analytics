@@ -60,8 +60,23 @@ Model view. Create these relationships, all **many-to-one, single direction**:
 | `fact_payments[method_id]` | `dim_payment_method[method_id]` |
 | `fact_payments[decline_id]` | `dim_decline[decline_id]` |
 | `fact_lapse_events[policy_id]` | `dim_policy[policy_id]` |
+| `fact_lapse_events[customer_id]` | `dim_customer[customer_id]` |
+| `fact_lapse_events[method_id]` | `dim_payment_method[method_id]` |
 | `fact_lapse_events[end_date]` | `dim_date[date_id]` |
+| `fact_lapse_events[final_decline_id]` | `dim_decline[decline_id]` |
 | `fact_risk_scores[policy_id]` | `dim_policy[policy_id]` |
+| `fact_risk_scores[customer_id]` | `dim_customer[customer_id]` |
+
+Every fact table links to every dimension it holds a key for. Page 2 depends on the
+`fact_lapse_events` links. Without them, "lapses by decline reason" shows the same number on
+every bar, and Key influencers cannot see the payment method at all.
+
+**Fix the two one-to-one relationships.** `fact_lapse_events` and `fact_risk_scores` hold one
+row per policy, so Power BI finds unique values on both sides of their `policy_id` links and
+sets them to **one-to-one**. A one-to-one relationship always filters in both directions, which
+would let a filter on ended policies reach `fact_payments` through `dim_policy`. Double-click
+each of the two lines, set Cardinality to **Many to one (\*:1)** and Cross filter direction to
+**Single**.
 
 **Delete any relationship Power BI auto-created between two dimensions** — in particular
 `dim_policy[customer_id] → dim_customer` and `dim_payment_method[customer_id] → dim_customer`.
@@ -344,9 +359,9 @@ Single-series line charts need no legend; the title names the series.
 | Top left | Card, large | `Involuntary Share` — the headline number of the whole project |
 | Top right | Card | `Annual Premium Lost` |
 | Middle left | **Line chart** | Axis `fact_payments[Months Since Card Expiry]` filtered to −6…+6, Y `Failure Rate` |
-| Middle right | Key influencers | Analyse `fact_lapse_events[end_type]`, Explain by product, state, channel, age band, `dim_payment_method[method_type]`, `bank` |
+| Middle right | Key influencers | Analyse `fact_lapse_events[end_type]`, Explain by `dim_payment_method[method_type]`, `billing_frequency`, product, state, channel, age band, `bank` |
 | Bottom left | Bar chart | Axis `dim_decline[decline_description]`, Y `Policies Lapsed` |
-| Bottom right | Decomposition tree | Analyse `Policies Lapsed`, Explain by `end_reason`, `decline_category`, `decline_description`, `bank` |
+| Bottom right | Decomposition tree | Analyse `Policies Lapsed`, Explain by `decline_category`, `decline_description`, `method_type`, `billing_frequency` |
 
 The middle-left line chart is the expiry cliff and it is the most persuasive visual in the
 report. A line is right because the x-axis is a continuous run of months and the shape — flat,
@@ -401,9 +416,16 @@ three or four parts of a genuine whole, read at a glance.
 
 All free in Power BI Desktop; no Fabric capacity needed.
 
-- **Key influencers** (page 2) — already in the table above. Set it to analyse `end_type` and
-  watch it find the payment method and the bank.
-- **Decomposition tree** (page 2) — let it drill `Policies Lapsed` down to the decline reason.
+- **Key influencers** (page 2) — already in the table above. Set it to analyse `end_type` =
+  Lapsed. It should pick out two things:
+  - Paying by card: 60% of ended card policies lapsed, against 36% for direct debit.
+  - Monthly billing: 54% lapsed, against 13% for annual payers, who mostly leave by cancelling
+    at renewal.
+
+  State, age, channel and bank barely move it (45–49% everywhere). That is part of the story:
+  the lapse is about how people pay, not who they are.
+- **Decomposition tree** (page 2) — let it drill `Policies Lapsed` down through Hard/Soft to
+  the decline reason, then the payment method.
 - **Anomaly detection** — on the page 1 failure-rate line chart: select it → Analytics pane →
   **Find anomalies** → Add.
 - **Q&A visual** — put one on page 1. Then teach it the vocabulary an insurer would use:
@@ -465,6 +487,7 @@ published link into the "Open the live dashboard" line.
 | Symptom | Cause |
 | ------- | ----- |
 | "Can't determine relationships" / an auto-relationship is dotted | A dimension-to-dimension relationship snuck in. Delete it — see §3 |
+| A page 2 visual shows the same value on every bar | `fact_lapse_events` is missing one of its relationships — see §3 |
 | Time-intelligence measures return blank | `dim_date` was never marked as a date table |
 | Failure rate looks like 11% not 5% | A measure is counting retries. Add `attempt_number = 1` |
 | The payday chart is sorted by value | Click the visual's "…" → Sort axis → `day_of_month`, ascending |

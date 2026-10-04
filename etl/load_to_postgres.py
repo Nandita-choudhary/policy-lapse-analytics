@@ -61,8 +61,13 @@ def main() -> None:
                 path = DATA_DIR / f"{table}.csv"
                 print(f"Loading {table:<20}", end=" ", flush=True)
                 with path.open("r", encoding="utf-8") as fh:
+                    # Name the columns from the CSV's own header. Without a column list COPY
+                    # fills columns by position, so a column added to the generator in a
+                    # different place from sql/schema.sql could load into the wrong field.
+                    columns = fh.readline().strip()
+                    fh.seek(0)
                     cur.copy_expert(
-                        f"COPY {table} FROM STDIN WITH CSV HEADER NULL ''", fh
+                        f"COPY {table} ({columns}) FROM STDIN WITH CSV HEADER NULL ''", fh
                     )
                 cur.execute(f"SELECT count(*) FROM {table};")
                 print(f"{cur.fetchone()[0]:>10,} rows")
