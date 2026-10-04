@@ -61,15 +61,17 @@ scored active policy. Full definitions in `docs/data-dictionary.md`.
 
 ## Where things stand
 
-| Phase | What | Status |
-| ----- | ---- | ------ |
-| 0 | Repo scaffold, README, data dictionary | Done |
-| 1 | Data generator, four patterns verified | Done |
-| 2 | SQL schema + Postgres loader written | Code done — needs a Supabase project and a run |
-| 3 | Payment-failure prediction model | Code done — needs the database loaded first |
-| 4 | Power BI: model, DAX, 4 pages, save as .pbip | Fully specified in `docs/powerbi-build-guide.md` — every relationship, measure and visual. Build pending |
-| 5 | Publish report, README screenshots | Pending |
-| 6 | Resume bullets, interview practice | Pending |
+Nandita's phase plan, updated 4 October 2026. Keep the Status column current as work finishes.
+
+| # | Phase | Where | Status | How to tackle |
+| - | ----- | ----- | ------ | ------------- |
+| 0 | GitHub repo + folder structure + README | Mac | Git started 4 Oct (`main` + `fix-pass`); GitHub repo not created yet | Follow `docs/setup-steps.md` §1 |
+| 1 | Data generator, four planted patterns | Mac | Fix pass under way on `fix-pass`; all four patterns verified 4 Oct | Re-run after any change and check the printed numbers; quick plots optional |
+| 2 | ETL → Supabase, star schema, data dictionary | Mac | Code done; loader tested against a stand-in database; needs a Supabase project and a run | Verify row counts after the load |
+| 3 | Failure model, scores → Postgres | Mac | Code done; runs from the CSVs (AUC 0.769); writing to the database waits for phase 2 | Document every feature in plain words |
+| 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Fully specified in `docs/powerbi-build-guide.md`; build pending | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
+| 5 | Publish + README screenshots + citations | Both | Not started | 2 days. Needs a work-style email: create one @datavalix.com |
+| 6 | Resume bullets + LinkedIn post + interview practice | — | Not started | 1 day. Explain the schema, one measure and the finding out loud |
 
 **Still undecided:** the insurer's name. The repo name does not depend on it. Candidates:
 Renewly, CoverKeep, TrueCover. Once chosen, use it consistently in the README and the dashboard.
