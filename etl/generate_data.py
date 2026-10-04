@@ -87,7 +87,7 @@ P_RETRY_SUCCESS_IN_WINDOW = 0.62
 P_RETRY_SUCCESS_OUTSIDE = 0.24
 
 # Pattern 2: cards expire, and not everyone updates them in time
-CARD_LIFETIME_MONTHS = (6, 48)  # how long after policy start the stored card expires
+CARD_LIFETIME_MONTHS = (6, 48)  # months after the window opens that the stored card expires
 P_CARD_UPDATED_IN_TIME = 0.58
 
 # After every attempt has failed, the customer may still pay the overdue premium another way

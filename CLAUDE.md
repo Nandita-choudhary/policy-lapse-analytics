@@ -22,10 +22,10 @@ makes any of them disappear, the change is wrong.
 1. **The lapse that isn't** — 47.5% of policy exits are involuntary (payment failure, not a decision)
 2. **The expiry cliff** — first-attempt failure rate goes 4.2% → 30.3% once a stored card expires
 3. **Retrying the dead** — hard dishonours retried 36,770 times, succeeded 0 times, $54k/yr in fees
-4. **The payday window** — retries succeed 53% vs 21% inside/outside the 2 days after the 1st and 15th
+4. **The payday window** — soft-dishonour retries succeed 62.5% on the 1st or 15th or the two days after, vs 23.7% on other days
 
-`etl/generate_data.py` prints a check of all four every time it runs. Run it after any change to
-the generator and confirm the numbers still hold.
+`etl/generate_data.py` prints a check of all four every time it runs, including every number the
+README quotes. Run it after any change to the generator and confirm the numbers still hold.
 
 ## Architecture
 
@@ -36,8 +36,9 @@ model/predict_failures.py →  risk scores written back to the database
 powerbi/                  →  Power BI report, saved as .pbip (plain text, version controlled)
 ```
 
-One fact table (`fact_payments`, grain = one premium payment attempt) with six dimensions around
-it. Full definitions in `docs/data-dictionary.md`.
+Three fact tables share five dimensions. `fact_payments` (grain = one premium payment attempt) is
+the centre; `fact_lapse_events` has one row per ended policy and `fact_risk_scores` one row per
+scored active policy. Full definitions in `docs/data-dictionary.md`.
 
 ## Conventions
 

@@ -376,6 +376,9 @@ report. A line is right because the x-axis is a continuous run of months and the
 then a wall at month 0 — *is* the finding. Add a reference line at x = 0 labelled "card
 expires".
 
+The Annual Premium Lost card shows about $8.7M with no date filter: a year's premium for every
+policy that lapsed in the two years. That is the README's headline figure.
+
 ### Page 3 · Wasted retries — *"What do failed premiums actually cost?"*
 
 | Position | Visual | Fields |
@@ -391,8 +394,8 @@ finding 3 in one picture.
 
 Middle right is the payday finding. Sort by day of month, not by value — the whole point is
 *where* in the month the good days fall. Use conditional formatting on the bars so days in the
-payday window are the brand blue and the rest are grey. Add a text box: "retries landing in the
-two days after the 1st or the 15th succeed 2.6× as often."
+payday window are the brand blue and the rest are grey. Add a text box: "soft-dishonour retries
+landing on the 1st or 15th, or the two days after, succeed 2.6× as often."
 
 ### Page 4 · At risk next — *"Which premiums will fail next month, and what do we do?"*
 
@@ -404,17 +407,19 @@ two days after the 1st or the 15th succeed 2.6× as often."
 | Right | Table, top 50 | `policy_id`, `product`, `risk_score`, `premium_at_risk`, sorted descending |
 | Bottom, full width | Text box | The three recommendations, each with its number |
 
-The bottom text box is what turns the project from a dashboard into analysis. Write it plainly:
+The bottom text box is what turns the project from a dashboard into analysis. Write it plainly.
+The cards on pages 1–3 cover the whole two years unless a date is filtered; these
+recommendations quote per-year figures, which are half of those totals.
 
 > **1. Stop retrying hard dishonours.** They were retried 36,770 times in 24 months and
 > succeeded zero times. Saving: **$54,000 a year** in dishonour fees.
 >
-> **2. Move soft-dishonour retries into the payday window.** Retries in the two days after the
-> 1st or 15th succeed 52.6% of the time against 20.5% on other days. Recovers roughly
-> **5,300 more payments a year**.
+> **2. Move soft-dishonour retries into the payday window.** Retries on the 1st or 15th, or the
+> two days after, succeed 62.5% of the time against 23.7% on other days. Recovers roughly
+> **5,700 more payments a year**.
 >
 > **3. Warn customers before their card expires.** Once a stored card passes its expiry date the
-> failure rate goes from 4.2% to 30.3%, and expired cards are behind **47% of all lapses**.
+> failure rate goes from 4.2% to 30.3%, and expired cards are behind **49% of all lapses**.
 
 Risk bands are an ordered category, so they are bars in order, not a donut. A donut is only for
 three or four parts of a genuine whole, read at a glance.

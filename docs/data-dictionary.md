@@ -1,13 +1,14 @@
 # Data dictionary
 
-Seven tables in a star schema. `fact_payments` is the centre; everything else explains a row
-in it. All data is simulated — see the note in the [README](../README.md).
+Eight tables in a star schema: seven built by `etl/generate_data.py`, plus `fact_risk_scores`
+written by `model/predict_failures.py`. `fact_payments` is the centre; everything else explains a
+row in it. All data is simulated — see the note in the [README](../README.md).
 
 Row counts below are from the default run (50,000 policyholders, October 2024 – September 2026).
 
 ---
 
-## fact_payments — 772,747 rows
+## fact_payments — 771,071 rows
 
 **Grain: one premium payment attempt.** A payment that failed and was retried twice produces
 three rows. That is deliberate: the retries are where the money leaks.
@@ -25,7 +26,7 @@ three rows. That is deliberate: the retries are where the money leaks.
 | `payment_status` | varchar | `Success` or `Failed` |
 | `decline_id` | smallint | → `dim_decline`. Why the attempt failed, or, on a successful retry, the dishonour it recovered from. Null when the premium went through on the first attempt |
 
-## fact_lapse_events — 9,798 rows
+## fact_lapse_events — 9,734 rows
 
 **Grain: one ended policy.** The headline of the whole project lives in `end_type`.
 
@@ -38,6 +39,22 @@ three rows. That is deliberate: the retries are where the money leaks.
 | `end_type` | varchar | `Cancelled` = the customer chose to leave. `Lapsed` = nobody chose anything; the payments stopped working |
 | `end_reason` | varchar | `Customer request` or `Payment failure` |
 | `final_decline_id` | smallint | → `dim_decline`. The dishonour that killed the policy. Null for cancellations |
+
+## fact_risk_scores — 40,266 rows
+
+**Grain: one active policy, scored for its next premium.** Written by
+`model/predict_failures.py`, which empties and refills it on every run. It is the only table that
+is a model's output rather than a record of something that happened. Page 4 of the report reads it.
+
+| Column | Type | Meaning |
+| ------ | ---- | ------- |
+| `policy_id` | int | Primary key, → `dim_policy` |
+| `customer_id` | int | → `dim_customer` |
+| `scored_for_date` | date | The date of the next premium: the one being scored |
+| `risk_score` | numeric | The model's chance that this premium fails, from 0 to 1 |
+| `premium_amount` | numeric | The premium per billing cycle, copied from `dim_policy`. Hidden in Power BI |
+| `risk_band` | varchar | `Low` up to 5%, `Medium` 5–15%, `High` 15–35%, `Very high` above 35% |
+| `premium_at_risk` | numeric | `risk_score` × `premium_amount`: the premium expected to fail |
 
 ---
 
@@ -52,8 +69,8 @@ three rows. That is deliberate: the retries are where the money leaks.
 | `days_since_payday` | smallint | Days since the most recent payday (0 on a payday) |
 | `is_payday_window` | bool | True on a payday and the two days after — when accounts have money again |
 
-`is_payday_window` is the column that makes finding 4 visible. Mark it as a date table in Power
-BI so time-intelligence measures work.
+`is_payday_window` is the column that makes finding 4 visible. In Power BI, mark `dim_date` as
+the date table so time-intelligence measures work.
 
 ## dim_decline — 8 rows
 

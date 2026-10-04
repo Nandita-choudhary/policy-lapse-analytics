@@ -49,15 +49,21 @@ The `.venv` folder is gitignored. Run `source .venv/bin/activate` at the start o
 python etl/generate_data.py
 ```
 
-Takes about 15 seconds and writes seven CSVs into `data/`. It prints a check of the four
-findings at the end — confirm they are all there:
+Takes about 15 seconds and writes seven CSVs into `data/`. It ends with a check that prints
+every number the README quotes. Confirm they match:
 
-| Finding | Expected |
-| ------- | -------- |
-| Involuntary share of exits | ~47% |
-| Failure rate before / after card expiry | ~4% → ~30% |
-| Hard-dishonour retries that succeeded | 0 |
-| Retry success inside / outside payday window | ~53% / ~21% |
+| Line in the check | Expected |
+| ----------------- | -------- |
+| Lapsed (the involuntary share of exits) | 47.5% |
+| Annual premium lost | $8,664,476 over 24 months |
+| Failure rate before / after card expiry | 4.2% → 30.3% |
+| Lapses caused by an expired card | 48.7% |
+| Retries of hard dishonours / that worked | 36,770 / 0 |
+| Soft retry success inside / outside the payday window | 62.5% / 23.7% |
+| Payments recoverable by re-timing | 5,655 a year |
+
+The seed is fixed, so on this setup every run gives exactly these numbers. A different numpy
+version could shift them slightly; the four patterns would still hold.
 
 The big CSVs are gitignored; `data/sample/` has a 200-row sample of each table and **is**
 committed, so the repo shows the data's shape without carrying 43MB.
