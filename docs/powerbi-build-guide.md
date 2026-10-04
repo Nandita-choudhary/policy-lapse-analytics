@@ -12,8 +12,8 @@ top to bottom and the session is mostly copy, paste and click.
 - [ ] Supabase project exists, `sql/schema.sql` has been run against it
 - [ ] `python etl/load_to_postgres.py` has run — all seven tables have rows
 - [ ] `python model/predict_failures.py` has run — `fact_risk_scores` has rows
-- [ ] The Supabase host, database name, user and password are written down somewhere you can
-      reach from the Windows machine (not committed to the repo)
+- [ ] The Supabase **Session pooler** host and user, the database name and the password are
+      written down somewhere you can reach from the Windows machine (not committed to the repo)
 - [ ] The repo is pushed to GitHub, so you can `git clone` it on the Windows side
 
 ## 1. Session routine — every single time
@@ -29,16 +29,31 @@ The public IP changes on every restart. If it will not connect, that is almost a
 
 ## 2. Connect Power BI to the database
 
-Home → Get data → **PostgreSQL database**
+**First, once per machine: trust Supabase's certificate.** Supabase encrypts connections with a
+certificate signed by its own authority, which Windows does not know. Power BI therefore refuses
+the connection ("the remote certificate is invalid").
+
+1. In the Supabase dashboard: Project Settings → Database → **SSL Configuration** →
+   **Download certificate**.
+2. On the Windows machine, double-click the downloaded `.crt` file → **Install Certificate** →
+   Current User.
+3. Choose **Place all certificates in the following store** → Browse →
+   **Trusted Root Certification Authorities** → Finish → Yes.
+
+Then Home → Get data → **PostgreSQL database**
 
 | Field | Value |
 | ----- | ----- |
-| Server | `db.xxxxxxxxxxxx.supabase.co:5432` (your project's host, with the port) |
+| Server | `aws-0-<region>.pooler.supabase.com:5432`: the **Session pooler** host from the Connect panel in Supabase |
 | Database | `postgres` |
 | Data Connectivity mode | **Import** |
 
-Sign in with **Database** credentials: user `postgres`, and your project password. On the
-encryption warning, continue — Supabase requires SSL and the connector handles it.
+Sign in with **Database** credentials: user `postgres.<project-ref>` (the Session pooler's user
+name, shown in the same panel) and your database password.
+
+Use the Session pooler, not the direct `db.<project-ref>.supabase.co` address. The direct
+address has only an IPv6 address, which most networks cannot reach, a default EC2 machine
+included.
 
 Select all eight tables: `dim_date`, `dim_decline`, `dim_customer`, `dim_policy`,
 `dim_payment_method`, `fact_payments`, `fact_lapse_events`, `fact_risk_scores` → **Load**.
@@ -507,3 +522,6 @@ published link into the "Open the live dashboard" line.
 | The payday chart is sorted by value | Click the visual's "…" → Sort axis → `day_of_month`, ascending |
 | The payday chart never rises above about 30% | It is using `Retry Success Rate`, which includes hard retries. Use `Soft Retry Success Rate` |
 | Remote desktop will not connect | The public IP changed when the machine restarted. Copy the new one |
+| "The remote certificate is invalid" | Supabase's certificate is not trusted on this machine yet. Install it — see §2 |
+| Power BI cannot find the server | The direct `db.….supabase.co` address is IPv6-only. Use the Session pooler host — see §2 |
+| Nothing connects after a quiet week | Free Supabase projects pause after a week without use. Supabase dashboard → **Restore project** |

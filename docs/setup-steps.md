@@ -74,8 +74,12 @@ committed, so the repo shows the data's shape without carrying 43MB.
 
 - [ ] Go to supabase.com → sign in → **New project**
 - [ ] Name it `policy-lapse-analytics`, region **Sydney**, and **write the database password down** — it is shown once
+- [ ] Under Security, untick **Enable Data API**. Power BI and the scripts connect straight to
+      the database, so the public web API isn't needed
 - [ ] Wait for it to finish starting (a minute or two)
-- [ ] Project Settings → Database → Connection string → **URI** → copy it
+- [ ] Click **Connect** at the top of the project → set the method to **Session pooler** → copy
+      the URI. Don't use the direct connection: its address is IPv6-only, which many networks
+      can't reach
 - [ ] In this folder:
 
 ```bash

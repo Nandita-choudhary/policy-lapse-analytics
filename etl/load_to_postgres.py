@@ -3,11 +3,11 @@ Load the generated CSVs into PostgreSQL (Supabase).
 
 Before running:
 
-  1. Create a project at supabase.com and copy its connection string
-     (Project settings → Database → Connection string → URI).
+  1. Create a project at supabase.com and copy its Session pooler connection string
+     (Connect → method "Session pooler" → URI). The direct address is IPv6-only.
   2. Put it in a .env file in the repo root — this file is gitignored, never commit it:
 
-         DATABASE_URL=postgresql://postgres:YOURPASSWORD@db.xxxx.supabase.co:5432/postgres
+         DATABASE_URL=postgresql://postgres.PROJECTREF:YOURPASSWORD@aws-0-REGION.pooler.supabase.com:5432/postgres
 
   3. Create the tables:   psql "$DATABASE_URL" -f sql/schema.sql
   4. Then:                python etl/load_to_postgres.py
