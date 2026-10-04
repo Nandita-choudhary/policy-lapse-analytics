@@ -1,0 +1,24 @@
+# Secrets — never commit these
+.env
+.env.*
+*.pem
+
+# Generated data — the script rebuilds it; only the sample is committed
+data/*.csv
+!data/sample/*.csv
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Power BI local cache
+powerbi/**/.pbi/localSettings.json
+powerbi/**/.pbi/cache.abf
+*.pbix
+
+# OS
+.DS_Store
+Thumbs.db

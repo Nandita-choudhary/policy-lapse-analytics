@@ -1,0 +1,201 @@
+customer_id,join_date,state,acquisition_channel,age_band
+1,2026-02-16,VIC,Phone,30-44
+2,2021-06-11,NSW,Direct online,45-59
+3,2023-08-03,NSW,Direct online,30-44
+4,2026-07-30,VIC,Comparison site,18-29
+5,2025-12-24,NSW,Comparison site,60+
+6,2023-02-02,QLD,Broker,60+
+7,2021-09-01,SA,Direct online,60+
+8,2025-09-13,WA,Direct online,45-59
+9,2024-02-29,TAS,Broker,30-44
+10,2024-12-11,VIC,Broker,30-44
+11,2020-08-21,TAS,Comparison site,30-44
+12,2023-09-02,NSW,Broker,18-29
+13,2020-02-14,VIC,Broker,60+
+14,2026-07-05,QLD,Direct online,30-44
+15,2025-01-01,VIC,Direct online,30-44
+16,2020-12-28,VIC,Phone,30-44
+17,2022-05-16,QLD,Direct online,30-44
+18,2025-08-29,SA,Broker,18-29
+19,2025-03-20,VIC,Broker,60+
+20,2023-04-06,SA,Broker,60+
+21,2025-04-04,WA,Broker,45-59
+22,2026-02-14,WA,Broker,30-44
+23,2020-03-13,NSW,Phone,45-59
+24,2020-11-24,QLD,Comparison site,45-59
+25,2025-08-10,VIC,Broker,45-59
+26,2020-04-17,VIC,Direct online,45-59
+27,2019-12-19,VIC,Phone,60+
+28,2019-11-06,QLD,Broker,18-29
+29,2019-12-22,VIC,Broker,30-44
+30,2026-04-03,WA,Direct online,45-59
+31,2024-04-26,VIC,Phone,60+
+32,2026-01-16,NSW,Phone,45-59
+33,2026-04-13,NSW,Comparison site,45-59
+34,2023-02-27,QLD,Broker,45-59
+35,2020-11-07,WA,Phone,18-29
+36,2024-03-22,VIC,Direct online,60+
+37,2022-03-15,VIC,Direct online,45-59
+38,2024-11-27,NSW,Direct online,18-29
+39,2020-02-11,NSW,Direct online,30-44
+40,2024-05-03,WA,Direct online,45-59
+41,2026-05-20,QLD,Direct online,45-59
+42,2019-11-30,VIC,Broker,45-59
+43,2026-03-21,NSW,Direct online,60+
+44,2025-02-25,SA,Direct online,45-59
+45,2025-12-11,WA,Comparison site,45-59
+46,2020-02-06,NSW,Broker,45-59
+47,2024-10-26,NSW,Broker,45-59
+48,2022-02-07,VIC,Direct online,45-59
+49,2024-04-28,QLD,Broker,45-59
+50,2022-06-07,SA,Direct online,45-59
+51,2026-05-08,NSW,Phone,45-59
+52,2024-03-08,VIC,Direct online,30-44
+53,2024-07-15,WA,Direct online,30-44
+54,2022-05-24,VIC,Direct online,30-44
+55,2024-10-20,VIC,Broker,60+
+56,2025-12-19,VIC,Direct online,18-29
+57,2024-03-21,QLD,Comparison site,45-59
+58,2022-02-24,QLD,Broker,30-44
+59,2026-06-16,VIC,Broker,30-44
+60,2020-08-18,NSW,Broker,18-29
+61,2025-04-24,VIC,Broker,30-44
+62,2021-08-01,VIC,Comparison site,30-44
+63,2021-03-02,NSW,Direct online,60+
+64,2021-03-22,VIC,Direct online,60+
+65,2025-04-08,WA,Direct online,60+
+66,2023-08-25,NSW,Broker,60+
+67,2025-04-13,QLD,Broker,60+
+68,2020-11-05,NSW,Direct online,30-44
+69,2025-08-04,NSW,Direct online,60+
+70,2023-01-16,NSW,Comparison site,18-29
+71,2022-04-12,NSW,Comparison site,30-44
+72,2021-07-02,WA,Broker,30-44
+73,2020-02-09,SA,Broker,45-59
+74,2022-05-15,VIC,Direct online,45-59
+75,2025-04-03,QLD,Direct online,60+
+76,2020-08-13,NSW,Broker,18-29
+77,2026-07-22,VIC,Direct online,18-29
+78,2026-05-30,NSW,Direct online,30-44
+79,2023-12-03,VIC,Direct online,45-59
+80,2025-01-04,NSW,Broker,45-59
+81,2023-07-17,WA,Direct online,18-29
+82,2025-11-29,TAS,Comparison site,45-59
+83,2024-04-21,NSW,Phone,60+
+84,2026-07-18,WA,Direct online,18-29
+85,2026-06-12,NSW,Direct online,30-44
+86,2025-05-18,QLD,Comparison site,45-59
+87,2023-06-03,NSW,Comparison site,60+
+88,2024-02-29,NSW,Direct online,45-59
+89,2025-10-17,VIC,Comparison site,45-59
+90,2022-11-30,WA,Phone,60+
+91,2025-06-28,SA,Phone,30-44
+92,2021-11-22,NSW,Comparison site,45-59
+93,2024-10-21,VIC,Broker,45-59
+94,2026-02-21,NSW,Comparison site,45-59
+95,2025-02-05,TAS,Comparison site,45-59
+96,2023-11-30,NSW,Comparison site,18-29
+97,2026-01-17,WA,Broker,45-59
+98,2026-07-18,SA,Comparison site,45-59
+99,2024-04-26,VIC,Direct online,60+
+100,2021-11-26,NSW,Direct online,60+
+101,2021-02-18,VIC,Phone,30-44
+102,2025-06-13,WA,Direct online,18-29
+103,2020-03-01,QLD,Comparison site,45-59
+104,2023-09-24,NSW,Broker,18-29
+105,2021-03-11,WA,Broker,30-44
+106,2025-10-22,QLD,Direct online,18-29
+107,2021-09-11,NSW,Comparison site,30-44
+108,2021-01-02,QLD,Broker,18-29
+109,2021-12-29,VIC,Broker,60+
+110,2020-03-03,NSW,Direct online,30-44
+111,2023-09-25,VIC,Broker,30-44
+112,2021-10-15,NSW,Comparison site,30-44
+113,2020-04-11,NSW,Broker,30-44
+114,2025-01-01,QLD,Broker,60+
+115,2025-04-11,NSW,Comparison site,30-44
+116,2023-04-27,NSW,Direct online,18-29
+117,2026-01-20,WA,Direct online,18-29
+118,2020-08-30,NSW,Direct online,30-44
+119,2026-04-05,VIC,Broker,30-44
+120,2021-09-24,WA,Comparison site,45-59
+121,2024-04-25,NSW,Broker,18-29
+122,2023-04-24,QLD,Comparison site,60+
+123,2020-04-14,NSW,Broker,30-44
+124,2021-02-20,WA,Direct online,30-44
+125,2020-01-04,VIC,Comparison site,30-44
+126,2024-11-28,NSW,Direct online,60+
+127,2026-02-13,QLD,Broker,18-29
+128,2026-07-20,NSW,Broker,45-59
+129,2026-05-17,NSW,Direct online,45-59
+130,2026-02-17,NSW,Phone,30-44
+131,2020-07-30,WA,Direct online,18-29
+132,2023-09-28,QLD,Direct online,45-59
+133,2026-02-28,VIC,Phone,30-44
+134,2024-11-12,VIC,Comparison site,45-59
+135,2022-06-16,QLD,Direct online,18-29
+136,2023-12-09,QLD,Phone,45-59
+137,2023-09-04,VIC,Comparison site,45-59
+138,2024-04-16,QLD,Broker,30-44
+139,2022-03-20,QLD,Broker,60+
+140,2026-04-27,VIC,Direct online,45-59
+141,2021-10-06,WA,Phone,30-44
+142,2021-09-08,VIC,Direct online,45-59
+143,2021-07-28,WA,Direct online,60+
+144,2023-03-09,NSW,Broker,60+
+145,2021-05-16,WA,Direct online,45-59
+146,2024-11-15,NSW,Broker,18-29
+147,2025-01-28,NSW,Comparison site,60+
+148,2026-02-22,NSW,Broker,60+
+149,2020-04-29,NSW,Comparison site,30-44
+150,2020-01-03,QLD,Broker,30-44
+151,2020-02-29,NSW,Direct online,45-59
+152,2022-08-15,NSW,Comparison site,30-44
+153,2026-02-16,VIC,Comparison site,30-44
+154,2021-11-07,NSW,Broker,60+
+155,2022-04-28,NSW,Comparison site,60+
+156,2020-02-21,VIC,Comparison site,60+
+157,2025-10-29,WA,Broker,45-59
+158,2020-01-26,WA,Broker,60+
+159,2019-12-11,NSW,Phone,30-44
+160,2025-05-19,QLD,Direct online,30-44
+161,2026-06-07,NSW,Comparison site,30-44
+162,2024-03-29,QLD,Comparison site,18-29
+163,2025-10-06,NSW,Direct online,30-44
+164,2026-07-21,VIC,Broker,60+
+165,2024-04-14,WA,Direct online,60+
+166,2025-06-10,VIC,Comparison site,30-44
+167,2026-01-18,NSW,Broker,30-44
+168,2020-07-19,SA,Comparison site,45-59
+169,2025-10-31,QLD,Broker,45-59
+170,2021-03-22,NSW,Comparison site,45-59
+171,2023-12-26,NSW,Broker,45-59
+172,2025-08-30,SA,Direct online,30-44
+173,2024-11-26,NSW,Direct online,30-44
+174,2024-11-04,NSW,Comparison site,45-59
+175,2026-01-13,NSW,Direct online,18-29
+176,2020-01-18,QLD,Comparison site,18-29
+177,2020-03-31,QLD,Direct online,45-59
+178,2025-04-27,NSW,Broker,60+
+179,2025-10-22,QLD,Broker,45-59
+180,2025-02-28,NSW,Comparison site,30-44
+181,2026-04-01,NSW,Broker,30-44
+182,2025-01-24,VIC,Phone,45-59
+183,2021-10-16,QLD,Phone,30-44
+184,2025-04-11,QLD,Direct online,60+
+185,2023-04-03,NSW,Broker,45-59
+186,2021-03-30,NSW,Phone,30-44
+187,2023-05-12,NSW,Direct online,18-29
+188,2023-01-21,QLD,Phone,30-44
+189,2022-06-17,QLD,Comparison site,30-44
+190,2025-05-17,NSW,Broker,45-59
+191,2025-11-17,SA,Broker,45-59
+192,2023-09-26,NSW,Broker,18-29
+193,2021-12-18,WA,Comparison site,60+
+194,2022-08-31,NSW,Broker,45-59
+195,2022-01-09,VIC,Broker,60+
+196,2021-03-15,WA,Comparison site,60+
+197,2019-10-28,VIC,Broker,18-29
+198,2026-02-17,SA,Direct online,45-59
+199,2022-03-16,NSW,Comparison site,45-59
+200,2020-06-09,VIC,Comparison site,18-29

@@ -1,0 +1,9 @@
+decline_id,decline_code,decline_description,decline_category,is_retryable
+1,INSUFFICIENT_FUNDS,Not enough money in the account,Soft,True
+2,LIMIT_EXCEEDED,Payment exceeds the account limit,Soft,True
+3,TEMPORARY_HOLD,Bank placed a temporary hold,Soft,True
+4,PAYMENT_STOPPED,Customer stopped the payment,Soft,True
+5,CARD_EXPIRED,Stored card has expired,Hard,False
+6,ACCOUNT_CLOSED,Bank account has been closed,Hard,False
+7,CARD_LOST_STOLEN,Card reported lost or stolen,Hard,False
+8,INVALID_ACCOUNT,Account details are not valid,Hard,False

@@ -1,0 +1,97 @@
+{
+  "name": "Lapse That Isn't",
+  "dataColors": [
+    "#2a78d6",
+    "#eb6834",
+    "#1baf7a",
+    "#eda100",
+    "#e87ba4",
+    "#008300",
+    "#4a3aa7",
+    "#e34948"
+  ],
+  "good": "#0ca30c",
+  "neutral": "#fab219",
+  "bad": "#d03b3b",
+  "maximum": "#0d366b",
+  "center": "#86b6ef",
+  "minimum": "#cde2fb",
+  "background": "#FCFCFB",
+  "secondaryBackground": "#F9F9F7",
+  "foreground": "#0B0B0B",
+  "tableAccent": "#2a78d6",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 14,
+      "color": "#0B0B0B"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#52514E"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Light",
+      "fontSize": 40,
+      "color": "#0B0B0B"
+    },
+    "header": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 11,
+      "color": "#0B0B0B"
+    }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "background": [{ "show": true, "color": { "solid": { "color": "#FCFCFB" } } }],
+        "border": [{ "show": false }],
+        "visualHeader": [{ "show": false }],
+        "categoryAxis": [
+          {
+            "gridlineShow": false,
+            "labelColor": { "solid": { "color": "#898781" } },
+            "fontSize": 10,
+            "showAxisTitle": false
+          }
+        ],
+        "valueAxis": [
+          {
+            "gridlineShow": true,
+            "gridlineColor": { "solid": { "color": "#E1E0D9" } },
+            "gridlineThickness": 1,
+            "labelColor": { "solid": { "color": "#898781" } },
+            "fontSize": 10,
+            "showAxisTitle": false
+          }
+        ],
+        "legend": [
+          {
+            "show": true,
+            "position": "Top",
+            "showTitle": false,
+            "labelColor": { "solid": { "color": "#52514E" } },
+            "fontSize": 10
+          }
+        ],
+        "labels": [
+          {
+            "color": { "solid": { "color": "#52514E" } },
+            "fontSize": 10
+          }
+        ]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [
+          { "color": { "solid": { "color": "#F9F9F7" } }, "transparency": 0 }
+        ],
+        "outspace": [
+          { "color": { "solid": { "color": "#F9F9F7" } }, "transparency": 0 }
+        ]
+      }
+    }
+  }
+}
