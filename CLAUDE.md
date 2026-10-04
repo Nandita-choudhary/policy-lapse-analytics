@@ -83,3 +83,8 @@ Renewly, CoverKeep, TrueCover. Once chosen, use it consistently in the README an
   artefact. (This bug existed in the first version and was fixed.)
 - **`attempt_number`** — row counts and failure rates mean different things for first attempts vs
   retries. Most "failure rate" measures should filter to `attempt_number = 1`.
+- **The 84% who pay after a failed premium pay by phone; the expired card stays on file.** That
+  is deliberate: it is why an expired card fails month after month (2.3 months on average) until
+  the policy lapses. Do not "fix" it by updating the card when they pay. That was tested on
+  3 October 2026: the involuntary share fell from 47.5% to 40.3%, the expiry cliff from 30.3% to
+  9.9%, and the model's AUC from 0.77 to 0.66.

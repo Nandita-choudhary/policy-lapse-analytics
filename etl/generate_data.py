@@ -90,7 +90,10 @@ P_RETRY_SUCCESS_OUTSIDE = 0.24
 CARD_LIFETIME_MONTHS = (6, 48)  # how long after policy start the stored card expires
 P_CARD_UPDATED_IN_TIME = 0.58
 
-# After every attempt has failed, someone may still fix it before the policy dies
+# After every attempt has failed, the customer may still pay the overdue premium another way
+# (by phone, say) and the policy carries on. Nobody updates the stored card, so an expired card
+# fails again at the next billing date. That is why one expired card can fail month after month
+# (2.3 months on average) before the policy finally lapses.
 P_CUSTOMER_RESOLVES = 0.84
 
 # Voluntary cancellation: the customer actually chooses to leave
@@ -420,9 +423,10 @@ def simulate_payments(
                     )
 
                 if not resolved:
-                    # Every attempt failed. Someone may still call in and fix the details.
+                    # Every attempt failed. The customer may still pay the overdue premium by
+                    # phone: the policy carries on, but the stored card is not updated.
                     if rng.random() < P_CUSTOMER_RESOLVES:
-                        pass  # sorted out off-system; the policy carries on
+                        pass  # paid outside the billing system, so fact_payments has no row
                     else:
                         # Pattern 1: nobody decided anything. The policy just died.
                         lapses.append(

@@ -124,7 +124,7 @@ ever succeed.
 | Soft share of dishonours | 72% | Most dishonours are "not enough money", not a dead account |
 | Retry policy | next day, up to 3 attempts | The deliberately unhelpful policy the analysis argues against |
 | Card updated before expiry | 58% | The other 42% drive the expiry cliff |
-| Failure resolved before lapse | 84% | Someone calls in and fixes the details |
+| Overdue premium paid by phone | 84% | After every attempt fails, the customer pays another way and the policy carries on. The stored card is not updated, so an expired card fails again next month: 2.3 months on average, 18 at most. Phone payments are not in `fact_payments` |
 | Random seed | 20261003 | Fixed, so the dataset is identical on every run |
 
 Every one of these lives at the top of [`etl/generate_data.py`](../etl/generate_data.py) and
