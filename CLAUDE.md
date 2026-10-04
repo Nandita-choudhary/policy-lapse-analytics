@@ -65,8 +65,8 @@ Nandita's phase plan, updated 4 October 2026. Keep the Status column current as 
 
 | # | Phase | Where | Status | How to tackle |
 | - | ----- | ----- | ------ | ------------- |
-| 0 | GitHub repo + folder structure + README | Mac | Git started 4 Oct (`main` + `fix-pass`); GitHub repo not created yet | Follow `docs/setup-steps.md` §1 |
-| 1 | Data generator, four planted patterns | Mac | Fix pass under way on `fix-pass`; all four patterns verified 4 Oct | Re-run after any change and check the printed numbers; quick plots optional |
+| 0 | GitHub repo + folder structure + README | Mac | Done 4 Oct: on GitHub at `github.com/Nandita-choudhary/policy-lapse-analytics` | Commit and push after each piece of work |
+| 1 | Data generator, four planted patterns | Mac | Done 4 Oct: fix pass merged into `main`; the generator prints and checks every headline number | Re-run after any change and check the printed numbers; quick plots optional |
 | 2 | ETL → Supabase, star schema, data dictionary | Mac | Code done; loader tested against a stand-in database; needs a Supabase project and a run | Verify row counts after the load |
 | 3 | Failure model, scores → Postgres | Mac | Code done; runs from the CSVs (AUC 0.769); writing to the database waits for phase 2 | Document every feature in plain words |
 | 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Fully specified in `docs/powerbi-build-guide.md`; build pending | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
