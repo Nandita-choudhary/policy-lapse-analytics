@@ -458,6 +458,10 @@ def simulate_payments(
         columns=["policy_id", "customer_id", "method_id", "end_date", "end_type",
                  "end_reason", "final_decline_id"],
     )
+    # Decline ids are whole numbers with blanks. Left alone, pandas writes them as 3.0, which
+    # PostgreSQL refuses to load into a SMALLINT column. "Int64" keeps them whole: 3 or blank.
+    fact_payments["decline_id"] = fact_payments["decline_id"].astype("Int64")
+    fact_lapse_events["final_decline_id"] = fact_lapse_events["final_decline_id"].astype("Int64")
     return fact_payments, fact_lapse_events
 
 
