@@ -252,6 +252,16 @@ Retry Success Rate = DIVIDE ( [Retry Successes], [Retry Attempts] )
 ```
 
 ```dax
+Soft Retry Success Rate =
+CALCULATE ( [Retry Success Rate], dim_decline[decline_category] = "Soft" )
+```
+
+Every retry row carries the dishonour it is retrying, including the retries that worked, so
+retries split cleanly into Hard and Soft. Hard retries can never succeed, and mixing them in
+drags the payday window's rate from 62% down to 29%. The payday finding is about soft
+dishonours, so it uses this measure.
+
+```dax
 Wasted Retries =
 CALCULATE (
     COUNTROWS ( fact_payments ),
@@ -272,28 +282,26 @@ CALCULATE (
 ```
 
 ```dax
-Recoverable Retries =
+Recoverable Payments =
 VAR InWindow =
-    CALCULATE (
-        [Retry Success Rate],
-        REMOVEFILTERS ( dim_date[is_payday_window] ),
-        dim_date[is_payday_window] = TRUE
-    )
+    CALCULATE ( [Soft Retry Success Rate], dim_date[is_payday_window] = TRUE )
 VAR Outside =
-    CALCULATE (
-        [Retry Success Rate],
-        REMOVEFILTERS ( dim_date[is_payday_window] ),
-        dim_date[is_payday_window] = FALSE
-    )
-VAR RetriesOutside =
+    CALCULATE ( [Soft Retry Success Rate], dim_date[is_payday_window] = FALSE )
+VAR SoftRetriesOutside =
     CALCULATE (
         [Retry Attempts],
-        REMOVEFILTERS ( dim_date[is_payday_window] ),
+        dim_decline[decline_category] = "Soft",
         dim_date[is_payday_window] = FALSE
     )
 RETURN
-    ( InWindow - Outside ) * RetriesOutside
+    ( InWindow - Outside ) * SoftRetriesOutside
 ```
+
+This counts how many more payments would have gone through if every soft retry outside the
+window had succeeded at the window's rate. A filter such as
+`dim_date[is_payday_window] = TRUE` inside `CALCULATE` replaces any existing filter on that
+column, so no `REMOVEFILTERS` is needed. Over the full 24 months it returns about 11,300,
+which is about 5,700 a year.
 
 ### Risk
 
@@ -374,11 +382,12 @@ expires".
 | -------- | ------ | ------ |
 | Top row, 3 cards | Card | `Dishonour Fees` · `Wasted Retry Fees` · `Retry Success Rate` |
 | Middle left | **Clustered** column chart | Axis `fact_payments[attempt_number]` (2 and 3 only), Y `Retry Success Rate`, Legend `dim_decline[decline_category]` |
-| Middle right | **Column chart** | Axis `dim_date[day_of_month]`, Y `Retry Success Rate` |
+| Middle right | **Column chart** | Axis `dim_date[day_of_month]`, Y `Soft Retry Success Rate` |
 | Bottom | Table | `dim_decline[decline_description]`, `decline_category`, `Retry Attempts`, `Retry Success Rate`, `Wasted Retry Fees` |
 
 Middle left is clustered, not stacked: Hard and Soft success rates are two separate rates, and
-stacking rates on top of each other would mean nothing.
+stacking rates on top of each other would mean nothing. The Hard bars sit at zero, which is
+finding 3 in one picture.
 
 Middle right is the payday finding. Sort by day of month, not by value — the whole point is
 *where* in the month the good days fall. Use conditional formatting on the bars so days in the
@@ -491,4 +500,5 @@ published link into the "Open the live dashboard" line.
 | Time-intelligence measures return blank | `dim_date` was never marked as a date table |
 | Failure rate looks like 11% not 5% | A measure is counting retries. Add `attempt_number = 1` |
 | The payday chart is sorted by value | Click the visual's "…" → Sort axis → `day_of_month`, ascending |
+| The payday chart never rises above about 30% | It is using `Retry Success Rate`, which includes hard retries. Use `Soft Retry Success Rate` |
 | Remote desktop will not connect | The public IP changed when the machine restarted. Copy the new one |

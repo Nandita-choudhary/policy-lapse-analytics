@@ -23,7 +23,7 @@ three rows. That is deliberate: the retries are where the money leaks.
 | `fee` | numeric | $0.28 if it succeeded, $2.95 dishonour fee if it failed |
 | `attempt_number` | smallint | 1 = the original attempt, 2 and 3 = retries |
 | `payment_status` | varchar | `Success` or `Failed` |
-| `decline_id` | smallint | → `dim_decline`. Null when the payment succeeded |
+| `decline_id` | smallint | → `dim_decline`. Why the attempt failed, or, on a successful retry, the dishonour it recovered from. Null when the premium went through on the first attempt |
 
 ## fact_lapse_events — 9,798 rows
 

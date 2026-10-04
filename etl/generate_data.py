@@ -401,11 +401,14 @@ def simulate_payments(
                                 else P_RETRY_SUCCESS_OUTSIDE
                             )
                             if rng.random() < p_success:
+                                # The rescued payment keeps the dishonour it recovered from.
+                                # Left blank, every successful retry would fall outside both
+                                # Hard and Soft, and retry success by category would read 0%.
                                 payment_id += 1
                                 payments.append(
                                     (payment_id, policy_id, customer_id, method_id,
                                      attempt_date, amount, FEE_SUCCESS, attempt,
-                                     "Success", None)
+                                     "Success", decline_id)
                                 )
                                 resolved = True
                                 break
