@@ -67,9 +67,9 @@ Nandita's phase plan, updated 4 October 2026. Keep the Status column current as 
 | - | ----- | ----- | ------ | ------------- |
 | 0 | GitHub repo + folder structure + README | Mac | Done 4 Oct: on GitHub at `github.com/Nandita-choudhary/policy-lapse-analytics` | Commit and push after each piece of work |
 | 1 | Data generator, four planted patterns | Mac | Done 4 Oct: fix pass merged into `main`; the generator prints and checks every headline number | Re-run after any change and check the printed numbers; quick plots optional |
-| 2 | ETL → Supabase, star schema, data dictionary | Mac | Code done; loader tested against a stand-in database; needs a Supabase project and a run | Verify row counts after the load |
-| 3 | Failure model, scores → Postgres | Mac | Code done; runs from the CSVs (AUC 0.769); writing to the database waits for phase 2 | Document every feature in plain words |
-| 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Fully specified in `docs/powerbi-build-guide.md`; build pending | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
+| 2 | ETL → Supabase, star schema, data dictionary | Mac | Done 4 Oct: 8 tables loaded into Supabase (Sydney) through the Session pooler; every finding re-checked in SQL | Verify row counts after any reload |
+| 3 | Failure model, scores → Postgres | Mac | Done 4 Oct: the model reads from Supabase and wrote 40,266 rows to `fact_risk_scores` (AUC 0.769) | Document every feature in plain words |
+| 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Next. The EC2 machine is set up; the guide's connection step covers the Session pooler and Supabase's certificate | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
 | 5 | Publish + README screenshots + citations | Both | Not started | 2 days. Needs a work-style email: create one @datavalix.com |
 | 6 | Resume bullets + LinkedIn post + interview practice | — | Not started | 1 day. Explain the schema, one measure and the finding out loud |
 
@@ -78,6 +78,10 @@ Renewly, CoverKeep, TrueCover. Once chosen, use it consistently in the README an
 
 ## Things that are easy to get wrong
 
+- **Connect to Supabase through the Session pooler** (`aws-0-<region>.pooler.supabase.com`,
+  user `postgres.<project-ref>`). The direct `db.….supabase.co` address is IPv6-only. Supabase's
+  certificate is signed by its own authority, so Windows must trust it before Power BI will
+  connect — see §2 of the build guide.
 - **Phase 4 runs on a rented Windows machine** (Power BI Desktop is Windows-only). It bills by the
   hour, so all thinking happens on the Mac first — see `docs/powerbi-build-guide.md`. Stop the
   machine after every session.
