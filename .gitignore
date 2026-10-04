@@ -2,6 +2,8 @@
 .env
 .env.*
 *.pem
+# ...except the template, which holds only a placeholder password
+!.env.example
 
 # Generated data — the script rebuilds it; only the sample is committed
 data/*.csv
