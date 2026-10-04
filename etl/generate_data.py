@@ -463,6 +463,14 @@ def simulate_payments(
 
 
 def summarise(payments, lapses, methods, declines, policies) -> None:
+    """Print every headline number the README quotes, measured from the data just generated."""
+    months = (SIM_END.year - SIM_START.year) * 12 + SIM_END.month - SIM_START.month + 1
+    years = months / 12
+    category = declines.set_index("decline_id").decline_category
+    card_expired_id = int(
+        declines.loc[declines.decline_code == "CARD_EXPIRED", "decline_id"].iloc[0]
+    )
+
     print("\n" + "=" * 70)
     print("GENERATED DATA — CHECK")
     print("=" * 70)
@@ -475,9 +483,13 @@ def summarise(payments, lapses, methods, declines, policies) -> None:
     print(f"Dishonour fees paid    ${payments.loc[payments.payment_status == 'Failed', 'fee'].sum():,.0f}")
 
     print("\nPATTERN 1 — the lapse that isn't")
-    mix = lapses.end_type.value_counts(normalize=True)
-    for k, v in mix.items():
-        print(f"  {k:<12} {v:>6.1%}")
+    for end_type, n in lapses.end_type.value_counts().items():
+        print(f"  {end_type:<12} {n / len(lapses):>6.1%}   ({n:,} policies)")
+    lapsed = lapses[lapses.end_type == "Lapsed"].merge(
+        policies[["policy_id", "premium_amount", "billing_frequency"]], on="policy_id")
+    # What a year of each lost policy was worth: 12 monthly premiums, or one annual premium.
+    lost = (lapsed.premium_amount * np.where(lapsed.billing_frequency == "Monthly", 12, 1)).sum()
+    print(f"  annual premium lost  ${lost:,.0f} over {months} months  (${lost / years:,.0f}/yr)")
 
     print("\nPATTERN 2 — the expiry cliff  (first attempts only)")
     merged = first.merge(methods[["method_id", "card_expiry_date", "method_type"]],
@@ -488,30 +500,37 @@ def summarise(payments, lapses, methods, declines, policies) -> None:
         when = "after card expiry " if label else "before card expiry"
         print(f"  {when}  failure rate {(grp.payment_status == 'Failed').mean():>6.1%}"
               f"   ({len(grp):,} attempts)")
+    expired_share = (lapsed.final_decline_id == card_expired_id).mean()
+    print(f"  lapses caused by an expired card  {expired_share:.1%}")
 
     print("\nPATTERN 3 — retrying the dead")
-    f = payments[payments.payment_status == "Failed"].merge(
-        declines[["decline_id", "decline_category"]], on="decline_id", how="left")
-    wasted = f[(f.decline_category == "Hard") & (f.attempt_number > 1)]
-    print(f"  retries of hard dishonours   {len(wasted):,} attempts")
-    print(f"  fees burned on them          ${wasted.fee.sum():,.0f} over 24 months"
-          f"  (${wasted.fee.sum()/2:,.0f}/yr)")
-    print(f"  of those retries that worked 0 — a hard dishonour never can")
+    # Every retry carries the dishonour it is retrying (see simulate_payments), so retries
+    # split cleanly into Hard and Soft, including the ones that worked.
+    retries = payments[payments.attempt_number > 1].copy()
+    retries["category"] = retries.decline_id.map(category)
+    hard = retries[retries.category == "Hard"]
+    wasted = hard[hard.payment_status == "Failed"]
+    print(f"  retries of hard dishonours   {len(hard):,} attempts")
+    print(f"  fees burned on them          ${wasted.fee.sum():,.0f} over {months} months"
+          f"  (${wasted.fee.sum() / years:,.0f}/yr)")
+    print(f"  of those retries that worked {(hard.payment_status == 'Success').sum():,}"
+          f"  (a hard dishonour never can)")
 
     print("\nPATTERN 4 — the payday window  (soft dishonours only)")
-    # Walk each retry back to the dishonour that caused it, so hard dishonours — which can
-    # never succeed — do not drag the success rates down.
-    retries = payments[payments.attempt_number > 1].copy()
-    cause = (payments[payments.payment_status == "Failed"]
-             .merge(declines[["decline_id", "decline_category"]], on="decline_id")
-             .groupby("policy_id").decline_category.last())
-    retries["cause"] = retries.policy_id.map(cause)
-    soft_retries = retries[retries.cause == "Soft"].copy()
-    soft_retries["in_window"] = [in_payday_window(d) for d in soft_retries.date_id]
-    for label, grp in soft_retries.groupby("in_window"):
-        where = "inside payday window " if label else "outside payday window"
-        print(f"  {where}  success rate {(grp.payment_status == 'Success').mean():>6.1%}"
-              f"   ({len(grp):,} retries)")
+    # Hard retries are left out: they can never succeed, so counting them would drag both
+    # rates down and hide the gap.
+    soft = retries[retries.category == "Soft"].copy()
+    soft["in_window"] = [in_payday_window(d) for d in soft.date_id]
+    worked = soft.groupby("in_window").payment_status.apply(lambda s: (s == "Success").mean())
+    count = soft.in_window.value_counts()
+    print(f"  inside payday window   success rate {worked[True]:>6.1%}   ({count[True]:,} retries)")
+    print(f"  outside payday window  success rate {worked[False]:>6.1%}   ({count[False]:,} retries)")
+    print(f"  inside the window a retry works {worked[True] / worked[False]:.1f}x as often")
+    # The payments re-timing would recover: every soft retry outside the window, succeeding at
+    # the window's rate instead. Same sum as the Recoverable Payments measure in Power BI.
+    recoverable = (worked[True] - worked[False]) * count[False]
+    print(f"  payments recoverable by re-timing  {recoverable:,.0f} over {months} months"
+          f"  ({recoverable / years:,.0f}/yr)")
     print("=" * 70 + "\n")
 
 
