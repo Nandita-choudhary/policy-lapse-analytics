@@ -15,7 +15,7 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "Share of ended policies that lapsed: nobody cancelled them": {
+			          "of ended policies were never cancelled": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

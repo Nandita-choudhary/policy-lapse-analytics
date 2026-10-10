@@ -80,6 +80,13 @@
                   "Value": "'Categorical'"
                 }
               }
+            },
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
             }
           }
         }

@@ -34,13 +34,12 @@ table fact_risk_scores
 
 	column risk_score
 		dataType: double
+		formatString: 0.0%;-0.0%;0.0%
 		lineageTag: 28a74319-906c-4420-9b74-886ee2a8547b
 		summarizeBy: sum
 		sourceColumn: risk_score
 
 		annotation SummarizationSetBy = Automatic
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column premium_amount
 		dataType: double
@@ -64,13 +63,14 @@ table fact_risk_scores
 
 	column premium_at_risk
 		dataType: double
+		formatString: \$#,0;(\$#,0);\$#,0
 		lineageTag: 7f69675e-41ad-4cbe-a306-cfd14da66736
 		summarizeBy: sum
 		sourceColumn: premium_at_risk
 
 		annotation SummarizationSetBy = Automatic
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	column risk_band_order
 		dataType: int64

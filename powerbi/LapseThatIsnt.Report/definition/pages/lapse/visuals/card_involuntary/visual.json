@@ -28,7 +28,7 @@
               },
               "queryRef": "_Measures.Involuntary Share",
               "nativeQueryRef": "Involuntary Share",
-              "displayName": "Share of ended policies that lapsed: nobody cancelled them"
+              "displayName": "of ended policies were never cancelled"
             }
           ]
         }
@@ -42,7 +42,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "54D"
+                  "Value": "36D"
                 }
               }
             },
@@ -54,6 +54,32 @@
                       "Value": "'#2A78D6'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabels": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "wordWrap": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
                 }
               }
             }
