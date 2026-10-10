@@ -60,11 +60,6 @@ table dim_payment_method
 		summarizeBy: none
 		sourceColumn: card_expiry_date
 
-		variation Variation
-			isDefault
-			relationship: 11e35c5a-6bba-4961-91a1-b8bda41ae25a
-			defaultHierarchy: LocalDateTable_9a00750b-633b-4c4b-946a-287498fd0a35.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

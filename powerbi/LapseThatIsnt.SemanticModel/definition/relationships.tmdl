@@ -1,23 +1,3 @@
-relationship c186d953-73e5-4f90-8993-3b0c9d722cce
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_customer.join_date
-	toColumn: LocalDateTable_91fda1bc-03fd-4ace-a3e3-1a1e37360285.Date
-
-relationship 11e35c5a-6bba-4961-91a1-b8bda41ae25a
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_payment_method.card_expiry_date
-	toColumn: LocalDateTable_9a00750b-633b-4c4b-946a-287498fd0a35.Date
-
-relationship ebc409af-2d5b-481c-8e75-47701d5f5305
-	joinOnDateBehavior: datePartOnly
-	fromColumn: dim_policy.start_date
-	toColumn: LocalDateTable_49e988d5-da4d-47b0-a0c1-cd8ddc5ce0a0.Date
-
-relationship a7933997-bb34-453c-bf54-f6a84cbf9106
-	joinOnDateBehavior: datePartOnly
-	fromColumn: fact_risk_scores.scored_for_date
-	toColumn: LocalDateTable_1babded1-9204-4a06-8c3b-88cf9ae88dea.Date
-
 relationship d8650ae7-8667-499a-b297-98d8a0749036
 	fromColumn: fact_lapse_events.customer_id
 	toColumn: dim_customer.customer_id

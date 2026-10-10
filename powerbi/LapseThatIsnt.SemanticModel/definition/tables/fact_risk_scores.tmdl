@@ -28,11 +28,6 @@ table fact_risk_scores
 		summarizeBy: none
 		sourceColumn: scored_for_date
 
-		variation Variation
-			isDefault
-			relationship: a7933997-bb34-453c-bf54-f6a84cbf9106
-			defaultHierarchy: LocalDateTable_1babded1-9204-4a06-8c3b-88cf9ae88dea.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date

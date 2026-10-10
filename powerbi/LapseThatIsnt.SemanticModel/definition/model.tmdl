@@ -7,7 +7,7 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
-annotation __PBI_TimeIntelligenceEnabled = 1
+annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["dim_customer","dim_date","dim_decline","dim_payment_method","dim_policy","fact_lapse_events","fact_payments","fact_risk_scores"]
 
@@ -16,18 +16,13 @@ annotation PBI_ProTooling = ["DevMode"]
 annotation PBI_RemovedChildren = [{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"138bed9b-c48e-4d36-bc48-a5524acde7a3","fromColumnLocalLineageTag":"7a337d4e-2169-4a8b-845f-45e5a8c42706","toTableLocalLineageTag":"815d9933-3ff6-4618-b78a-e115c2c98fa5","toColumnLocalLineageTag":"9db8314b-66d9-4859-addb-2405e7087137"}},"objectType":"Relationship"},{"remoteItemId":{"foreignKeyRelationship":{"fromTableLocalLineageTag":"7c4143fa-b0cd-47e3-a1df-f4b6f4999617","fromColumnLocalLineageTag":"ba753f3b-8b07-4509-aa9f-e2ab3395f915","toTableLocalLineageTag":"815d9933-3ff6-4618-b78a-e115c2c98fa5","toColumnLocalLineageTag":"9db8314b-66d9-4859-addb-2405e7087137"}},"objectType":"Relationship"}]
 
 ref table dim_customer
-ref table DateTableTemplate_26b10a6a-de4f-42f9-914c-f34f05d6cc23
-ref table LocalDateTable_91fda1bc-03fd-4ace-a3e3-1a1e37360285
 ref table dim_date
 ref table dim_decline
 ref table dim_payment_method
-ref table LocalDateTable_9a00750b-633b-4c4b-946a-287498fd0a35
 ref table dim_policy
-ref table LocalDateTable_49e988d5-da4d-47b0-a0c1-cd8ddc5ce0a0
 ref table fact_lapse_events
 ref table fact_payments
 ref table fact_risk_scores
-ref table LocalDateTable_1babded1-9204-4a06-8c3b-88cf9ae88dea
 
 ref cultureInfo en-US
 

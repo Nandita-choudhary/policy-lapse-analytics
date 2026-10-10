@@ -53,11 +53,6 @@ table dim_policy
 		summarizeBy: none
 		sourceColumn: start_date
 
-		variation Variation
-			isDefault
-			relationship: ebc409af-2d5b-481c-8e75-47701d5f5305
-			defaultHierarchy: LocalDateTable_49e988d5-da4d-47b0-a0c1-cd8ddc5ce0a0.'Date Hierarchy'
-
 		annotation SummarizationSetBy = Automatic
 
 		annotation UnderlyingDateTimeDataType = Date
