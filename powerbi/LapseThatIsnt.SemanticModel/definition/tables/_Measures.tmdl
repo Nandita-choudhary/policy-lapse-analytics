@@ -31,7 +31,9 @@ table _Measures
 		lineageTag: 7bf86ec9-c323-4cb7-8a3e-fafeca7dcc9e
 
 	measure 'First Attempts' =
-			CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] = 1 )
+			-- KEEPFILTERS so a chart split by attempt_number still splits. A plain filter here
+			-- would replace the chart's own attempt_number filter and every bar would match.
+			CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] = 1 ) )
 		formatString: #,0
 		displayFolder: Payment health
 		lineageTag: 1ec8e51f-11e7-47c6-9535-86451ba48544
@@ -39,7 +41,7 @@ table _Measures
 	measure 'Failed First Attempts' =
 			CALCULATE (
 			    COUNTROWS ( fact_payments ),
-			    fact_payments[attempt_number] = 1,
+			    KEEPFILTERS ( fact_payments[attempt_number] = 1 ),
 			    fact_payments[payment_status] = "Failed"
 			)
 		formatString: #,0
@@ -93,7 +95,7 @@ table _Measures
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure 'Retry Attempts' =
-			CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] > 1 )
+			CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] > 1 ) )
 		formatString: #,0
 		displayFolder: Retries
 		lineageTag: cb8eac23-a1a3-4f4f-a098-d2a17495dfde
@@ -101,14 +103,16 @@ table _Measures
 	measure 'Retry Successes' =
 			CALCULATE (
 			    COUNTROWS ( fact_payments ),
-			    fact_payments[attempt_number] > 1,
+			    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
 			    fact_payments[payment_status] = "Success"
 			)
 		formatString: #,0
 		displayFolder: Retries
 		lineageTag: 7d37138b-6491-40d7-8466-0daae09ea35a
 
-	measure 'Retry Success Rate' = DIVIDE ( [Retry Successes], [Retry Attempts] )
+	measure 'Retry Success Rate' =
+			-- Zero, not blank, when retries happened and none worked, so the Hard bars show at 0%
+			DIVIDE ( COALESCE ( [Retry Successes], 0 ), [Retry Attempts] )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Retries
 		lineageTag: a65f183b-3915-44e5-b8d0-7daffd1c7de3
@@ -122,7 +126,7 @@ table _Measures
 	measure 'Wasted Retries' =
 			CALCULATE (
 			    COUNTROWS ( fact_payments ),
-			    fact_payments[attempt_number] > 1,
+			    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
 			    fact_payments[payment_status] = "Failed",
 			    dim_decline[decline_category] = "Hard"
 			)
@@ -133,7 +137,7 @@ table _Measures
 	measure 'Wasted Retry Fees' =
 			CALCULATE (
 			    SUM ( fact_payments[fee] ),
-			    fact_payments[attempt_number] > 1,
+			    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
 			    fact_payments[payment_status] = "Failed",
 			    dim_decline[decline_category] = "Hard"
 			)
@@ -167,6 +171,11 @@ table _Measures
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
+	measure 'Policies Scored' = COUNTROWS ( fact_risk_scores )
+		formatString: #,0
+		displayFolder: Risk
+		lineageTag: 5d0f6a2e-8c1b-4e7a-9f3d-2b6c8a4e1f07
+
 	measure 'Policies at High Risk' =
 			CALCULATE (
 			    COUNTROWS ( fact_risk_scores ),
@@ -196,6 +205,12 @@ table _Measures
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Change over time
 		lineageTag: c4d72d4d-c738-4dad-b4fa-c7627aa40cb9
+
+	measure 'Payday Bar Colour' =
+			-- Colours the payday chart: days in the payday window brand blue, the rest grey
+			IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), "#2A78D6", "#BDBBB4" )
+		displayFolder: Formatting
+		lineageTag: 9a4e2c71-3b5d-4f08-8e6a-1c7d9b2f5e34
 
 	column Placeholder
 		dataType: int64

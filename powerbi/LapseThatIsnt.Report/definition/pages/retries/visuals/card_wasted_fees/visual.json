@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "card_wasted_fees",
+  "position": {
+    "x": 440,
+    "y": 84,
+    "z": 3000,
+    "height": 96,
+    "width": 400,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Wasted Retry Fees"
+                }
+              },
+              "queryRef": "_Measures.Wasted Retry Fees",
+              "nativeQueryRef": "Wasted Retry Fees",
+              "displayName": "Wasted retry fees (over 2 years)"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

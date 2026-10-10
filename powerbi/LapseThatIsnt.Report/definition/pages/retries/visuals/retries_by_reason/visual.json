@@ -1,0 +1,135 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "retries_by_reason",
+  "position": {
+    "x": 24,
+    "y": 462,
+    "z": 8000,
+    "height": 234,
+    "width": 1232,
+    "tabOrder": 8000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_decline"
+                    }
+                  },
+                  "Property": "decline_description"
+                }
+              },
+              "queryRef": "dim_decline.decline_description",
+              "nativeQueryRef": "decline_description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_decline"
+                    }
+                  },
+                  "Property": "decline_category"
+                }
+              },
+              "queryRef": "dim_decline.decline_category",
+              "nativeQueryRef": "decline_category"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Retry Attempts"
+                }
+              },
+              "queryRef": "_Measures.Retry Attempts",
+              "nativeQueryRef": "Retry Attempts"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Retry Success Rate"
+                }
+              },
+              "queryRef": "_Measures.Retry Success Rate",
+              "nativeQueryRef": "Retry Success Rate"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Wasted Retry Fees"
+                }
+              },
+              "queryRef": "_Measures.Wasted Retry Fees",
+              "nativeQueryRef": "Wasted Retry Fees",
+              "displayName": "Wasted retry fees (over 2 years)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Retry Attempts"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Retries by decline reason'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

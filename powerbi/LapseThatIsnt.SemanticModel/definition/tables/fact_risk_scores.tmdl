@@ -58,6 +58,7 @@ table fact_risk_scores
 		lineageTag: 2e4f168b-496e-4198-9fe3-4a605fe97ab1
 		summarizeBy: none
 		sourceColumn: risk_band
+		sortByColumn: 'Risk Band Order'
 
 		annotation SummarizationSetBy = Automatic
 
@@ -70,6 +71,17 @@ table fact_risk_scores
 		annotation SummarizationSetBy = Automatic
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Risk Band Order' =
+			-- Bands are an ordered scale, so charts sort them Low to Very high, not A to Z
+			SWITCH ( fact_risk_scores[risk_band], "Low", 1, "Medium", 2, "High", 3, "Very high", 4 )
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 3c8b1e5f-7a2d-4b9e-a6f1-0d4e8c2b7a95
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	partition fact_risk_scores = m
 		mode: import

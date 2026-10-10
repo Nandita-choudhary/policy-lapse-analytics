@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "decomposition",
+  "position": {
+    "x": 648,
+    "y": 462,
+    "z": 7000,
+    "height": 234,
+    "width": 608,
+    "tabOrder": 7000
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Policies Lapsed"
+                }
+              },
+              "queryRef": "_Measures.Policies Lapsed",
+              "nativeQueryRef": "Policies Lapsed"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_decline"
+                    }
+                  },
+                  "Property": "decline_category"
+                }
+              },
+              "queryRef": "dim_decline.decline_category",
+              "nativeQueryRef": "decline_category"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_decline"
+                    }
+                  },
+                  "Property": "decline_description"
+                }
+              },
+              "queryRef": "dim_decline.decline_description",
+              "nativeQueryRef": "decline_description"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_payment_method"
+                    }
+                  },
+                  "Property": "method_type"
+                }
+              },
+              "queryRef": "dim_payment_method.method_type",
+              "nativeQueryRef": "method_type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_policy"
+                    }
+                  },
+                  "Property": "billing_frequency"
+                }
+              },
+              "queryRef": "dim_policy.billing_frequency",
+              "nativeQueryRef": "billing_frequency"
+            }
+          ]
+        }
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Where the lapses come from'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
