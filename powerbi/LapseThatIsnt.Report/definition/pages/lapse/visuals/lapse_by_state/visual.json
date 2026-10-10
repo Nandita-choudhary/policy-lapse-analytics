@@ -1,19 +1,38 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "decomposition",
+  "name": "lapse_by_state",
   "position": {
     "x": 648,
     "y": 456,
     "z": 11000,
-    "height": 444,
+    "height": 474,
     "width": 608,
     "tabOrder": 11000
   },
   "visual": {
-    "visualType": "decompositionTreeVisual",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
-        "Analyze": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_customer"
+                    }
+                  },
+                  "Property": "state"
+                }
+              },
+              "queryRef": "dim_customer.state",
+              "nativeQueryRef": "state",
+              "displayName": "State"
+            }
+          ]
+        },
+        "Y": {
           "projections": [
             {
               "field": {
@@ -23,80 +42,235 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Policies Lapsed"
+                  "Property": "Involuntary Share"
                 }
               },
-              "queryRef": "_Measures.Policies Lapsed",
-              "nativeQueryRef": "Policies Lapsed",
-              "displayName": "Policies lapsed"
+              "queryRef": "_Measures.Involuntary Share",
+              "nativeQueryRef": "Involuntary Share",
+              "displayName": "Share that lapsed"
             }
           ]
         },
-        "ExplainBy": {
+        "Y2": {
           "projections": [
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "dim_decline"
+                      "Entity": "_Measures"
                     }
                   },
-                  "Property": "decline_category"
+                  "Property": "Involuntary Share All Customers"
                 }
               },
-              "queryRef": "dim_decline.decline_category",
-              "nativeQueryRef": "decline_category",
-              "displayName": "Hard or soft decline"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_decline"
-                    }
-                  },
-                  "Property": "decline_description"
-                }
-              },
-              "queryRef": "dim_decline.decline_description",
-              "nativeQueryRef": "decline_description",
-              "displayName": "Decline reason"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_payment_method"
-                    }
-                  },
-                  "Property": "method_type"
-                }
-              },
-              "queryRef": "dim_payment_method.method_type",
-              "nativeQueryRef": "method_type",
-              "displayName": "Payment method"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dim_policy"
-                    }
-                  },
-                  "Property": "billing_frequency"
-                }
-              },
-              "queryRef": "dim_policy.billing_frequency",
-              "nativeQueryRef": "billing_frequency",
-              "displayName": "Billing frequency"
+              "queryRef": "_Measures.Involuntary Share All Customers",
+              "nativeQueryRef": "Involuntary Share All Customers",
+              "displayName": "All customers"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Measures"
+                  }
+                },
+                "Property": "Involuntary Share"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
       }
+    },
+    "objects": {
+      "dataPoint": [
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9C7C0'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Involuntary Share"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#EB6834'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Involuntary Share All Customers"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dashed'"
+                }
+              }
+            },
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Involuntary Share All Customers"
+          }
+        }
+      ],
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#0B0B0B'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "showSeries": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Involuntary Share All Customers"
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "gridlineShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "start": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "background": [
@@ -288,7 +462,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'The biggest single cause of a lapse is a hard decline: an expired card'"
+                  "Value": "'Who they are barely matters: every state sits near 47.5%'"
                 }
               }
             },
@@ -340,7 +514,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Click + to split the lapses by decline type, then reason, then payment method'"
+                  "Value": "'Compare with how they pay, on the left. Dashed: all customers.'"
                 }
               }
             },

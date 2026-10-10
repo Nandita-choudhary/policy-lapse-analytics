@@ -79,6 +79,14 @@ table _Measures
 		displayFolder: The headline
 		lineageTag: 4ebc2429-c5f3-4097-a651-34a664765675
 
+	measure 'Involuntary Share All Customers' =
+			-- The dashed line on page 2's by-state chart: the share across every customer,
+			-- the same on every bar, so each state can be compared with the whole book.
+			CALCULATE ( [Involuntary Share], REMOVEFILTERS ( dim_customer ) )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: The headline
+		lineageTag: 0b31d9f6-6c2a-4f5e-9a1d-7e48c3b25a61
+
 	measure 'Annual Premium Lost' =
 			SUMX (
 			    FILTER ( fact_lapse_events, fact_lapse_events[end_type] = "Lapsed" ),
