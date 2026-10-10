@@ -3,6 +3,7 @@ table dim_payment_method
 
 	column method_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 3e858ecc-407c-462a-b10e-d490f49ff45c
 		summarizeBy: none
@@ -12,6 +13,7 @@ table dim_payment_method
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7a337d4e-2169-4a8b-845f-45e5a8c42706
 		summarizeBy: sum

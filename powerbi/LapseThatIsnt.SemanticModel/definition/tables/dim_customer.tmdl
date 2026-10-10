@@ -3,6 +3,7 @@ table dim_customer
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 9db8314b-66d9-4859-addb-2405e7087137
 		summarizeBy: none

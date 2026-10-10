@@ -12,6 +12,7 @@ table dim_policy
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: ba753f3b-8b07-4509-aa9f-e2ab3395f915
 		summarizeBy: sum

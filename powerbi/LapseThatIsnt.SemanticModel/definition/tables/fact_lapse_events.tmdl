@@ -3,6 +3,7 @@ table fact_lapse_events
 
 	column policy_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7107a25e-136c-4069-9629-9b71cfd36e52
 		summarizeBy: none
@@ -12,6 +13,7 @@ table fact_lapse_events
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 6ed7d32c-9e20-4758-9c9c-13f3d319121d
 		summarizeBy: none
@@ -21,6 +23,7 @@ table fact_lapse_events
 
 	column method_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 1ccbc72f-4021-4490-99c9-e1d1afa67d8b
 		summarizeBy: none
@@ -30,6 +33,7 @@ table fact_lapse_events
 
 	column end_date
 		dataType: dateTime
+		isHidden
 		formatString: Long Date
 		lineageTag: fe514b8c-e8a7-4033-a280-d12079c86f40
 		summarizeBy: none
@@ -57,6 +61,7 @@ table fact_lapse_events
 
 	column final_decline_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: d384e694-2c76-4464-aaa3-27e44cbb54b5
 		summarizeBy: none

@@ -3,6 +3,7 @@ table fact_risk_scores
 
 	column policy_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: a74ccbaf-7613-48d5-9646-41e487ba954d
 		summarizeBy: none
@@ -12,6 +13,7 @@ table fact_risk_scores
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 4b115f89-0c58-4f0e-b11a-1ce065d181ad
 		summarizeBy: none
@@ -47,6 +49,7 @@ table fact_risk_scores
 
 	column premium_amount
 		dataType: double
+		isHidden
 		lineageTag: 05d6cf32-e30b-4ebe-8dee-b6fa8bfaaae6
 		summarizeBy: sum
 		sourceColumn: premium_amount

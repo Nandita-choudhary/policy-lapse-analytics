@@ -3,6 +3,7 @@ table fact_payments
 
 	column payment_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 7101d0b3-24bb-4da3-9974-a1bce50a7f36
 		summarizeBy: sum
@@ -12,6 +13,7 @@ table fact_payments
 
 	column policy_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 6cf26919-a9db-452b-af69-17e243f24282
 		summarizeBy: none
@@ -21,6 +23,7 @@ table fact_payments
 
 	column customer_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: abada46b-9b9d-4223-811e-964a66669777
 		summarizeBy: none
@@ -30,6 +33,7 @@ table fact_payments
 
 	column method_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 400b1784-930b-44d7-a540-45c8e07190ad
 		summarizeBy: none
@@ -39,6 +43,7 @@ table fact_payments
 
 	column date_id
 		dataType: dateTime
+		isHidden
 		formatString: Long Date
 		lineageTag: e0c1e2b3-1327-4521-9bfe-2da16e605593
 		summarizeBy: none
@@ -87,6 +92,7 @@ table fact_payments
 
 	column decline_id
 		dataType: int64
+		isHidden
 		formatString: 0
 		lineageTag: 14b20d23-2ed3-40ca-9fd6-10c8058dcac7
 		summarizeBy: none
