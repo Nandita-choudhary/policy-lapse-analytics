@@ -10,7 +10,7 @@
     "tabOrder": 9000
   },
   "visual": {
-    "visualType": "clusteredColumnChart",
+    "visualType": "lineClusteredColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -48,6 +48,25 @@
               "queryRef": "_Measures.Soft Retry Success Rate",
               "nativeQueryRef": "Soft Retry Success Rate",
               "displayName": "Soft retries that worked"
+            }
+          ]
+        },
+        "Y2": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Soft Retry Rate Other Days"
+                }
+              },
+              "queryRef": "_Measures.Soft Retry Rate Other Days",
+              "nativeQueryRef": "Soft Retry Rate Other Days",
+              "displayName": "Other days"
             }
           ]
         }
@@ -99,7 +118,56 @@
                   "matchingOption": 1
                 }
               }
-            ]
+            ],
+            "metadata": "_Measures.Soft Retry Success Rate"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#52514E'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Soft Retry Rate Other Days"
+          }
+        }
+      ],
+      "lineStyles": [
+        {
+          "properties": {
+            "lineStyle": {
+              "expr": {
+                "Literal": {
+                  "Value": "'dashed'"
+                }
+              }
+            },
+            "strokeWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "2D"
+                }
+              }
+            },
+            "showMarker": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Soft Retry Rate Other Days"
           }
         }
       ],
@@ -109,14 +177,7 @@
             "axisType": {
               "expr": {
                 "Literal": {
-                  "Value": "'Categorical'"
-                }
-              }
-            },
-            "preferredCategoryWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "12D"
+                  "Value": "'Scalar'"
                 }
               }
             }
@@ -137,6 +198,33 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "secShow": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top'"
                 }
               }
             }
@@ -386,7 +474,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'By day of month. Blue: the 1st, the 15th and the two days after each.'"
+                  "Value": "'By day of month. Blue: the 1st, the 15th and the two days after each. Dashed: other days.'"
                 }
               }
             },

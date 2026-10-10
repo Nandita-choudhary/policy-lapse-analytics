@@ -10,7 +10,7 @@
     "tabOrder": 8000
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "barChart",
     "query": {
       "queryState": {
         "Category": {
@@ -32,6 +32,25 @@
             }
           ]
         },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_payments"
+                    }
+                  },
+                  "Property": "payment_status"
+                }
+              },
+              "queryRef": "fact_payments.payment_status",
+              "nativeQueryRef": "payment_status",
+              "displayName": "Outcome"
+            }
+          ]
+        },
         "Y": {
           "projections": [
             {
@@ -42,12 +61,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Retry Success Rate"
+                  "Property": "Retry Attempts"
                 }
               },
-              "queryRef": "_Measures.Retry Success Rate",
-              "nativeQueryRef": "Retry Success Rate",
-              "displayName": "Retries that worked"
+              "queryRef": "_Measures.Retry Attempts",
+              "nativeQueryRef": "Retry Attempts",
+              "displayName": "Retries"
             }
           ]
         }
@@ -62,7 +81,7 @@
                     "Entity": "_Measures"
                   }
                 },
-                "Property": "Retry Success Rate"
+                "Property": "Retry Attempts"
               }
             },
             "direction": "Descending"
@@ -73,21 +92,6 @@
     },
     "objects": {
       "dataPoint": [
-        {
-          "properties": {
-            "fill": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#C9C7C0'"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
         {
           "properties": {
             "fill": {
@@ -112,15 +116,56 @@
                       "Column": {
                         "Expression": {
                           "SourceRef": {
-                            "Entity": "dim_decline"
+                            "Entity": "fact_payments"
                           }
                         },
-                        "Property": "decline_category"
+                        "Property": "payment_status"
                       }
                     },
                     "Right": {
                       "Literal": {
-                        "Value": "'Hard'"
+                        "Value": "'Failed'"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9C7C0'"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "scopeId": {
+                  "Comparison": {
+                    "ComparisonKind": 0,
+                    "Left": {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Entity": "fact_payments"
+                          }
+                        },
+                        "Property": "payment_status"
+                      }
+                    },
+                    "Right": {
+                      "Literal": {
+                        "Value": "'Success'"
                       }
                     }
                   }
@@ -143,7 +188,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "12D"
                 }
               }
             },
@@ -437,7 +482,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Share of retries that collected the premium. Orange: hard dishonours.'"
+                  "Value": "'Retries by outcome. Orange: failed. Soft retries sometimes work; hard ones never do.'"
                 }
               }
             },

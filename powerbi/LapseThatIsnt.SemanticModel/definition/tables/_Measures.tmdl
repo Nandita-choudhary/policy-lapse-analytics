@@ -119,6 +119,14 @@ table _Measures
 		displayFolder: Retries
 		lineageTag: d8712b4a-b922-49f2-897b-8c7603546ad5
 
+	measure 'Soft Retry Rate Other Days' =
+			-- The payday chart's dashed line: the soft-retry success rate on days outside the
+			-- payday window. It ignores which day a bar is for, so it is the same on every bar.
+			CALCULATE ( [Soft Retry Success Rate], REMOVEFILTERS ( dim_date ), dim_date[is_payday_window] = FALSE )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Retries
+		lineageTag: 22fef42b-8ceb-48ee-a156-51c815b9ff13
+
 	measure 'Wasted Retries' =
 			CALCULATE (
 			    COUNTROWS ( fact_payments ),
