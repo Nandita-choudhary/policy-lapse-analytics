@@ -4,10 +4,10 @@
   "position": {
     "x": 856,
     "y": 512,
-    "z": 13000,
+    "z": 17000,
     "height": 184,
     "width": 400,
-    "tabOrder": 13000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "textbox",
@@ -182,14 +182,14 @@
             "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "88D"
+                  "Value": "84D"
                 }
               }
             },
             "shadowBlur": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "12D"
                 }
               }
             },
@@ -203,7 +203,7 @@
             "shadowDistance": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             },

@@ -4,10 +4,10 @@
   "position": {
     "x": 24,
     "y": 204,
-    "z": 10000,
+    "z": 16000,
     "height": 236,
     "width": 608,
-    "tabOrder": 10000
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "lineChart",
@@ -245,14 +245,14 @@
             "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "88D"
+                  "Value": "84D"
                 }
               }
             },
             "shadowBlur": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "12D"
                 }
               }
             },
@@ -266,7 +266,7 @@
             "shadowDistance": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             },

@@ -4,10 +4,10 @@
   "position": {
     "x": 960,
     "y": 92,
-    "z": 8000,
+    "z": 13000,
     "height": 96,
     "width": 296,
-    "tabOrder": 8000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "card",
@@ -42,6 +42,13 @@
               "expr": {
                 "Literal": {
                   "Value": "28D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI Semibold'"
                 }
               }
             },
@@ -205,14 +212,14 @@
             "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "88D"
+                  "Value": "84D"
                 }
               }
             },
             "shadowBlur": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "12D"
                 }
               }
             },
@@ -226,7 +233,7 @@
             "shadowDistance": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             },

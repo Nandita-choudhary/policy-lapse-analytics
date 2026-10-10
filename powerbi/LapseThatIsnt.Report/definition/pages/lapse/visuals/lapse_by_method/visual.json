@@ -4,10 +4,10 @@
   "position": {
     "x": 36,
     "y": 524,
-    "z": 9000,
+    "z": 13000,
     "height": 394,
     "width": 290,
-    "tabOrder": 9000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -143,7 +143,14 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "14D"
+                  "Value": "11D"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
                 }
               }
             },
@@ -184,10 +191,17 @@
       "categoryAxis": [
         {
           "properties": {
-            "fontSize": {
+            "innerPadding": {
               "expr": {
                 "Literal": {
                   "Value": "12D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
                 }
               }
             }

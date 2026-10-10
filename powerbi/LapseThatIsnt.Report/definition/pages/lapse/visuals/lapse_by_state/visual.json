@@ -4,10 +4,10 @@
   "position": {
     "x": 648,
     "y": 456,
-    "z": 11000,
+    "z": 15000,
     "height": 474,
     "width": 608,
-    "tabOrder": 11000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -176,6 +176,13 @@
                 }
               }
             },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segoe UI'"
+                }
+              }
+            },
             "color": {
               "solid": {
                 "color": {
@@ -241,10 +248,17 @@
       "categoryAxis": [
         {
           "properties": {
-            "fontSize": {
+            "innerPadding": {
               "expr": {
                 "Literal": {
                   "Value": "12D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
                 }
               }
             }
@@ -380,14 +394,14 @@
             "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "88D"
+                  "Value": "84D"
                 }
               }
             },
             "shadowBlur": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "12D"
                 }
               }
             },
@@ -401,7 +415,7 @@
             "shadowDistance": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             },

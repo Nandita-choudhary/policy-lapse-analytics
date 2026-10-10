@@ -4,10 +4,10 @@
   "position": {
     "x": 24,
     "y": 428,
-    "z": 10000,
+    "z": 15000,
     "height": 268,
     "width": 1232,
-    "tabOrder": 10000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "tableEx",
@@ -235,14 +235,14 @@
             "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "88D"
+                  "Value": "84D"
                 }
               }
             },
             "shadowBlur": {
               "expr": {
                 "Literal": {
-                  "Value": "10D"
+                  "Value": "12D"
                 }
               }
             },
@@ -256,7 +256,7 @@
             "shadowDistance": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             },

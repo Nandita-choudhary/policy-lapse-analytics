@@ -68,6 +68,11 @@
           "name": "Lapse_That_Isn't7127062761222633.json",
           "path": "Lapse_That_Isn't7127062761222633.json",
           "type": "CustomTheme"
+        },
+        {
+          "name": "header_band.png",
+          "path": "header_band.png",
+          "type": "Image"
         }
       ]
     }
