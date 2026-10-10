@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
-  "name": "title",
+  "name": "decomposition_caption",
   "position": {
-    "x": 24,
-    "y": 12,
-    "z": 1000,
-    "height": 60,
-    "width": 1232,
-    "tabOrder": 1000
+    "x": 648,
+    "y": 670,
+    "z": 11000,
+    "height": 26,
+    "width": 608,
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "textbox",
@@ -19,22 +19,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Wasted retries",
-                    "textStyle": {
-                      "fontWeight": "bold",
-                      "fontSize": "18pt",
-                      "color": "#0B0B0B"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "What do failed premiums actually cost?",
+                    "value": "Decomposition tree: the lapses broken down step by step, so you can follow where they come from.",
                     "textStyle": {
                       "fontStyle": "italic",
-                      "fontSize": "12pt",
+                      "fontSize": "10pt",
                       "color": "#52514E"
                     }
                   }
@@ -47,6 +35,19 @@
     },
     "visualContainerObjects": {
       "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
         {
           "properties": {
             "show": {
