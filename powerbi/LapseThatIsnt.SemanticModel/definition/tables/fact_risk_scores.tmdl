@@ -58,7 +58,7 @@ table fact_risk_scores
 		lineageTag: 2e4f168b-496e-4198-9fe3-4a605fe97ab1
 		summarizeBy: none
 		sourceColumn: risk_band
-		sortByColumn: 'Risk Band Order'
+		sortByColumn: risk_band_order
 
 		annotation SummarizationSetBy = Automatic
 
@@ -72,14 +72,13 @@ table fact_risk_scores
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	column 'Risk Band Order' =
-			-- Bands are an ordered scale, so charts sort them Low to Very high, not A to Z
-			SWITCH ( fact_risk_scores[risk_band], "Low", 1, "Medium", 2, "High", 3, "Very high", 4 )
+	column risk_band_order
 		dataType: int64
 		isHidden
 		formatString: 0
 		lineageTag: 3c8b1e5f-7a2d-4b9e-a6f1-0d4e8c2b7a95
 		summarizeBy: none
+		sourceColumn: risk_band_order
 
 		annotation SummarizationSetBy = Automatic
 
@@ -88,9 +87,17 @@ table fact_risk_scores
 		source =
 				let
 				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
-				  #"Navigation 1" = Source{[Schema = "public", Item = "fact_risk_scores"]}[Data]
+				  #"Navigation 1" = Source{[Schema = "public", Item = "fact_risk_scores"]}[Data],
+				  // Bands are an ordered scale, so charts sort them Low to Very high, not A to Z.
+				  // Built here, not in DAX: a DAX column made from risk_band can't also sort it.
+				  #"Added risk_band_order" = Table.AddColumn(
+				    #"Navigation 1",
+				    "risk_band_order",
+				    each List.PositionOf({"Low", "Medium", "High", "Very high"}, [risk_band]) + 1,
+				    Int64.Type
+				  )
 				in
-				  #"Navigation 1"
+				  #"Added risk_band_order"
 
 	changedProperty = Name
 
