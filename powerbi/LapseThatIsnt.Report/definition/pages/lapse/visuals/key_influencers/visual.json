@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "key_influencers",
   "position": {
-    "x": 648,
-    "y": 204,
-    "z": 7000,
-    "height": 206,
+    "x": 24,
+    "y": 456,
+    "z": 8000,
+    "height": 444,
     "width": 608,
-    "tabOrder": 7000
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "keyDriversVisual",

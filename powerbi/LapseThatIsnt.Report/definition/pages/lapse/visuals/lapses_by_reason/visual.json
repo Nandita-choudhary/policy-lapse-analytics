@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "lapses_by_reason",
   "position": {
-    "x": 24,
-    "y": 456,
-    "z": 9000,
-    "height": 240,
+    "x": 648,
+    "y": 204,
+    "z": 7000,
+    "height": 236,
     "width": 608,
-    "tabOrder": 9000
+    "tabOrder": 7000
   },
   "visual": {
     "visualType": "clusteredBarChart",

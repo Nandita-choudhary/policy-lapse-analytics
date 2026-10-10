@@ -3,9 +3,9 @@
   "name": "retries_by_reason",
   "position": {
     "x": 24,
-    "y": 456,
+    "y": 428,
     "z": 10000,
-    "height": 240,
+    "height": 268,
     "width": 1232,
     "tabOrder": 10000
   },
@@ -111,6 +111,21 @@
         ],
         "isDefaultSort": true
       }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
     },
     "visualContainerObjects": {
       "background": [

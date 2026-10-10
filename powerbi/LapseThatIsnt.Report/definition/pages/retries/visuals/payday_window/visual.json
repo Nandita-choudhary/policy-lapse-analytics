@@ -3,9 +3,9 @@
   "name": "payday_window",
   "position": {
     "x": 648,
-    "y": 204,
+    "y": 196,
     "z": 9000,
-    "height": 236,
+    "height": 216,
     "width": 608,
     "tabOrder": 9000
   },
@@ -334,7 +334,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Soft retries succeed 62.5% of the time in the payday window, against 23.7% on other days'"
+                  "Value": "'Soft retries succeed 62.5% in the payday window, 23.7% on other days'"
                 }
               }
             },
@@ -386,7 +386,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Success rate by day of month. Blue: the 1st and 15th and the two days after each.'"
+                  "Value": "'By day of month. Blue: the 1st, the 15th and the two days after each.'"
                 }
               }
             },

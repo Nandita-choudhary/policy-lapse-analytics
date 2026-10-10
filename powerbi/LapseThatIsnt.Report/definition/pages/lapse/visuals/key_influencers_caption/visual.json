@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "key_influencers_caption",
   "position": {
-    "x": 648,
-    "y": 414,
-    "z": 8000,
+    "x": 24,
+    "y": 904,
+    "z": 9000,
     "height": 26,
     "width": 608,
-    "tabOrder": 8000
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "textbox",
