@@ -99,7 +99,5 @@ table fact_risk_scores
 				in
 				  #"Added risk_band_order"
 
-	changedProperty = Name
-
 	annotation PBI_ResultType = Table
 

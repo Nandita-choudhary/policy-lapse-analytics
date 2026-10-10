@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "payday_window",
   "position": {
     "x": 648,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "dim_date.day_of_month",
-              "nativeQueryRef": "day_of_month"
+              "nativeQueryRef": "day_of_month",
+              "active": true
             }
           ]
         },

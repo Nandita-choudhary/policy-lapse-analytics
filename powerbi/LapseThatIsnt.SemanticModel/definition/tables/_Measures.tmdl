@@ -2,8 +2,7 @@
 table _Measures
 	lineageTag: 9ac1b713-8fa7-4d1c-9ea2-3320c8e83aad
 
-	measure 'Premium Collected' =
-			CALCULATE ( SUM ( fact_payments[amount] ), fact_payments[payment_status] = "Success" )
+	measure 'Premium Collected' = CALCULATE ( SUM ( fact_payments[amount] ), fact_payments[payment_status] = "Success" )
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Income and volume
 		lineageTag: ea469f8f-acb8-4588-9e19-308fbfb9f59d
@@ -53,8 +52,7 @@ table _Measures
 		displayFolder: Payment health
 		lineageTag: 81e3e03b-4ebf-41cd-9cff-523c3f9e5289
 
-	measure 'Dishonour Fees' =
-			CALCULATE ( SUM ( fact_payments[fee] ), fact_payments[payment_status] = "Failed" )
+	measure 'Dishonour Fees' = CALCULATE ( SUM ( fact_payments[fee] ), fact_payments[payment_status] = "Failed" )
 		formatString: \$#,0;(\$#,0);\$#,0
 		displayFolder: Payment health
 		lineageTag: e56e3fac-ed40-42ba-abfa-1971c91dfce4
@@ -94,8 +92,7 @@ table _Measures
 
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
-	measure 'Retry Attempts' =
-			CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] > 1 ) )
+	measure 'Retry Attempts' = CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] > 1 ) )
 		formatString: #,0
 		displayFolder: Retries
 		lineageTag: cb8eac23-a1a3-4f4f-a098-d2a17495dfde
@@ -117,8 +114,7 @@ table _Measures
 		displayFolder: Retries
 		lineageTag: a65f183b-3915-44e5-b8d0-7daffd1c7de3
 
-	measure 'Soft Retry Success Rate' =
-			CALCULATE ( [Retry Success Rate], dim_decline[decline_category] = "Soft" )
+	measure 'Soft Retry Success Rate' = CALCULATE ( [Retry Success Rate], dim_decline[decline_category] = "Soft" )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Retries
 		lineageTag: d8712b4a-b922-49f2-897b-8c7603546ad5

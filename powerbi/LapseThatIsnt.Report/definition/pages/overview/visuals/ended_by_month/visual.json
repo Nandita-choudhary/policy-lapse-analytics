@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "ended_by_month",
   "position": {
     "x": 24,
@@ -27,25 +27,8 @@
                 }
               },
               "queryRef": "dim_date.year_month",
-              "nativeQueryRef": "year_month"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Policies Ended"
-                }
-              },
-              "queryRef": "_Measures.Policies Ended",
-              "nativeQueryRef": "Policies Ended"
+              "nativeQueryRef": "year_month",
+              "active": true
             }
           ]
         },
@@ -64,6 +47,24 @@
               },
               "queryRef": "fact_lapse_events.end_type",
               "nativeQueryRef": "end_type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Policies Ended"
+                }
+              },
+              "queryRef": "_Measures.Policies Ended",
+              "nativeQueryRef": "Policies Ended"
             }
           ]
         }

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "retry_by_attempt",
   "position": {
     "x": 24,
@@ -27,25 +27,8 @@
                 }
               },
               "queryRef": "fact_payments.attempt_number",
-              "nativeQueryRef": "attempt_number"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Retry Success Rate"
-                }
-              },
-              "queryRef": "_Measures.Retry Success Rate",
-              "nativeQueryRef": "Retry Success Rate"
+              "nativeQueryRef": "attempt_number",
+              "active": true
             }
           ]
         },
@@ -64,6 +47,24 @@
               },
               "queryRef": "dim_decline.decline_category",
               "nativeQueryRef": "decline_category"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Retry Success Rate"
+                }
+              },
+              "queryRef": "_Measures.Retry Success Rate",
+              "nativeQueryRef": "Retry Success Rate"
             }
           ]
         }

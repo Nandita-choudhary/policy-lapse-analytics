@@ -55,5 +55,3 @@ table dim_customer
 				in
 				  #"Navigation 1"
 
-	changedProperty = Name
-

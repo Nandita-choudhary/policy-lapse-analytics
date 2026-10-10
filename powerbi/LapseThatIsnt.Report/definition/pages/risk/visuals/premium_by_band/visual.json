@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
   "name": "premium_by_band",
   "position": {
     "x": 432,
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "fact_risk_scores.risk_band",
-              "nativeQueryRef": "risk_band"
+              "nativeQueryRef": "risk_band",
+              "active": true
             }
           ]
         },

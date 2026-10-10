@@ -118,5 +118,3 @@ table dim_date
 				in
 				  #"Navigation 1"
 
-	changedProperty = Name
-

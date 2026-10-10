@@ -78,7 +78,5 @@ table fact_lapse_events
 				in
 				  #"Navigation 1"
 
-	changedProperty = Name
-
 	annotation PBI_ResultType = Table
 

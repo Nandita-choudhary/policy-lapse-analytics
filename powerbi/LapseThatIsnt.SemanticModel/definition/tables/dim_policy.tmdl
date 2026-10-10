@@ -66,5 +66,3 @@ table dim_policy
 				in
 				  #"Navigation 1"
 
-	changedProperty = Name
-

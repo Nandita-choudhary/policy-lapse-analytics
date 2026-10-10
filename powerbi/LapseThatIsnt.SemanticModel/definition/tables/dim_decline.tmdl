@@ -53,5 +53,3 @@ table dim_decline
 				in
 				  #"Navigation 1"
 
-	changedProperty = Name
-
