@@ -177,17 +177,22 @@ table _Measures
 		lineageTag: ec2cb849-2b3a-4cc6-aea4-b03c348f4e04
 
 	measure 'Premium Collected MoM %' =
-			VAR Prior = CALCULATE ( [Premium Collected], DATEADD ( dim_date[date_id], -1, MONTH ) )
+			VAR ThisMonth = [Premium Collected]
+			VAR LastMonth = CALCULATE ( [Premium Collected], DATEADD ( dim_date[date_id], -1, MONTH ) )
 			RETURN
-			    DIVIDE ( [Premium Collected] - Prior, Prior )
+			    -- A month with no payments has nothing to compare: blank, not a fall of 100%
+			    IF ( NOT ISEMPTY ( fact_payments ), DIVIDE ( ThisMonth - LastMonth, LastMonth ) )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Change over time
 		lineageTag: a3badae7-1e96-4c49-b49d-97f4d377994b
 
 	measure 'Failure Rate YoY pp' =
-			VAR Prior = CALCULATE ( [Failure Rate], DATEADD ( dim_date[date_id], -12, MONTH ) )
+			VAR ThisYear = [Failure Rate]
+			VAR LastYear = CALCULATE ( [Failure Rate], DATEADD ( dim_date[date_id], -12, MONTH ) )
 			RETURN
-			    [Failure Rate] - Prior
+			    -- Blank unless both years have payments. Otherwise the first 12 months show the
+			    -- rate itself (rate minus nothing) and the months past the data show minus last year
+			    IF ( NOT ISBLANK ( ThisYear ) && NOT ISBLANK ( LastYear ), ThisYear - LastYear )
 		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: Change over time
 		lineageTag: c4d72d4d-c738-4dad-b4fa-c7627aa40cb9
