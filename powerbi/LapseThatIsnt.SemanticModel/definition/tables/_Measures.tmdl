@@ -1,0 +1,209 @@
+/// Holds every measure, so none of them pretend to belong to a real table. Its one column is a hidden placeholder, because a table cannot be empty.
+table _Measures
+	lineageTag: 9ac1b713-8fa7-4d1c-9ea2-3320c8e83aad
+
+	measure 'Premium Collected' =
+			CALCULATE ( SUM ( fact_payments[amount] ), fact_payments[payment_status] = "Success" )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Income and volume
+		lineageTag: ea469f8f-acb8-4588-9e19-308fbfb9f59d
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Active Policies' =
+			VAR AsOf = MAX ( dim_date[date_id] )
+			VAR Started =
+			    CALCULATE (
+			        COUNTROWS ( dim_policy ),
+			        REMOVEFILTERS ( dim_date ),
+			        dim_policy[start_date] <= AsOf
+			    )
+			VAR Ended =
+			    CALCULATE (
+			        COUNTROWS ( fact_lapse_events ),
+			        REMOVEFILTERS ( dim_date ),
+			        fact_lapse_events[end_date] <= AsOf
+			    )
+			RETURN
+			    Started - Ended
+		formatString: #,0
+		displayFolder: Income and volume
+		lineageTag: 7bf86ec9-c323-4cb7-8a3e-fafeca7dcc9e
+
+	measure 'First Attempts' =
+			CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] = 1 )
+		formatString: #,0
+		displayFolder: Payment health
+		lineageTag: 1ec8e51f-11e7-47c6-9535-86451ba48544
+
+	measure 'Failed First Attempts' =
+			CALCULATE (
+			    COUNTROWS ( fact_payments ),
+			    fact_payments[attempt_number] = 1,
+			    fact_payments[payment_status] = "Failed"
+			)
+		formatString: #,0
+		displayFolder: Payment health
+		lineageTag: adf48485-d4bb-4a73-ae7b-6660f999dbcc
+
+	measure 'Failure Rate' = DIVIDE ( [Failed First Attempts], [First Attempts] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Payment health
+		lineageTag: 81e3e03b-4ebf-41cd-9cff-523c3f9e5289
+
+	measure 'Dishonour Fees' =
+			CALCULATE ( SUM ( fact_payments[fee] ), fact_payments[payment_status] = "Failed" )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Payment health
+		lineageTag: e56e3fac-ed40-42ba-abfa-1971c91dfce4
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Policies Ended' = COUNTROWS ( fact_lapse_events )
+		formatString: #,0
+		displayFolder: The headline
+		lineageTag: ba56f535-4b99-4470-a59f-fcea42844d27
+
+	measure 'Policies Lapsed' = CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Lapsed" )
+		formatString: #,0
+		displayFolder: The headline
+		lineageTag: 5773e3be-0418-4041-ab0b-9ca6e807b4ae
+
+	measure 'Policies Cancelled' = CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Cancelled" )
+		formatString: #,0
+		displayFolder: The headline
+		lineageTag: 2a215151-6819-438c-bdba-88c4b17df4d3
+
+	measure 'Involuntary Share' = DIVIDE ( [Policies Lapsed], [Policies Ended] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: The headline
+		lineageTag: 4ebc2429-c5f3-4097-a651-34a664765675
+
+	measure 'Annual Premium Lost' =
+			SUMX (
+			    FILTER ( fact_lapse_events, fact_lapse_events[end_type] = "Lapsed" ),
+			    VAR Premium = RELATED ( dim_policy[premium_amount] )
+			    VAR Frequency = RELATED ( dim_policy[billing_frequency] )
+			    RETURN Premium * IF ( Frequency = "Monthly", 12, 1 )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: The headline
+		lineageTag: c2708ac9-2587-4a49-afc6-ef8aa71f3256
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Retry Attempts' =
+			CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] > 1 )
+		formatString: #,0
+		displayFolder: Retries
+		lineageTag: cb8eac23-a1a3-4f4f-a098-d2a17495dfde
+
+	measure 'Retry Successes' =
+			CALCULATE (
+			    COUNTROWS ( fact_payments ),
+			    fact_payments[attempt_number] > 1,
+			    fact_payments[payment_status] = "Success"
+			)
+		formatString: #,0
+		displayFolder: Retries
+		lineageTag: 7d37138b-6491-40d7-8466-0daae09ea35a
+
+	measure 'Retry Success Rate' = DIVIDE ( [Retry Successes], [Retry Attempts] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Retries
+		lineageTag: a65f183b-3915-44e5-b8d0-7daffd1c7de3
+
+	measure 'Soft Retry Success Rate' =
+			CALCULATE ( [Retry Success Rate], dim_decline[decline_category] = "Soft" )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Retries
+		lineageTag: d8712b4a-b922-49f2-897b-8c7603546ad5
+
+	measure 'Wasted Retries' =
+			CALCULATE (
+			    COUNTROWS ( fact_payments ),
+			    fact_payments[attempt_number] > 1,
+			    fact_payments[payment_status] = "Failed",
+			    dim_decline[decline_category] = "Hard"
+			)
+		formatString: #,0
+		displayFolder: Retries
+		lineageTag: cd3c57c8-69d6-4e68-952d-41774787f6da
+
+	measure 'Wasted Retry Fees' =
+			CALCULATE (
+			    SUM ( fact_payments[fee] ),
+			    fact_payments[attempt_number] > 1,
+			    fact_payments[payment_status] = "Failed",
+			    dim_decline[decline_category] = "Hard"
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Retries
+		lineageTag: c6b1ff94-e6b3-4d6a-a6ec-25d24b3b12db
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Recoverable Payments' =
+			VAR InWindow =
+			    CALCULATE ( [Soft Retry Success Rate], dim_date[is_payday_window] = TRUE )
+			VAR Outside =
+			    CALCULATE ( [Soft Retry Success Rate], dim_date[is_payday_window] = FALSE )
+			VAR SoftRetriesOutside =
+			    CALCULATE (
+			        [Retry Attempts],
+			        dim_decline[decline_category] = "Soft",
+			        dim_date[is_payday_window] = FALSE
+			    )
+			RETURN
+			    ( InWindow - Outside ) * SoftRetriesOutside
+		formatString: #,0
+		displayFolder: Retries
+		lineageTag: 02c0e436-2274-43b4-a5e8-2cfd0f966ebb
+
+	measure 'Premium at Risk' = SUM ( fact_risk_scores[premium_at_risk] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Risk
+		lineageTag: 0b7c57fd-8b3e-4933-ad2a-aaeb60bd3d98
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Policies at High Risk' =
+			CALCULATE (
+			    COUNTROWS ( fact_risk_scores ),
+			    fact_risk_scores[risk_band] IN { "High", "Very high" }
+			)
+		formatString: #,0
+		displayFolder: Risk
+		lineageTag: ec2cb849-2b3a-4cc6-aea4-b03c348f4e04
+
+	measure 'Premium Collected MoM %' =
+			VAR Prior = CALCULATE ( [Premium Collected], DATEADD ( dim_date[date_id], -1, MONTH ) )
+			RETURN
+			    DIVIDE ( [Premium Collected] - Prior, Prior )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Change over time
+		lineageTag: a3badae7-1e96-4c49-b49d-97f4d377994b
+
+	measure 'Failure Rate YoY pp' =
+			VAR Prior = CALCULATE ( [Failure Rate], DATEADD ( dim_date[date_id], -12, MONTH ) )
+			RETURN
+			    [Failure Rate] - Prior
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Change over time
+		lineageTag: c4d72d4d-c738-4dad-b4fa-c7627aa40cb9
+
+	column Placeholder
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: e9273dba-eaf1-425b-a54e-4b9e3dd60ed9
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Placeholder]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Measures = calculated
+		mode: import
+		source = ROW ( "Placeholder", 0 )
+

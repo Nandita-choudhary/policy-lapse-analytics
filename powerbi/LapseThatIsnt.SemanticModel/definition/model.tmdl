@@ -23,6 +23,7 @@ ref table dim_policy
 ref table fact_lapse_events
 ref table fact_payments
 ref table fact_risk_scores
+ref table _Measures
 
 ref cultureInfo en-US
 
