@@ -1,0 +1,74 @@
+table dim_policy
+	lineageTag: 7c4143fa-b0cd-47e3-a1df-f4b6f4999617
+
+	column policy_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2633d0dc-36bf-43dd-8ed4-6e7b74ab243d
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: ba753f3b-8b07-4509-aa9f-e2ab3395f915
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product
+		dataType: string
+		lineageTag: c48630fc-fa37-466c-af28-127ef4412d9d
+		summarizeBy: none
+		sourceColumn: product
+
+		annotation SummarizationSetBy = Automatic
+
+	column billing_frequency
+		dataType: string
+		lineageTag: a7903cdf-617c-4763-ba7d-ece4165840ac
+		summarizeBy: none
+		sourceColumn: billing_frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column premium_amount
+		dataType: double
+		lineageTag: 9ccffa77-cb43-4395-852b-8810e4bca7d3
+		summarizeBy: sum
+		sourceColumn: premium_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column start_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b1cd1419-b916-4b91-a058-3b55d9bc3c75
+		summarizeBy: none
+		sourceColumn: start_date
+
+		variation Variation
+			isDefault
+			relationship: ebc409af-2d5b-481c-8e75-47701d5f5305
+			defaultHierarchy: LocalDateTable_49e988d5-da4d-47b0-a0c1-cd8ddc5ce0a0.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition dim_policy = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "dim_policy"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+

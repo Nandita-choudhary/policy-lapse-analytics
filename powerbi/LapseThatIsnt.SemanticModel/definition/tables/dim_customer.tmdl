@@ -1,0 +1,63 @@
+table dim_customer
+	lineageTag: 815d9933-3ff6-4618-b78a-e115c2c98fa5
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 9db8314b-66d9-4859-addb-2405e7087137
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column join_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b495c1e6-29c6-465b-87b6-9938ad07e150
+		summarizeBy: none
+		sourceColumn: join_date
+
+		variation Variation
+			isDefault
+			relationship: c186d953-73e5-4f90-8993-3b0c9d722cce
+			defaultHierarchy: LocalDateTable_91fda1bc-03fd-4ace-a3e3-1a1e37360285.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column state
+		dataType: string
+		lineageTag: f1999400-7ec0-4c10-9f66-4c4ec2d3d0d0
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition_channel
+		dataType: string
+		lineageTag: dc1b6ac7-4cd3-4710-b43e-35bd7a3c7293
+		summarizeBy: none
+		sourceColumn: acquisition_channel
+
+		annotation SummarizationSetBy = Automatic
+
+	column age_band
+		dataType: string
+		lineageTag: d250c904-4159-4b2f-a291-a0d6533bbca7
+		summarizeBy: none
+		sourceColumn: age_band
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "dim_customer"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+

@@ -1,0 +1,92 @@
+relationship c186d953-73e5-4f90-8993-3b0c9d722cce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_customer.join_date
+	toColumn: LocalDateTable_91fda1bc-03fd-4ace-a3e3-1a1e37360285.Date
+
+relationship 11e35c5a-6bba-4961-91a1-b8bda41ae25a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_payment_method.card_expiry_date
+	toColumn: LocalDateTable_9a00750b-633b-4c4b-946a-287498fd0a35.Date
+
+relationship ebc409af-2d5b-481c-8e75-47701d5f5305
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_policy.start_date
+	toColumn: LocalDateTable_49e988d5-da4d-47b0-a0c1-cd8ddc5ce0a0.Date
+
+relationship a7933997-bb34-453c-bf54-f6a84cbf9106
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fact_risk_scores.scored_for_date
+	toColumn: LocalDateTable_1babded1-9204-4a06-8c3b-88cf9ae88dea.Date
+
+relationship d8650ae7-8667-499a-b297-98d8a0749036
+	fromColumn: fact_lapse_events.customer_id
+	toColumn: dim_customer.customer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 6ec8bd76-bd1b-4dc3-855b-7bf988d99e85
+	fromColumn: fact_lapse_events.end_date
+	toColumn: dim_date.date_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 9091b3f1-ff7e-459e-9f2e-ae1d54774530
+	fromColumn: fact_lapse_events.final_decline_id
+	toColumn: dim_decline.decline_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 1309743c-49c9-468c-aea9-d4b5b9820d67
+	fromColumn: fact_lapse_events.method_id
+	toColumn: dim_payment_method.method_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 50481713-2ac8-4191-a572-dba60b688e51
+	fromColumn: fact_lapse_events.policy_id
+	toColumn: dim_policy.policy_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 188148f1-2a2d-4309-beda-3a88d4426c17
+	fromColumn: fact_payments.customer_id
+	toColumn: dim_customer.customer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 368e868e-4319-4d0d-8026-bf126188fd41
+	fromColumn: fact_payments.date_id
+	toColumn: dim_date.date_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 0afcb28b-a3e3-43ab-a102-d84f426cd821
+	fromColumn: fact_payments.decline_id
+	toColumn: dim_decline.decline_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 5b18546d-1d17-401b-bc51-424c1a4ef5e3
+	fromColumn: fact_payments.method_id
+	toColumn: dim_payment_method.method_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 840e9a0c-2bc9-464e-8e41-af3faed7e481
+	fromColumn: fact_payments.policy_id
+	toColumn: dim_policy.policy_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 51e9b06b-a850-4bc5-9adc-a97b783457a5
+	fromColumn: fact_risk_scores.customer_id
+	toColumn: dim_customer.customer_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 94923093-6f6d-4f97-8b62-21c8253a3263
+	fromColumn: fact_risk_scores.policy_id
+	toColumn: dim_policy.policy_id
+
+	annotation PBI_IsFromSource = FS
+

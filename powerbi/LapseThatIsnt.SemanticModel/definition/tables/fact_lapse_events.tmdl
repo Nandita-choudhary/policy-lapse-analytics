@@ -1,0 +1,79 @@
+table fact_lapse_events
+	lineageTag: 251f9a92-d680-48b1-950f-3c184c8d0f9f
+
+	column policy_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7107a25e-136c-4069-9629-9b71cfd36e52
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6ed7d32c-9e20-4758-9c9c-13f3d319121d
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column method_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ccbc72f-4021-4490-99c9-e1d1afa67d8b
+		summarizeBy: none
+		sourceColumn: method_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: fe514b8c-e8a7-4033-a280-d12079c86f40
+		summarizeBy: none
+		sourceColumn: end_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column end_type
+		dataType: string
+		lineageTag: f1fc126e-195b-4547-851e-38cc20534a00
+		summarizeBy: none
+		sourceColumn: end_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_reason
+		dataType: string
+		lineageTag: e217b9c2-78c3-406e-881e-3dc37655db01
+		summarizeBy: none
+		sourceColumn: end_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column final_decline_id
+		dataType: int64
+		formatString: 0
+		lineageTag: d384e694-2c76-4464-aaa3-27e44cbb54b5
+		summarizeBy: none
+		sourceColumn: final_decline_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_lapse_events = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "fact_lapse_events"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

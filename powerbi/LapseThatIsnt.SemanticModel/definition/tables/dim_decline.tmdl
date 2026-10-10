@@ -1,0 +1,56 @@
+table dim_decline
+	lineageTag: 23c28807-e2f7-44b9-abb1-f1de76e0c75e
+
+	column decline_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e1e398d6-f5e9-44f9-a231-4db1f4b83f65
+		summarizeBy: none
+		sourceColumn: decline_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column decline_code
+		dataType: string
+		lineageTag: ade004dd-5c7a-4162-9ea1-7f39e395a315
+		summarizeBy: none
+		sourceColumn: decline_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column decline_description
+		dataType: string
+		lineageTag: 4033e46f-1afc-44c7-8392-fb1ef03b1ec9
+		summarizeBy: none
+		sourceColumn: decline_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column decline_category
+		dataType: string
+		lineageTag: b32b2d22-421b-4b9a-82eb-7c6a09a730f3
+		summarizeBy: none
+		sourceColumn: decline_category
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_retryable
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 46b8d2e8-51ee-4f59-b609-1942d19ef7ce
+		summarizeBy: none
+		sourceColumn: is_retryable
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_decline = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "dim_decline"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+

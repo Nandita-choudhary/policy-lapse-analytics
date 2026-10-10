@@ -1,0 +1,122 @@
+table dim_date
+	lineageTag: 0789af5e-9e89-4872-8013-81571d4ffccf
+	dataCategory: Time
+
+	column date_id
+		dataType: dateTime
+		isKey
+		formatString: Long Date
+		lineageTag: 53a04590-61e6-404c-84e4-a8e3217a7ad7
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: acfcf9b6-a3f5-4eab-bdd0-c3602133cb7c
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: string
+		lineageTag: 8a3941c1-39f7-40a0-a9f6-d459c284a43b
+		summarizeBy: none
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number
+		dataType: int64
+		formatString: 0
+		lineageTag: d629ff10-1996-4645-82bb-7fb1f5c8b941
+		summarizeBy: sum
+		sourceColumn: month_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_name
+		dataType: string
+		lineageTag: 11cd9e81-6c88-4a63-bd67-27487938974e
+		summarizeBy: none
+		sourceColumn: month_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 5444ee66-145a-4c74-83a7-3363c00a05d8
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 736eff47-e6e5-4b86-8944-54b78ed1d5bb
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_name
+		dataType: string
+		lineageTag: 1733faaf-7803-49fc-83d4-24b93140a55c
+		summarizeBy: none
+		sourceColumn: day_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_weekend
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cd3eb914-a0c3-4af6-b141-2ac96d37cb10
+		summarizeBy: none
+		sourceColumn: is_weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_payday
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 166e0f86-1571-4fc2-ac74-1cbc609ed77d
+		summarizeBy: none
+		sourceColumn: is_payday
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_since_payday
+		dataType: int64
+		formatString: 0
+		lineageTag: 67272309-a6c4-4ca7-b352-5bd0f333303d
+		summarizeBy: sum
+		sourceColumn: days_since_payday
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_payday_window
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fe6a7a38-5816-492b-9be1-c75fe6ed16c1
+		summarizeBy: none
+		sourceColumn: is_payday_window
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_date = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "dim_date"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+

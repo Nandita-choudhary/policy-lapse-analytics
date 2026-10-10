@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "LapseThatIsnt"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3bcfdc55-a75c-453f-97e5-39f1cff016f8"
+  }
+}

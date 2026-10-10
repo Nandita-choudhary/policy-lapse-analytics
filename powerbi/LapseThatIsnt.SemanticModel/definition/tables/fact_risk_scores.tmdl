@@ -1,0 +1,88 @@
+table fact_risk_scores
+	lineageTag: a6f5cc72-a8ed-4151-af17-dd74eba2deff
+
+	column policy_id
+		dataType: int64
+		formatString: 0
+		lineageTag: a74ccbaf-7613-48d5-9646-41e487ba954d
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 4b115f89-0c58-4f0e-b11a-1ce065d181ad
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column scored_for_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 24f47090-ec95-432b-90e8-06f6e92a339e
+		summarizeBy: none
+		sourceColumn: scored_for_date
+
+		variation Variation
+			isDefault
+			relationship: a7933997-bb34-453c-bf54-f6a84cbf9106
+			defaultHierarchy: LocalDateTable_1babded1-9204-4a06-8c3b-88cf9ae88dea.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column risk_score
+		dataType: double
+		lineageTag: 28a74319-906c-4420-9b74-886ee2a8547b
+		summarizeBy: sum
+		sourceColumn: risk_score
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column premium_amount
+		dataType: double
+		lineageTag: 05d6cf32-e30b-4ebe-8dee-b6fa8bfaaae6
+		summarizeBy: sum
+		sourceColumn: premium_amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column risk_band
+		dataType: string
+		lineageTag: 2e4f168b-496e-4198-9fe3-4a605fe97ab1
+		summarizeBy: none
+		sourceColumn: risk_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column premium_at_risk
+		dataType: double
+		lineageTag: 7f69675e-41ad-4cbe-a306-cfd14da66736
+		summarizeBy: sum
+		sourceColumn: premium_at_risk
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fact_risk_scores = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "fact_risk_scores"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

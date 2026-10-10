@@ -1,0 +1,109 @@
+table fact_payments
+	lineageTag: 476fe5f2-c0c1-4dec-84da-1edb9e79d98b
+
+	column payment_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 7101d0b3-24bb-4da3-9974-a1bce50a7f36
+		summarizeBy: sum
+		sourceColumn: payment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column policy_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 6cf26919-a9db-452b-af69-17e243f24282
+		summarizeBy: none
+		sourceColumn: policy_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: abada46b-9b9d-4223-811e-964a66669777
+		summarizeBy: none
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column method_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 400b1784-930b-44d7-a540-45c8e07190ad
+		summarizeBy: none
+		sourceColumn: method_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_id
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e0c1e2b3-1327-4521-9bfe-2da16e605593
+		summarizeBy: none
+		sourceColumn: date_id
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column amount
+		dataType: double
+		lineageTag: cbf5e84a-6702-490a-890f-29473ad53baa
+		summarizeBy: sum
+		sourceColumn: amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fee
+		dataType: double
+		lineageTag: 407e2904-ea4e-4c2b-b0b8-b70ab8f83be3
+		summarizeBy: sum
+		sourceColumn: fee
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column attempt_number
+		dataType: int64
+		formatString: 0
+		lineageTag: 9bd61520-3a60-4178-a66a-13610e953514
+		summarizeBy: sum
+		sourceColumn: attempt_number
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_status
+		dataType: string
+		lineageTag: edba184e-54b7-4291-9b7f-b4262dda9c44
+		summarizeBy: none
+		sourceColumn: payment_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column decline_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 14b20d23-2ed3-40ca-9fd6-10c8058dcac7
+		summarizeBy: none
+		sourceColumn: decline_id
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_payments = m
+		mode: import
+		source =
+				let
+				  Source = PostgreSQL.Database("aws-0-ap-southeast-2.pooler.supabase.com:5432", "postgres"),
+				  #"Navigation 1" = Source{[Schema = "public", Item = "fact_payments"]}[Data]
+				in
+				  #"Navigation 1"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+
