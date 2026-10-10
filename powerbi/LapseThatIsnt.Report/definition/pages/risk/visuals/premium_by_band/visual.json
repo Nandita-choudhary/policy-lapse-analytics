@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "premium_by_band",
   "position": {
-    "x": 432,
-    "y": 204,
-    "z": 11000,
+    "x": 340,
+    "y": 188,
+    "z": 13000,
     "height": 292,
-    "width": 392,
-    "tabOrder": 11000
+    "width": 300,
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -42,12 +42,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Premium at Risk"
+                  "Property": "Annual Premium at Risk"
                 }
               },
-              "queryRef": "_Measures.Premium at Risk",
-              "nativeQueryRef": "Premium at Risk",
-              "displayName": "Premium at risk"
+              "queryRef": "_Measures.Annual Premium at Risk",
+              "nativeQueryRef": "Annual Premium at Risk",
+              "displayName": "Premium at risk a year"
             }
           ]
         }
@@ -191,6 +191,26 @@
           }
         }
       ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            }
+          }
+        }
+      ],
       "labels": [
         {
           "properties": {
@@ -229,34 +249,14 @@
             "labelDisplayUnits": {
               "expr": {
                 "Literal": {
-                  "Value": "1000D"
+                  "Value": "0D"
                 }
               }
             },
             "labelPrecision": {
               "expr": {
                 "Literal": {
-                  "Value": "0L"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "innerPadding": {
-              "expr": {
-                "Literal": {
-                  "Value": "12D"
-                }
-              }
-            },
-            "fontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "11D"
+                  "Value": "1L"
                 }
               }
             }
@@ -506,7 +506,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Premium expected to fail, by risk band'"
+                  "Value": "'Premium at risk a year, by risk band'"
                 }
               }
             },
@@ -532,6 +532,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'High-risk policies hold most of the premium at risk. Premium at risk a year, by risk band'"
                 }
               }
             }

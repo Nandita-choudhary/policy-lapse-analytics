@@ -6,7 +6,7 @@
     "y": 0,
     "z": 3000,
     "height": 72,
-    "width": 1280,
+    "width": 740,
     "tabOrder": 3000
   },
   "visual": {
@@ -85,7 +85,7 @@
             "right": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "8D"
                 }
               }
             }
@@ -99,6 +99,32 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The lapse that isn''t. Who chose to go, and whose payment just died?'"
                 }
               }
             }

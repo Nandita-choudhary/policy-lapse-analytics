@@ -3,11 +3,11 @@
   "name": "lapse_drivers",
   "position": {
     "x": 24,
-    "y": 456,
-    "z": 12000,
-    "height": 474,
+    "y": 452,
+    "z": 14000,
+    "height": 244,
     "width": 608,
-    "tabOrder": 12000
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "textbox",
@@ -228,6 +228,32 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Paying by card or monthly makes a lapse more likely. Share of ended policies that lapsed rather than being cancelled. Orange: card and monthly payers.'"
                 }
               }
             }

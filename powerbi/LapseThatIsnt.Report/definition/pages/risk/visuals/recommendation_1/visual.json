@@ -3,11 +3,11 @@
   "name": "recommendation_1",
   "position": {
     "x": 24,
-    "y": 512,
-    "z": 13000,
-    "height": 184,
+    "y": 496,
+    "z": 16000,
+    "height": 200,
     "width": 400,
-    "tabOrder": 13000
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "textbox",
@@ -258,6 +258,32 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommendation 1: Stop retrying hard dishonours. They were retried 36,770 times in 24 months and succeeded zero times. Saves $54,000 a year in fees.'"
                 }
               }
             }

@@ -3,11 +3,11 @@
   "name": "lapses_by_reason",
   "position": {
     "x": 648,
-    "y": 204,
-    "z": 11000,
-    "height": 236,
+    "y": 188,
+    "z": 13000,
+    "height": 248,
     "width": 608,
-    "tabOrder": 11000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -162,6 +162,13 @@
                       "Value": "'#0B0B0B'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -477,6 +484,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Expired cards are behind 49% of all lapses. Lapsed policies by the decline that ended them. Orange: the stored card had expired.'"
                 }
               }
             }

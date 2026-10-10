@@ -3,11 +3,11 @@
   "name": "lapse_by_state",
   "position": {
     "x": 648,
-    "y": 456,
-    "z": 15000,
-    "height": 474,
+    "y": 452,
+    "z": 17000,
+    "height": 244,
     "width": 608,
-    "tabOrder": 15000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -105,9 +105,6 @@
                 }
               }
             }
-          },
-          "selector": {
-            "metadata": "_Measures.Involuntary Share"
           }
         },
         {
@@ -554,6 +551,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Who they are barely matters: every state sits near 47.5%. Compare with how they pay, on the left. Dashed: all customers.'"
                 }
               }
             }

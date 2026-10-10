@@ -3,11 +3,11 @@
   "name": "card_premium_at_risk_icon",
   "position": {
     "x": 672,
-    "y": 104,
-    "z": 9000,
+    "y": 100,
+    "z": 11000,
     "height": 30,
     "width": 30,
-    "tabOrder": 9000
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "textbox",
@@ -17,7 +17,6 @@
           "properties": {
             "paragraphs": [
               {
-                "horizontalTextAlignment": "center",
                 "textRuns": [
                   {
                     "value": "$",
@@ -27,7 +26,8 @@
                       "color": "#EB6834"
                     }
                   }
-                ]
+                ],
+                "horizontalTextAlignment": "center"
               }
             ]
           }
@@ -60,44 +60,6 @@
               "expr": {
                 "Literal": {
                   "Value": "0D"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "border": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "color": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Literal": {
-                      "Value": "'#FDE7DD'"
-                    }
-                  }
-                }
-              }
-            },
-            "radius": {
-              "expr": {
-                "Literal": {
-                  "Value": "8D"
-                }
-              }
-            },
-            "width": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
                 }
               }
             }
@@ -145,6 +107,70 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "color": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#FDE7DD'"
+                    }
+                  }
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "8D"
+                }
+              }
+            },
+            "width": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Decorative icon'"
                 }
               }
             }

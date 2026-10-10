@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "payday_window",
   "position": {
-    "x": 648,
-    "y": 196,
-    "z": 14000,
-    "height": 216,
-    "width": 608,
-    "tabOrder": 14000
+    "x": 480,
+    "y": 188,
+    "z": 16000,
+    "height": 236,
+    "width": 776,
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -177,7 +177,28 @@
             "axisType": {
               "expr": {
                 "Literal": {
-                  "Value": "'Scalar'"
+                  "Value": "'Categorical'"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "preferredCategoryWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
                 }
               }
             }
@@ -500,6 +521,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Soft retries succeed 62.5% in the payday window, 23.7% on other days. By day of month. Blue: the 1st, the 15th and the two days after each. Dashed: other days.'"
                 }
               }
             }

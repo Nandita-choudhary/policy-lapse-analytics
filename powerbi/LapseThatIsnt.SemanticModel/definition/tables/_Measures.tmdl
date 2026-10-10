@@ -218,9 +218,87 @@ table _Measures
 		displayFolder: Change over time
 		lineageTag: c4d72d4d-c738-4dad-b4fa-c7627aa40cb9
 
+	measure 'Years of Data' =
+			-- How many years the payment history covers, first scheduled premium to last. Money
+			-- figures are divided by it so the report states every amount per year.
+			VAR FirstDue = CALCULATE ( MIN ( fact_payments[date_id] ), REMOVEFILTERS ( dim_date ), fact_payments[attempt_number] = 1 )
+			VAR LastDue = CALCULATE ( MAX ( fact_payments[date_id] ), REMOVEFILTERS ( dim_date ), fact_payments[attempt_number] = 1 )
+			RETURN
+			    DIVIDE ( DATEDIFF ( FirstDue, LastDue, MONTH ) + 1, 12 )
+		formatString: 0.0
+		displayFolder: Per year
+		lineageTag: 62975ec2-05df-4e6d-b9a1-d5dc2083c01e
+
+	measure 'Premium Collected a Year' = DIVIDE ( [Premium Collected], [Years of Data] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Per year
+		lineageTag: 9f7d433a-5f94-4bc5-a284-a1fedb6659dd
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Dishonour Fees a Year' = DIVIDE ( [Dishonour Fees], [Years of Data] )
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Per year
+		lineageTag: de9c4025-83be-444a-9425-ed98e4c2f1a7
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Wasted Retry Fees a Year' =
+			-- Zero rather than blank wherever retries happened, so the format shows a dash for
+			-- soft declines (whose retries can work) instead of an empty cell
+			IF ( NOT ISBLANK ( [Retry Attempts] ), DIVIDE ( COALESCE ( [Wasted Retry Fees], 0 ), [Years of Data] ) )
+		formatString: \$#,0;(\$#,0);–
+		displayFolder: Per year
+		lineageTag: f308d6a3-a822-448d-9caa-da2dc03087b1
+
+	measure 'Annual Premium at Risk' =
+			-- Each active policy's premium for a year, weighted by its chance of failing at the
+			-- next payment: the premium a year expected to be lost if nothing changes
+			SUMX (
+			    fact_risk_scores,
+			    VAR Premium = RELATED ( dim_policy[premium_amount] )
+			    VAR Frequency = RELATED ( dim_policy[billing_frequency] )
+			    RETURN fact_risk_scores[risk_score] * Premium * IF ( Frequency = "Monthly", 12, 1 )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Per year
+		lineageTag: a9372e24-5e0e-44cb-9877-39dcfb966ee6
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Chance of Failing' =
+			-- The risk table's score column. Scores this close to 1 all round to 100.0%, which
+			-- overstates the certainty, so they read 99%+
+			VAR Score = SUM ( fact_risk_scores[risk_score] )
+			RETURN
+			    IF ( NOT ISBLANK ( Score ), IF ( Score >= 0.99, "99%+", FORMAT ( Score, "0.0%" ) ) )
+		displayFolder: Risk
+		lineageTag: 3e81a5c2-7d4f-4b16-9e0a-58c2f71d4b93
+
+	measure 'Why At Risk' =
+			-- The risk table's plain-words reason, from the policy's own payment history: whether its
+			-- stored card had expired by the scoring date, and how many premiums have failed so far
+			VAR Customer = SELECTEDVALUE ( fact_risk_scores[customer_id] )
+			VAR ScoredFor = SELECTEDVALUE ( fact_risk_scores[scored_for_date] )
+			VAR Expiry = LOOKUPVALUE ( dim_payment_method[card_expiry_date], dim_payment_method[customer_id], Customer )
+			VAR CardExpired = NOT ISBLANK ( Expiry ) && Expiry < ScoredFor
+			VAR Failed = COALESCE ( [Failed First Attempts], 0 )
+			VAR FailedText = IF ( Failed > 0, Failed & IF ( Failed = 1, " failed payment", " failed payments" ) )
+			RETURN
+			    IF (
+			        NOT ISBLANK ( Customer ),
+			        CONCATENATEX (
+			            FILTER ( { IF ( CardExpired, "Card expired" ), FailedText }, [Value] <> "" ),
+			            [Value],
+			            " " & UNICHAR ( 183 ) & " "
+			        )
+			    )
+		displayFolder: Risk
+		lineageTag: 7c2d9e48-1a3b-4f6e-b8d5-0e9f4a7c3b12
+
 	measure 'Payday Bar Colour' =
 			-- Colours the payday chart: days in the payday window brand blue, the rest grey
-			IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), "#2A78D6", "#BDBBB4" )
+			IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), "#2A78D6", "#C9C7C0" )
 		displayFolder: Formatting
 		lineageTag: 9a4e2c71-3b5d-4f08-8e6a-1c7d9b2f5e34
 

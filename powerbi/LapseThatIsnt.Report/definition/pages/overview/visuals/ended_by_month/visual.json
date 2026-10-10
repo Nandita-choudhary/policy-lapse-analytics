@@ -3,11 +3,11 @@
   "name": "ended_by_month",
   "position": {
     "x": 24,
-    "y": 456,
-    "z": 18000,
-    "height": 240,
+    "y": 452,
+    "z": 20000,
+    "height": 244,
     "width": 808,
-    "tabOrder": 18000
+    "tabOrder": 20000
   },
   "visual": {
     "visualType": "columnChart",
@@ -23,11 +23,11 @@
                       "Entity": "dim_date"
                     }
                   },
-                  "Property": "year_month"
+                  "Property": "Month Axis Label"
                 }
               },
-              "queryRef": "dim_date.year_month",
-              "nativeQueryRef": "year_month",
+              "queryRef": "dim_date.Month Axis Label",
+              "nativeQueryRef": "Month Axis Label",
               "displayName": "Month"
             }
           ]
@@ -69,6 +69,25 @@
               "displayName": "How it ended"
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Month Label"
+                }
+              },
+              "queryRef": "dim_date.Month Label",
+              "nativeQueryRef": "Month Label",
+              "displayName": "Month name"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -81,7 +100,7 @@
                     "Entity": "dim_date"
                   }
                 },
-                "Property": "year_month"
+                "Property": "Month Axis Label"
               }
             },
             "direction": "Ascending"
@@ -200,6 +219,33 @@
                       "Value": "'#ECEBE6'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
+                }
+              }
+            },
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
                 }
               }
             }
@@ -480,6 +526,19 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Nearly half the policies that end each month were never cancelled. Orange: lapsed because the payment failed. Grey: cancelled by the customer.'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -488,7 +547,7 @@
     "filters": [
       {
         "name": "paymentWindow",
-        "displayName": "Payment window (Oct 2024 to Sep 2026)",
+        "displayName": "Payment window, Oct 2024–Sep 2026",
         "field": {
           "Column": {
             "Expression": {

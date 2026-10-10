@@ -3,11 +3,11 @@
   "name": "recommendation_2",
   "position": {
     "x": 440,
-    "y": 512,
-    "z": 15000,
-    "height": 184,
+    "y": 496,
+    "z": 18000,
+    "height": 200,
     "width": 400,
-    "tabOrder": 15000
+    "tabOrder": 18000
   },
   "visual": {
     "visualType": "textbox",
@@ -258,6 +258,32 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommendation 2: Retry soft dishonours in the payday window. On the 1st or 15th, or the two days after, retries succeed 62.5% of the time against 23.7% on other days. Recovers about 5,700 more payments a year.'"
                 }
               }
             }

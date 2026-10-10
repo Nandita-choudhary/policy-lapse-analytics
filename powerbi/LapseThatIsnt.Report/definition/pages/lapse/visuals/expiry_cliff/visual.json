@@ -3,11 +3,11 @@
   "name": "expiry_cliff",
   "position": {
     "x": 24,
-    "y": 204,
-    "z": 10000,
-    "height": 236,
+    "y": 188,
+    "z": 12000,
+    "height": 248,
     "width": 608,
-    "tabOrder": 10000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -410,6 +410,13 @@
                   }
                 }
               }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           }
         }
@@ -744,6 +751,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Once a card expires, first-attempt failures jump from 4.2% to 30.3%. Failure rate in the six months before and after the stored card expires. Orange: card expired.'"
                 }
               }
             }

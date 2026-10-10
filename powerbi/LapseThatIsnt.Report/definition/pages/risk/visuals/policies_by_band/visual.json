@@ -3,11 +3,11 @@
   "name": "policies_by_band",
   "position": {
     "x": 24,
-    "y": 204,
-    "z": 10000,
+    "y": 188,
+    "z": 12000,
     "height": 292,
-    "width": 392,
-    "tabOrder": 10000
+    "width": 300,
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -203,6 +203,13 @@
                       "Value": "'#0B0B0B'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -518,6 +525,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Most active policies are low risk. Active policies by risk band. Orange: high and very high.'"
                 }
               }
             }

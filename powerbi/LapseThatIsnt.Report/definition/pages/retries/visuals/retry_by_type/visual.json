@@ -3,11 +3,11 @@
   "name": "retry_by_type",
   "position": {
     "x": 24,
-    "y": 196,
-    "z": 13000,
-    "height": 216,
-    "width": 608,
-    "tabOrder": 13000
+    "y": 188,
+    "z": 15000,
+    "height": 236,
+    "width": 440,
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "barChart",
@@ -207,6 +207,13 @@
                       "Value": "'#0B0B0B'"
                     }
                   }
+                }
+              }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
                 }
               }
             }
@@ -496,7 +503,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Retries by outcome. Orange: failed. Soft retries sometimes work; hard ones never do.'"
+                  "Value": "'Retries by outcome. Orange: failed.'"
                 }
               }
             },
@@ -522,6 +529,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Hard dishonours were retried 36,770 times and never succeeded. Retries by outcome. Orange: failed.'"
                 }
               }
             }

@@ -3,11 +3,11 @@
   "name": "retries_by_reason",
   "position": {
     "x": 24,
-    "y": 428,
-    "z": 15000,
-    "height": 268,
+    "y": 440,
+    "z": 17000,
+    "height": 256,
     "width": 1232,
-    "tabOrder": 15000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "tableEx",
@@ -73,7 +73,7 @@
               },
               "queryRef": "_Measures.Retry Success Rate",
               "nativeQueryRef": "Retry Success Rate",
-              "displayName": "Retries that worked"
+              "displayName": "Success rate"
             },
             {
               "field": {
@@ -83,12 +83,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Wasted Retry Fees"
+                  "Property": "Wasted Retry Fees a Year"
                 }
               },
-              "queryRef": "_Measures.Wasted Retry Fees",
-              "nativeQueryRef": "Wasted Retry Fees",
-              "displayName": "Wasted fees, 2 years"
+              "queryRef": "_Measures.Wasted Retry Fees a Year",
+              "nativeQueryRef": "Wasted Retry Fees a Year",
+              "displayName": "Wasted fees a year"
             }
           ]
         }
@@ -123,6 +123,136 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "dataBars": {
+              "positiveColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#BFD6F4'"
+                      }
+                    }
+                  }
+                }
+              },
+              "negativeColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#EB6834'"
+                      }
+                    }
+                  }
+                }
+              },
+              "axisColor": {
+                "solid": {
+                  "color": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "'#52514E'"
+                      }
+                    }
+                  }
+                }
+              },
+              "reverseDirection": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              },
+              "hideText": {
+                "expr": {
+                  "Literal": {
+                    "Value": "false"
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Retry Attempts"
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "380D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_decline.decline_description"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "150D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_decline.decline_category"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "300D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Retry Attempts"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "170D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Retry Success Rate"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "190D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Wasted Retry Fees a Year"
           }
         }
       ]
@@ -369,7 +499,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Every retry by the decline it was retrying. Hard declines: 0% success, all fees wasted. Fees cover the full two years.'"
+                  "Value": "'Every retry by the decline it was retrying. Hard declines never succeed, so all their fees are wasted.'"
                 }
               }
             },
@@ -395,6 +525,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Stopping hard-dishonour retries saves $54k a year. Every retry by the decline it was retrying. Hard declines never succeed, so all their fees are wasted.'"
                 }
               }
             }

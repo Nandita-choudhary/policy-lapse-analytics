@@ -3,11 +3,11 @@
   "name": "lapse_by_method",
   "position": {
     "x": 36,
-    "y": 524,
-    "z": 13000,
-    "height": 394,
+    "y": 506,
+    "z": 15000,
+    "height": 182,
     "width": 290,
-    "tabOrder": 13000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -164,6 +164,13 @@
                   }
                 }
               }
+            },
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
             }
           }
         }
@@ -255,6 +262,32 @@
                       "Value": "'#52514E'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Share of ended policies that lapsed, by payment method: card 59.9%, direct debit 36.4%.'"
                 }
               }
             }

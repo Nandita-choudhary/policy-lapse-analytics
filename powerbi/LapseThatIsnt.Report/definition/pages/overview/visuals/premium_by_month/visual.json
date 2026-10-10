@@ -3,11 +3,11 @@
   "name": "premium_by_month",
   "position": {
     "x": 24,
-    "y": 204,
-    "z": 16000,
-    "height": 236,
+    "y": 188,
+    "z": 18000,
+    "height": 248,
     "width": 608,
-    "tabOrder": 16000
+    "tabOrder": 18000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "dim_date"
                     }
                   },
-                  "Property": "year_month"
+                  "Property": "Month Axis Label"
                 }
               },
-              "queryRef": "dim_date.year_month",
-              "nativeQueryRef": "year_month",
+              "queryRef": "dim_date.Month Axis Label",
+              "nativeQueryRef": "Month Axis Label",
               "displayName": "Month"
             }
           ]
@@ -50,6 +50,25 @@
               "displayName": "Premium collected"
             }
           ]
+        },
+        "Tooltips": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_date"
+                    }
+                  },
+                  "Property": "Month Label"
+                }
+              },
+              "queryRef": "dim_date.Month Label",
+              "nativeQueryRef": "Month Label",
+              "displayName": "Month name"
+            }
+          ]
         }
       },
       "sortDefinition": {
@@ -62,7 +81,7 @@
                     "Entity": "dim_date"
                   }
                 },
-                "Property": "year_month"
+                "Property": "Month Axis Label"
               }
             },
             "direction": "Ascending"
@@ -130,6 +149,26 @@
                       "Value": "'#ECEBE6'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "axisType": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Categorical'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11D"
                 }
               }
             }
@@ -410,6 +449,19 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Premium collected grew over the two years. Premium collected each month'"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -418,7 +470,7 @@
     "filters": [
       {
         "name": "paymentWindow",
-        "displayName": "Payment window (Oct 2024 to Sep 2026)",
+        "displayName": "Payment window, Oct 2024–Sep 2026",
         "field": {
           "Column": {
             "Expression": {

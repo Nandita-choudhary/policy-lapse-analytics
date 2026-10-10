@@ -109,6 +109,31 @@ table dim_date
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Month Label' =
+			-- The month as people say it, "Oct 24", for tooltips
+			FORMAT ( DATE ( dim_date[year], dim_date[month_number], 1 ), "mmm yy" )
+		dataType: string
+		lineageTag: 2b8f4e17-6c3a-4d92-a5e0-91d7c3f8b246
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Axis Label' =
+			-- The monthly charts' axis: "Oct 24", "Jan 25"... on the first month of each quarter, so
+			-- the labels fit without rotating. Other months get an invisible label: zero-width
+			-- spaces, a different number each month so every month stays its own bar.
+			IF (
+			    MOD ( dim_date[month_number] - 1, 3 ) = 0,
+			    FORMAT ( DATE ( dim_date[year], dim_date[month_number], 1 ), "mmm yy" ),
+			    REPT ( UNICHAR ( 8203 ), ( dim_date[year] - 2000 ) * 12 + dim_date[month_number] )
+			)
+		dataType: string
+		lineageTag: 8d4a1c63-2e7f-4b05-9c38-f6a2e0b7d514
+		summarizeBy: none
+		sortByColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
 	partition dim_date = m
 		mode: import
 		source =

@@ -3,11 +3,11 @@
   "name": "recommendation_3",
   "position": {
     "x": 856,
-    "y": 512,
-    "z": 17000,
-    "height": 184,
+    "y": 496,
+    "z": 20000,
+    "height": 200,
     "width": 400,
-    "tabOrder": 17000
+    "tabOrder": 20000
   },
   "visual": {
     "visualType": "textbox",
@@ -39,7 +39,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Once a stored card expires, first-attempt failures jump from 4.2% to 30.3%.",
+                    "value": "Once a stored card expires, first-attempt failures jump from 4.2% to 30.3%; expired cards are behind 49% of all lapses.",
                     "textStyle": {
                       "fontSize": "11pt",
                       "color": "#52514E"
@@ -60,7 +60,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Expired cards are behind 49% of all lapses",
+                    "value": "Protects $4.2M of annual premium that lapsed on expired cards, Oct 2024–Sep 2026",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
@@ -258,6 +258,32 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommendation 3: Warn customers before their card expires. Once a stored card expires, first-attempt failures jump from 4.2% to 30.3%; expired cards are behind 49% of all lapses. Protects $4.2M of annual premium that lapsed on expired cards, Oct 2024–Sep 2026.'"
                 }
               }
             }

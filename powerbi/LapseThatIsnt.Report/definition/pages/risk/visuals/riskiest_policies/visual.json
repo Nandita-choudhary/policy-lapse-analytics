@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
   "name": "riskiest_policies",
   "position": {
-    "x": 840,
-    "y": 204,
-    "z": 12000,
-    "height": 292,
-    "width": 416,
-    "tabOrder": 12000
+    "x": 656,
+    "y": 188,
+    "z": 14000,
+    "height": 264,
+    "width": 600,
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "tableEx",
@@ -47,43 +47,48 @@
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_risk_scores"
-                        }
-                      },
-                      "Property": "risk_score"
+                    "SourceRef": {
+                      "Entity": "_Measures"
                     }
                   },
-                  "Function": 0
+                  "Property": "Chance of Failing"
                 }
               },
-              "queryRef": "Sum(fact_risk_scores.risk_score)",
-              "nativeQueryRef": "Sum of risk_score",
+              "queryRef": "_Measures.Chance of Failing",
+              "nativeQueryRef": "Chance of Failing",
               "displayName": "Chance of failing"
             },
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "fact_risk_scores"
-                        }
-                      },
-                      "Property": "premium_at_risk"
+                    "SourceRef": {
+                      "Entity": "_Measures"
                     }
                   },
-                  "Function": 0
+                  "Property": "Why At Risk"
                 }
               },
-              "queryRef": "Sum(fact_risk_scores.premium_at_risk)",
-              "nativeQueryRef": "Sum of premium_at_risk",
-              "displayName": "Premium at risk"
+              "queryRef": "_Measures.Why At Risk",
+              "nativeQueryRef": "Why At Risk",
+              "displayName": "Why"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Annual Premium at Risk"
+                }
+              },
+              "queryRef": "_Measures.Annual Premium at Risk",
+              "nativeQueryRef": "Annual Premium at Risk",
+              "displayName": "Premium at risk a year"
             }
           ]
         }
@@ -92,18 +97,13 @@
         "sort": [
           {
             "field": {
-              "Aggregation": {
+              "Measure": {
                 "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "fact_risk_scores"
-                      }
-                    },
-                    "Property": "risk_score"
+                  "SourceRef": {
+                    "Entity": "_Measures"
                   }
                 },
-                "Function": 0
+                "Property": "Annual Premium at Risk"
               }
             },
             "direction": "Descending"
@@ -123,6 +123,78 @@
                 }
               }
             }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "64D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_policy.policy_id"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "76D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "dim_policy.product"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "92D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Chance of Failing"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "214D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Why At Risk"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "112D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Annual Premium at Risk"
           }
         }
       ]
@@ -317,7 +389,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Start with these 50: the riskiest 5% catch 39% of failures'"
+                  "Value": "'Start with the 50 policies most likely to fail next month'"
                 }
               }
             },
@@ -369,7 +441,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Active policies most likely to fail next month, riskiest first'"
+                  "Value": "'All 50 have a 99%+ chance of failing; largest premium first.'"
                 }
               }
             },
@@ -395,6 +467,19 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Start with the 50 policies most likely to fail next month. All 50 have a 99%+ chance of failing; largest premium first.'"
                 }
               }
             }
