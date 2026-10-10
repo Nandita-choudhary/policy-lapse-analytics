@@ -100,6 +100,36 @@ table fact_payments
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Months Since Card Expiry' =
+			VAR Expiry = RELATED ( dim_payment_method[card_expiry_date] )
+			RETURN
+			    IF (
+			        ISBLANK ( Expiry ),
+			        BLANK (),                                  -- direct debits have no expiry date
+			        DATEDIFF ( Expiry, fact_payments[date_id], MONTH )
+			    )
+		dataType: int64
+		formatString: 0
+		lineageTag: 360be82d-3942-4834-9504-fef8c19b5292
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Card Status' =
+			VAR Expiry = RELATED ( dim_payment_method[card_expiry_date] )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Expiry ), "Direct debit",
+			        fact_payments[date_id] > Expiry, "Card expired",
+			        "Card valid"
+			    )
+		dataType: string
+		lineageTag: c4515a3e-2b17-4832-bcd1-b78c57b73d63
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_payments = m
 		mode: import
 		source =
