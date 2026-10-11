@@ -296,11 +296,25 @@ table _Measures
 		displayFolder: Risk
 		lineageTag: 7c2d9e48-1a3b-4f6e-b8d5-0e9f4a7c3b12
 
-	measure 'Payday Bar Colour' =
-			-- Colours the payday chart: days in the payday window brand blue, the rest grey
-			IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), "#2A78D6", "#C9C7C0" )
-		displayFolder: Formatting
-		lineageTag: 9a4e2c71-3b5d-4f08-8e6a-1c7d9b2f5e34
+	measure 'Soft Retry Rate Payday Bars' =
+			-- The payday chart's blue bars: the soft-retry success rate, only on days in the payday
+			-- window. Two bar series with fixed colours, because a per-bar colour rule didn't show
+			-- in this combo chart.
+			IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), [Soft Retry Success Rate] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Retries
+		lineageTag: ed95fd64-f241-4cf6-b50c-49ff469e13bc
+
+	measure 'Soft Retry Rate Other Day Bars' =
+			-- The payday chart's grey bars: the same rate on every other day of the month.
+			IF (
+			    HASONEVALUE ( dim_date[is_payday_window] )
+			        && NOT SELECTEDVALUE ( dim_date[is_payday_window] ),
+			    [Soft Retry Success Rate]
+			)
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: Retries
+		lineageTag: a2bddf04-05fb-46b2-91fe-16b0be931934
 
 	column Placeholder
 		dataType: int64

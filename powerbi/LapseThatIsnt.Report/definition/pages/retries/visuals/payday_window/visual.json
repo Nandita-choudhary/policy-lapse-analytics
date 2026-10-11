@@ -10,7 +10,7 @@
     "tabOrder": 16000
   },
   "visual": {
-    "visualType": "lineClusteredColumnComboChart",
+    "visualType": "lineStackedColumnComboChart",
     "query": {
       "queryState": {
         "Category": {
@@ -42,12 +42,27 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Soft Retry Success Rate"
+                  "Property": "Soft Retry Rate Payday Bars"
                 }
               },
-              "queryRef": "_Measures.Soft Retry Success Rate",
-              "nativeQueryRef": "Soft Retry Success Rate",
-              "displayName": "Soft retries that worked"
+              "queryRef": "_Measures.Soft Retry Rate Payday Bars",
+              "nativeQueryRef": "Soft Retry Rate Payday Bars",
+              "displayName": "Payday window"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Soft Retry Rate Other Day Bars"
+                }
+              },
+              "queryRef": "_Measures.Soft Retry Rate Other Day Bars",
+              "nativeQueryRef": "Soft Retry Rate Other Day Bars",
+              "displayName": "Other days"
             }
           ]
         },
@@ -66,7 +81,7 @@
               },
               "queryRef": "_Measures.Soft Retry Rate Other Days",
               "nativeQueryRef": "Soft Retry Rate Other Days",
-              "displayName": "Other days"
+              "displayName": "Other-days average"
             }
           ]
         }
@@ -98,13 +113,8 @@
               "solid": {
                 "color": {
                   "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "_Measures"
-                        }
-                      },
-                      "Property": "Payday Bar Colour"
+                    "Literal": {
+                      "Value": "'#2A78D6'"
                     }
                   }
                 }
@@ -112,14 +122,25 @@
             }
           },
           "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 1
+            "metadata": "_Measures.Soft Retry Rate Payday Bars"
+          }
+        },
+        {
+          "properties": {
+            "fill": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9C7C0'"
+                    }
+                  }
                 }
               }
-            ],
-            "metadata": "_Measures.Soft Retry Success Rate"
+            }
+          },
+          "selector": {
+            "metadata": "_Measures.Soft Retry Rate Other Day Bars"
           }
         },
         {
@@ -495,7 +516,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'By day of month. Blue: the 1st, the 15th and the two days after each. Dashed: other days.'"
+                  "Value": "'By day of month. Blue: the 1st, the 15th and the two days after each. Dashed: the other-days average.'"
                 }
               }
             },
