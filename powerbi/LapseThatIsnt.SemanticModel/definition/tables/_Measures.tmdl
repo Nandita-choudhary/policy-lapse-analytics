@@ -264,6 +264,18 @@ table _Measures
 		displayFolder: Per year
 		lineageTag: a9372e24-5e0e-44cb-9877-39dcfb966ee6
 
+	measure 'Annual Premium' =
+			-- Each active policy's premium for a year, unweighted: page 4's call list
+			SUMX (
+			    fact_risk_scores,
+			    VAR Premium = RELATED ( dim_policy[premium_amount] )
+			    VAR Frequency = RELATED ( dim_policy[billing_frequency] )
+			    RETURN Premium * IF ( Frequency = "Monthly", 12, 1 )
+			)
+		formatString: \$#,0;(\$#,0);\$#,0
+		displayFolder: Per year
+		lineageTag: e6abb11d-c20b-4ae3-9fff-ef6edcb2e583
+
 		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
 
 	measure 'Chance of Failing' =

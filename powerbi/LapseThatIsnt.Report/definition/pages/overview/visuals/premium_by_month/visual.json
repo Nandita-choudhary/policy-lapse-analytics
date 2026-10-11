@@ -418,7 +418,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Premium collected each month'"
+                  "Value": "'Premium collected each month. The Aug–Sep dip is an edge of the simulation: no new customers join in its last 60 days.'"
                 }
               }
             },

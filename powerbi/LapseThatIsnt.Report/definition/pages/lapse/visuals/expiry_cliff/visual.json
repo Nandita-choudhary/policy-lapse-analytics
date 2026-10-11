@@ -725,7 +725,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Failure rate in the six months before and after the stored card expires. Orange: card expired.'"
+                  "Value": "'Six months either side of expiry: failures peak at 42% in the expiry month, then ease. 30.3% is the average over every month after. Orange: card expired.'"
                 }
               }
             },

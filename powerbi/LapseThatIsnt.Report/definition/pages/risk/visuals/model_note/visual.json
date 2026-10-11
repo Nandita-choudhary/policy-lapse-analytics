@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Logistic regression, AUC 0.77; the riskiest 5% catch 39% of failures.",
+                    "value": "Risk bands: logistic regression, AUC 0.77; the riskiest 5% catch 39% of failures.",
                     "textStyle": {
                       "fontStyle": "italic",
                       "fontSize": "10pt",

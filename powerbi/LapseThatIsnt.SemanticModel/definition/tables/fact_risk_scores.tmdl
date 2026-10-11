@@ -82,6 +82,28 @@ table fact_risk_scores
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Card Expiry' =
+			-- The stored card's expiry date, blank for direct debit. Feeds page 4's call list.
+			LOOKUPVALUE ( dim_payment_method[card_expiry_date], dim_payment_method[customer_id], fact_risk_scores[customer_id] )
+		dataType: dateTime
+		formatString: d mmm yyyy
+		lineageTag: f529cddc-ce2a-4cbf-a704-2e5ab6cc0c47
+		summarizeBy: none
+
+	column 'Card Expires Before Next Premium' =
+			-- TRUE when the card still works at the end of the data but expires before the policy's
+			-- next premium is due: that payment will fail unless the customer updates the card.
+			-- These policies have not failed yet, so the risk model does not single them out.
+			VAR Expiry = fact_risk_scores[Card Expiry]
+			RETURN
+			    NOT ISBLANK ( Expiry )
+			        && Expiry >= MAX ( fact_payments[date_id] )
+			        && fact_risk_scores[scored_for_date] > Expiry
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 76b636de-ae31-4009-bf4e-63e5ace4040e
+		summarizeBy: none
+
 	partition fact_risk_scores = m
 		mode: import
 		source =

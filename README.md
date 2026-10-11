@@ -22,12 +22,13 @@ failed until the policy died, taking **$8.7M of annual premium** with them over 
 | # | Finding | So what |
 | - | ------- | ------- |
 | 1 | **47.5% of policy exits are involuntary** — the payments failed; the customer never chose to leave | Retention spend is aimed at the wrong half of the problem |
-| 2 | **The expiry cliff** — once a stored card passes its expiry date, the failure rate goes from 4.2% to 30.3%. Expired cards cause **49% of all lapses** | A reminder before the expiry date prevents the lapse before it starts |
+| 2 | **The expiry cliff** — once a stored card passes its expiry date, the failure rate goes from 4.2% to 30.3%. Expired cards cause **49% of all lapses** | A reminder before the expiry date can prevent the lapse before it starts |
 | 3 | **Retrying the dead** — hard dishonours were retried 36,770 times in 24 months and succeeded **zero** times | **$54k/yr** of dishonour fees paid for attempts that can never work |
-| 4 | **The payday window** — a soft-dishonour retry landing on the 1st or 15th, or the two days after, succeeds **62.5%** of the time, against **23.7%** on any other day | Re-timing retries recovers roughly **5,700 more payments a year** |
+| 4 | **The payday window** — a soft-dishonour retry landing on the 1st or 15th, or the two days after, succeeds **62.5%** of the time, against **23.7%** on any other day | Re-timing retries could recover up to **5,700 more payments a year**; trial it on half the retries first |
 
-**Recommendations:** stop retrying hard dishonours · move soft-dishonour retries into the payday
-window · warn customers before their card expires.
+**Recommendations:** stop retrying hard dishonours · trial moving soft-dishonour retries into the
+payday window · warn customers before their card expires, starting with the 443 policies whose
+card runs out before their next premium.
 
 *(Findings 2 and 4 overlap — both prevent lapses — so their values are stated separately rather
 than summed.)*

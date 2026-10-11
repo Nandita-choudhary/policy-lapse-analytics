@@ -173,7 +173,7 @@ RETURN
     )
 ```
 
-Three more columns help the axes and one sort:
+More columns help the axes, one sort and page 4's call list:
 
 - `dim_date[Month Label]`: the month as people say it, `"Oct 24"`.
 - `dim_date[Month Axis Label]`: the monthly charts' axis. It labels the first month of each
@@ -181,6 +181,9 @@ Three more columns help the axes and one sort:
 - `fact_risk_scores[risk_band_order]`: sorts the risk bands Low → Very high. It is built in
   **Power Query**, not DAX. A DAX column can't be the sort-by column of the column it is built
   from: Power BI refuses to open the project and reports a circular dependency.
+- `fact_risk_scores[Card Expiry]`: the stored card's expiry date, looked up by customer.
+- `fact_risk_scores[Card Expires Before Next Premium]`: TRUE when the card still works at the
+  end of the data but expires before the next premium is due. Page 4's call list filters on it.
 
 ---
 
@@ -439,6 +442,15 @@ SUMX (
     VAR Frequency = RELATED ( dim_policy[billing_frequency] )
     RETURN fact_risk_scores[risk_score] * Premium * IF ( Frequency = "Monthly", 12, 1 )
 )
+
+Annual Premium =
+-- Each active policy's premium for a year, unweighted: page 4's call list
+SUMX (
+    fact_risk_scores,
+    VAR Premium = RELATED ( dim_policy[premium_amount] )
+    VAR Frequency = RELATED ( dim_policy[billing_frequency] )
+    RETURN Premium * IF ( Frequency = "Monthly", 12, 1 )
+)
 ```
 
 ## 7. The four pages
@@ -496,13 +508,14 @@ The tables below list what is on each page, top to bottom.
 | Card | Premium at risk a year |  |
 | Bar chart | Most active policies are low risk | Risk band, Policies |
 | Bar chart | High-risk policies hold most of the premium at risk | Risk band, Premium at risk a year |
-| Table | Start with the 50 policies most likely to fail next month | Policy, Product, Chance of failing, Why, Premium at risk a year |
+| Table | Call these 443 policies before their card expires | Policy, Product, Card expires, Next premium due, Premium a year |
 
 Text boxes complete two pages. Page 1 has a headline: **4,623 policies** ended without anyone
-cancelling them. Page 4 ends with the three recommendations, each with its value: $54,000 a
-year in fees, about 5,700 more payments a year, and $4.2M of annual premium that lapsed on
-expired cards. A footnote under the risk table gives the model: logistic regression, AUC 0.77,
-the riskiest 5% catch 39% of failures.
+cancelling them. Page 4 ends with the three recommendations, each sized honestly: $54,000 a
+year in fees; a trial on half the soft retries, since about 5,700 more payments a year assumes
+the payday effect holds; and up to $4.2M of annual premium lost to expired cards, since a
+reminder won't save every policy. A footnote gives the risk model: logistic regression, AUC
+0.77, the riskiest 5% catch 39% of failures.
 
 Two build notes:
 

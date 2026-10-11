@@ -47,18 +47,33 @@
             },
             {
               "field": {
-                "Measure": {
+                "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "_Measures"
+                      "Entity": "fact_risk_scores"
                     }
                   },
-                  "Property": "Chance of Failing"
+                  "Property": "Card Expiry"
                 }
               },
-              "queryRef": "_Measures.Chance of Failing",
-              "nativeQueryRef": "Chance of Failing",
-              "displayName": "Chance of failing"
+              "queryRef": "fact_risk_scores.Card Expiry",
+              "nativeQueryRef": "Card Expiry",
+              "displayName": "Card expires"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "fact_risk_scores"
+                    }
+                  },
+                  "Property": "scored_for_date"
+                }
+              },
+              "queryRef": "fact_risk_scores.scored_for_date",
+              "nativeQueryRef": "scored_for_date",
+              "displayName": "Next premium due"
             },
             {
               "field": {
@@ -68,27 +83,12 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Why At Risk"
+                  "Property": "Annual Premium"
                 }
               },
-              "queryRef": "_Measures.Why At Risk",
-              "nativeQueryRef": "Why At Risk",
-              "displayName": "Why"
-            },
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "_Measures"
-                    }
-                  },
-                  "Property": "Annual Premium at Risk"
-                }
-              },
-              "queryRef": "_Measures.Annual Premium at Risk",
-              "nativeQueryRef": "Annual Premium at Risk",
-              "displayName": "Premium at risk a year"
+              "queryRef": "_Measures.Annual Premium",
+              "nativeQueryRef": "Annual Premium",
+              "displayName": "Premium a year"
             }
           ]
         }
@@ -103,7 +103,7 @@
                     "Entity": "_Measures"
                   }
                 },
-                "Property": "Annual Premium at Risk"
+                "Property": "Annual Premium"
               }
             },
             "direction": "Descending"
@@ -153,48 +153,6 @@
           },
           "selector": {
             "metadata": "dim_policy.product"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "92D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Chance of Failing"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "214D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Why At Risk"
-          }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "112D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "_Measures.Annual Premium at Risk"
           }
         }
       ]
@@ -389,7 +347,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Start with the 50 policies most likely to fail next month'"
+                  "Value": "'Call these 443 policies before their card expires'"
                 }
               }
             },
@@ -441,7 +399,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'All 50 have a 99%+ chance of failing; largest premium first.'"
+                  "Value": "'Each card still works today but expires before the next premium is due. A reminder now can keep up to $0.8M of annual premium paying. Largest first.'"
                 }
               }
             },
@@ -479,7 +437,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Start with the 50 policies most likely to fail next month. All 50 have a 99%+ chance of failing; largest premium first.'"
+                  "Value": "'Call list: active policies whose stored card expires before their next premium, largest premium first.'"
                 }
               }
             }
@@ -492,82 +450,25 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "top50",
-        "displayName": "The 50 riskiest policies",
+        "name": "cardExpiresBeforeNextPremium",
+        "displayName": "Card expires before the next premium",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "dim_policy"
+                "Entity": "fact_risk_scores"
               }
             },
-            "Property": "policy_id"
+            "Property": "Card Expires Before Next Premium"
           }
         },
-        "type": "TopN",
+        "type": "Categorical",
         "filter": {
           "Version": 2,
           "From": [
             {
-              "Name": "subquery",
-              "Expression": {
-                "Subquery": {
-                  "Query": {
-                    "Version": 2,
-                    "From": [
-                      {
-                        "Name": "d",
-                        "Entity": "dim_policy",
-                        "Type": 0
-                      },
-                      {
-                        "Name": "r",
-                        "Entity": "fact_risk_scores",
-                        "Type": 0
-                      }
-                    ],
-                    "Select": [
-                      {
-                        "Column": {
-                          "Expression": {
-                            "SourceRef": {
-                              "Source": "d"
-                            }
-                          },
-                          "Property": "policy_id"
-                        },
-                        "Name": "field"
-                      }
-                    ],
-                    "OrderBy": [
-                      {
-                        "Direction": 2,
-                        "Expression": {
-                          "Aggregation": {
-                            "Expression": {
-                              "Column": {
-                                "Expression": {
-                                  "SourceRef": {
-                                    "Source": "r"
-                                  }
-                                },
-                                "Property": "risk_score"
-                              }
-                            },
-                            "Function": 0
-                          }
-                        }
-                      }
-                    ],
-                    "Top": 50
-                  }
-                }
-              },
-              "Type": 2
-            },
-            {
-              "Name": "d",
-              "Entity": "dim_policy",
+              "Name": "f",
+              "Entity": "fact_risk_scores",
               "Type": 0
             }
           ],
@@ -580,18 +481,22 @@
                       "Column": {
                         "Expression": {
                           "SourceRef": {
-                            "Source": "d"
+                            "Source": "f"
                           }
                         },
-                        "Property": "policy_id"
+                        "Property": "Card Expires Before Next Premium"
                       }
                     }
                   ],
-                  "Table": {
-                    "SourceRef": {
-                      "Source": "subquery"
-                    }
-                  }
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "true"
+                        }
+                      }
+                    ]
+                  ]
                 }
               }
             }

@@ -39,7 +39,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "On the 1st or 15th, or the two days after, retries succeed 62.5% of the time against 23.7% on other days.",
+                    "value": "Retries on the 1st or 15th, or the two days after, succeed 62.5% of the time, against 23.7% on other days.",
                     "textStyle": {
                       "fontSize": "11pt",
                       "color": "#52514E"
@@ -60,7 +60,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Recovers about 5,700 more payments a year",
+                    "value": "Trial it on half the retries: up to 5,700 more payments a year",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
