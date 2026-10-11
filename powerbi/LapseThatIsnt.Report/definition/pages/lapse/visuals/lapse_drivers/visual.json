@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Paying by card or monthly makes a lapse more likely",
+                    "value": "Card + monthly: 65.5% of ended policies lapsed, against 6.3% for direct debit + annual",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "13pt",
@@ -31,7 +31,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Share of ended policies that lapsed rather than being cancelled. Orange: card and monthly payers.",
+                    "value": "Share of ended policies that lapsed rather than being cancelled. The more orange the cell, the higher the share.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#52514E"
@@ -253,7 +253,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Paying by card or monthly makes a lapse more likely. Share of ended policies that lapsed rather than being cancelled. Orange: card and monthly payers.'"
+                  "Value": "'Card + monthly: 65.5% of ended policies lapsed, against 6.3% for direct debit + annual. Share of ended policies that lapsed rather than being cancelled. The more orange the cell, the higher the share.'"
                 }
               }
             }
