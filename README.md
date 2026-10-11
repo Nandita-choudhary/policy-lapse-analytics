@@ -64,6 +64,10 @@ pages was checked against the model behind them.
 ![At risk next page](docs/img/04-risk.png)
 </details>
 
+*One edge effect to know about: the simulation stops adding new customers 60 days before the
+end, so premium collected dips in Aug–Sep 2026. It is a boundary of the simulation, not a
+finding.*
+
 ---
 
 ## How it is built
@@ -155,4 +159,4 @@ The simulation's failure rates and lapse mix are calibrated to:
 
 ---
 
-Built by Nandita Choudhary · [LinkedIn]() · [DataValix](https://www.datavalix.com)
+Built by Nandita Choudhary · [LinkedIn](https://www.linkedin.com/in/nandita-choudhary) · [DataValix](https://www.datavalix.com)

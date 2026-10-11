@@ -23,7 +23,10 @@ top to bottom and the session is mostly copy, paste and click.
 
 **Finish:** `git push` → close the remote desktop → AWS → Instance state → **Stop instance**.
 
-The public IP changes on every restart. If it will not connect, that is almost always why.
+The public IP changes on every restart. If it will not connect, that is almost always why: in
+Windows App, error **0x704** means the saved PC still has the old IP. Add the PC again with the
+new one, and tick **Clipboard** under Devices & Audio as you add it, so you can paste. On the
+Windows side, paste with **Ctrl+V**.
 
 ---
 
@@ -35,10 +38,11 @@ the connection ("the remote certificate is invalid").
 
 1. In the Supabase dashboard: Project Settings → Database → **SSL Configuration** →
    **Download certificate**.
-2. On the Windows machine, double-click the downloaded `.crt` file → **Install Certificate** →
-   Current User.
-3. Choose **Place all certificates in the following store** → Browse →
-   **Trusted Root Certification Authorities** → Finish → Yes.
+2. Copy the downloaded `prod-ca-2021.crt` to the Windows machine. Open PowerShell **as
+   administrator** in that folder and run `certutil -addstore Root prod-ca-2021.crt`.
+
+That adds it to the **Local Machine** store. Installing it for the Current User only is not
+enough: Power BI still says "the remote certificate is invalid".
 
 Then Home → Get data → **PostgreSQL database**
 
@@ -57,6 +61,9 @@ included.
 
 Select all eight tables: `dim_date`, `dim_decline`, `dim_customer`, `dim_policy`,
 `dim_payment_method`, `fact_payments`, `fact_lapse_events`, `fact_risk_scores` → **Load**.
+
+Power BI names them `public dim_date` and so on. Rename all eight to drop the `public `
+prefix (double-click each name in the Data pane): every measure below uses the plain names.
 
 > Import mode pulls the ~770,000 payment rows into the file. That is the right choice here:
 > the data never changes, the report stays fast, and it still works if the database is asleep.
@@ -84,7 +91,7 @@ Model view. Create these relationships, all **many-to-one, single direction**:
 
 Every fact table links to every dimension it holds a key for. Page 2 depends on the
 `fact_lapse_events` links. Without them, "lapses by decline reason" shows the same number on
-every bar, and Key influencers cannot see the payment method at all.
+every bar, and the page 2 heatmap cannot split lapses by payment method at all.
 
 **Fix the two one-to-one relationships.** `fact_lapse_events` and `fact_risk_scores` hold one
 row per policy, so Power BI finds unique values on both sides of their `policy_id` links and
@@ -103,17 +110,28 @@ long way round through `dim_policy`. Power BI cannot tell which one you meant, s
 quietly deactivates one, and the numbers stop being trustworthy. Keeping the dimensions
 separate keeps exactly one path to every table.
 
+**Power BI also builds relationships by itself** from the database's foreign keys when it loads
+the tables, and some are wrong. Open Manage relationships, delete any that join two
+dimensions, and set the rest to many-to-one, single direction and active, until the list
+matches the table above.
+
 **Then mark the date table:** select `dim_date` → Table tools → **Mark as date table** → date
 column `date_id`. Without this, every time-intelligence measure below returns wrong answers.
+Then turn off **Auto date/time** (File → Options and settings → Options → Current File → Data
+Load), so Power BI stops adding a hidden date table for every date column.
 
-**Hide from report view** (right-click → Hide): every `*_id` column except the ones used in
-slicers, and `fact_risk_scores[premium_amount]` (it duplicates `dim_policy[premium_amount]`).
+**Hide from report view** (right-click → Hide) the columns that only link tables: every key
+column in the three fact tables (including `fact_payments[payment_id]` and
+`fact_lapse_events[end_date]`), the dimensions' `customer_id`, `method_id` and `decline_id`,
+and `fact_risk_scores[premium_amount]` (it duplicates `dim_policy[premium_amount]`). Keep
+`dim_date[date_id]`, which is the date itself, and `dim_policy[policy_id]`, which page 4 lists.
 
 ---
 
 ## 4. Apply the theme
 
-View → Themes → **Browse for themes** → `powerbi/theme.json` from the repo.
+Design → **Import theme** → `powerbi/theme.json` from the repo. (In older versions of Power BI
+Desktop: View → Themes → Browse for themes.)
 
 It sets the eight chart colours, the status colours, fonts and gridlines in one go, so nothing
 is picked by hand per visual. The palette is colourblind-safe (validated: worst adjacent-pair
@@ -155,22 +173,41 @@ RETURN
     )
 ```
 
+Three more columns help the axes and one sort:
+
+- `dim_date[Month Label]`: the month as people say it, `"Oct 24"`.
+- `dim_date[Month Axis Label]`: the monthly charts' axis. It labels the first month of each
+  quarter, so the labels fit without rotating.
+- `fact_risk_scores[risk_band_order]`: sorts the risk bands Low → Very high. It is built in
+  **Power Query**, not DAX. A DAX column can't be the sort-by column of the column it is built
+  from: Power BI refuses to open the project and reports a circular dependency.
+
 ---
 
 ## 6. The measures
 
-Create a blank table called **`_Measures`** first (Home → Enter data → name it `_Measures` →
-Load), then build every measure inside it. They all sort to the top of the field list and none
-of them pretend to belong to a real table.
+Every measure lives in one table, **`_Measures`**, so they sort to the top of the field list
+and none of them pretends to belong to a real table. It is a one-row DAX table,
+`_Measures = ROW ( "Placeholder", 0 )`, with the placeholder column hidden. Display folders
+group the measures as below.
+
+The DAX here is copied from the project file
+`powerbi/LapseThatIsnt.SemanticModel/definition/tables/_Measures.tmdl`, which is the source of
+truth. Three lessons from building it are in the comments:
+
+- Failure rates count first attempts only, `attempt_number = 1`, wrapped in KEEPFILTERS so a
+  chart's own filter on attempt number still applies.
+- Change measures return blank when there is nothing to compare, instead of the rate itself or
+  −100%.
+- A success rate is 0, not blank, when nothing worked, so the bar sits at zero rather than
+  vanishing.
 
 ### Income and volume
 
 ```dax
 Premium Collected =
 CALCULATE ( SUM ( fact_payments[amount] ), fact_payments[payment_status] = "Success" )
-```
 
-```dax
 Active Policies =
 VAR AsOf = MAX ( dim_date[date_id] )
 VAR Started =
@@ -191,29 +228,22 @@ RETURN
 
 ### Payment health
 
-Note the `attempt_number = 1` filter. A "failure rate" that counts retries is not a failure
-rate — retries are mostly failures by definition, so including them inflates it two to three
-times over. Every rate measure here counts scheduled payments only.
-
 ```dax
 First Attempts =
-CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] = 1 )
-```
+-- KEEPFILTERS so a chart split by attempt_number still splits. A plain filter here
+-- would replace the chart's own attempt_number filter and every bar would match.
+CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] = 1 ) )
 
-```dax
 Failed First Attempts =
 CALCULATE (
     COUNTROWS ( fact_payments ),
-    fact_payments[attempt_number] = 1,
+    KEEPFILTERS ( fact_payments[attempt_number] = 1 ),
     fact_payments[payment_status] = "Failed"
 )
-```
 
-```dax
-Failure Rate = DIVIDE ( [Failed First Attempts], [First Attempts] )
-```
+Failure Rate =
+DIVIDE ( [Failed First Attempts], [First Attempts] )
 
-```dax
 Dishonour Fees =
 CALCULATE ( SUM ( fact_payments[fee] ), fact_payments[payment_status] = "Failed" )
 ```
@@ -221,22 +251,23 @@ CALCULATE ( SUM ( fact_payments[fee] ), fact_payments[payment_status] = "Failed"
 ### The headline
 
 ```dax
-Policies Ended = COUNTROWS ( fact_lapse_events )
-```
+Policies Ended =
+COUNTROWS ( fact_lapse_events )
 
-```dax
-Policies Lapsed = CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Lapsed" )
-```
+Policies Lapsed =
+CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Lapsed" )
 
-```dax
-Policies Cancelled = CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Cancelled" )
-```
+Policies Cancelled =
+CALCULATE ( [Policies Ended], fact_lapse_events[end_type] = "Cancelled" )
 
-```dax
-Involuntary Share = DIVIDE ( [Policies Lapsed], [Policies Ended] )
-```
+Involuntary Share =
+DIVIDE ( [Policies Lapsed], [Policies Ended] )
 
-```dax
+Involuntary Share All Customers =
+-- The dashed line on page 2's by-state chart: the share across every customer,
+-- the same on every bar, so each state can be compared with the whole book.
+CALCULATE ( [Involuntary Share], REMOVEFILTERS ( dim_customer ) )
+
 Annual Premium Lost =
 SUMX (
     FILTER ( fact_lapse_events, fact_lapse_events[end_type] = "Lapsed" ),
@@ -250,53 +281,43 @@ SUMX (
 
 ```dax
 Retry Attempts =
-CALCULATE ( COUNTROWS ( fact_payments ), fact_payments[attempt_number] > 1 )
-```
+CALCULATE ( COUNTROWS ( fact_payments ), KEEPFILTERS ( fact_payments[attempt_number] > 1 ) )
 
-```dax
 Retry Successes =
 CALCULATE (
     COUNTROWS ( fact_payments ),
-    fact_payments[attempt_number] > 1,
+    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
     fact_payments[payment_status] = "Success"
 )
-```
 
-```dax
-Retry Success Rate = DIVIDE ( [Retry Successes], [Retry Attempts] )
-```
+Retry Success Rate =
+-- Zero, not blank, when retries happened and none worked, so the Hard bars show at 0%
+DIVIDE ( COALESCE ( [Retry Successes], 0 ), [Retry Attempts] )
 
-```dax
 Soft Retry Success Rate =
 CALCULATE ( [Retry Success Rate], dim_decline[decline_category] = "Soft" )
-```
 
-Every retry row carries the dishonour it is retrying, including the retries that worked, so
-retries split cleanly into Hard and Soft. Hard retries can never succeed, and mixing them in
-drags the payday window's rate from 62% down to 29%. The payday finding is about soft
-dishonours, so it uses this measure.
+Soft Retry Rate Other Days =
+-- The payday chart's dashed line: the soft-retry success rate on days outside the
+-- payday window. It ignores which day a bar is for, so it is the same on every bar.
+CALCULATE ( [Soft Retry Success Rate], REMOVEFILTERS ( dim_date ), dim_date[is_payday_window] = FALSE )
 
-```dax
 Wasted Retries =
 CALCULATE (
     COUNTROWS ( fact_payments ),
-    fact_payments[attempt_number] > 1,
+    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
     fact_payments[payment_status] = "Failed",
     dim_decline[decline_category] = "Hard"
 )
-```
 
-```dax
 Wasted Retry Fees =
 CALCULATE (
     SUM ( fact_payments[fee] ),
-    fact_payments[attempt_number] > 1,
+    KEEPFILTERS ( fact_payments[attempt_number] > 1 ),
     fact_payments[payment_status] = "Failed",
     dim_decline[decline_category] = "Hard"
 )
-```
 
-```dax
 Recoverable Payments =
 VAR InWindow =
     CALCULATE ( [Soft Retry Success Rate], dim_date[is_payday_window] = TRUE )
@@ -310,157 +331,207 @@ VAR SoftRetriesOutside =
     )
 RETURN
     ( InWindow - Outside ) * SoftRetriesOutside
-```
 
-This counts how many more payments would have gone through if every soft retry outside the
-window had succeeded at the window's rate. A filter such as
-`dim_date[is_payday_window] = TRUE` inside `CALCULATE` replaces any existing filter on that
-column, so no `REMOVEFILTERS` is needed. Over the full 24 months it returns about 11,300,
-which is about 5,700 a year.
+Soft Retry Rate Payday Bars =
+-- The payday chart's blue bars: the soft-retry success rate, only on days in the payday
+-- window. Two bar series with fixed colours, because a per-bar colour rule didn't show
+-- in this combo chart.
+IF ( SELECTEDVALUE ( dim_date[is_payday_window] ), [Soft Retry Success Rate] )
+
+Soft Retry Rate Other Day Bars =
+-- The payday chart's grey bars: the same rate on every other day of the month.
+IF (
+    HASONEVALUE ( dim_date[is_payday_window] )
+        && NOT SELECTEDVALUE ( dim_date[is_payday_window] ),
+    [Soft Retry Success Rate]
+)
+```
 
 ### Risk
 
 ```dax
-Premium at Risk = SUM ( fact_risk_scores[premium_at_risk] )
-```
+Premium at Risk =
+SUM ( fact_risk_scores[premium_at_risk] )
 
-```dax
+Policies Scored =
+COUNTROWS ( fact_risk_scores )
+
 Policies at High Risk =
 CALCULATE (
     COUNTROWS ( fact_risk_scores ),
     fact_risk_scores[risk_band] IN { "High", "Very high" }
 )
+
+Chance of Failing =
+-- The risk table's score column. Scores this close to 1 all round to 100.0%, which
+-- overstates the certainty, so they read 99%+
+VAR Score = SUM ( fact_risk_scores[risk_score] )
+RETURN
+    IF ( NOT ISBLANK ( Score ), IF ( Score >= 0.99, "99%+", FORMAT ( Score, "0.0%" ) ) )
+
+Why At Risk =
+-- The risk table's plain-words reason, from the policy's own payment history: whether its
+-- stored card had expired by the scoring date, and how many premiums have failed so far
+VAR Customer = SELECTEDVALUE ( fact_risk_scores[customer_id] )
+VAR ScoredFor = SELECTEDVALUE ( fact_risk_scores[scored_for_date] )
+VAR Expiry = LOOKUPVALUE ( dim_payment_method[card_expiry_date], dim_payment_method[customer_id], Customer )
+VAR CardExpired = NOT ISBLANK ( Expiry ) && Expiry < ScoredFor
+VAR Failed = COALESCE ( [Failed First Attempts], 0 )
+VAR FailedText = IF ( Failed > 0, Failed & IF ( Failed = 1, " failed payment", " failed payments" ) )
+RETURN
+    IF (
+        NOT ISBLANK ( Customer ),
+        CONCATENATEX (
+            FILTER ( { IF ( CardExpired, "Card expired" ), FailedText }, [Value] <> "" ),
+            [Value],
+            " " & UNICHAR ( 183 ) & " "
+        )
+    )
 ```
 
 ### Change over time
 
 ```dax
 Premium Collected MoM % =
-VAR Prior = CALCULATE ( [Premium Collected], DATEADD ( dim_date[date_id], -1, MONTH ) )
+VAR ThisMonth = [Premium Collected]
+VAR LastMonth = CALCULATE ( [Premium Collected], DATEADD ( dim_date[date_id], -1, MONTH ) )
 RETURN
-    DIVIDE ( [Premium Collected] - Prior, Prior )
+    -- A month with no payments has nothing to compare: blank, not a fall of 100%
+    IF ( NOT ISEMPTY ( fact_payments ), DIVIDE ( ThisMonth - LastMonth, LastMonth ) )
+
+Failure Rate YoY pp =
+VAR ThisYear = [Failure Rate]
+VAR LastYear = CALCULATE ( [Failure Rate], DATEADD ( dim_date[date_id], -12, MONTH ) )
+RETURN
+    -- Blank unless both years have payments. Otherwise the first 12 months show the
+    -- rate itself (rate minus nothing) and the months past the data show minus last year
+    IF ( NOT ISBLANK ( ThisYear ) && NOT ISBLANK ( LastYear ), ThisYear - LastYear )
 ```
+
+### Per year
 
 ```dax
-Failure Rate YoY pp =
-VAR Prior = CALCULATE ( [Failure Rate], DATEADD ( dim_date[date_id], -12, MONTH ) )
+Years of Data =
+-- How many years the payment history covers, first scheduled premium to last. Money
+-- figures are divided by it so the report states every amount per year.
+VAR FirstDue = CALCULATE ( MIN ( fact_payments[date_id] ), REMOVEFILTERS ( dim_date ), fact_payments[attempt_number] = 1 )
+VAR LastDue = CALCULATE ( MAX ( fact_payments[date_id] ), REMOVEFILTERS ( dim_date ), fact_payments[attempt_number] = 1 )
 RETURN
-    [Failure Rate] - Prior
+    DIVIDE ( DATEDIFF ( FirstDue, LastDue, MONTH ) + 1, 12 )
+
+Premium Collected a Year =
+DIVIDE ( [Premium Collected], [Years of Data] )
+
+Dishonour Fees a Year =
+DIVIDE ( [Dishonour Fees], [Years of Data] )
+
+Wasted Retry Fees a Year =
+-- Zero rather than blank wherever retries happened, so the format shows a dash for
+-- soft declines (whose retries can work) instead of an empty cell
+IF ( NOT ISBLANK ( [Retry Attempts] ), DIVIDE ( COALESCE ( [Wasted Retry Fees], 0 ), [Years of Data] ) )
+
+Annual Premium at Risk =
+-- Each active policy's premium for a year, weighted by its chance of failing at the
+-- next payment: the premium a year expected to be lost if nothing changes
+SUMX (
+    fact_risk_scores,
+    VAR Premium = RELATED ( dim_policy[premium_amount] )
+    VAR Frequency = RELATED ( dim_policy[billing_frequency] )
+    RETURN fact_risk_scores[risk_score] * Premium * IF ( Frequency = "Monthly", 12, 1 )
+)
 ```
-
-**Set the formats now, not later:** currency with 0 decimals for the dollar measures,
-percentage with 1 decimal for the rates, whole number for the counts.
-
----
 
 ## 7. The four pages
 
-Page size: 16:9, 1280 × 720. Leave a 24px margin, and give every page the same title bar at the
-top left so they read as one report.
+Page size: 16:9, 1280 × 720. Every page has the same dark header band: the page title and its
+question on the left, a page navigator and "Simulated data · Oct 2024–Sep 2026" on the right.
+Below it sits a row of KPI cards, then the charts.
 
-Each page answers one question, and the answer is the first thing the eye lands on.
+Each chart title states its finding in plain words, using the README's numbers. One accent
+colour marks the thing that matters and everything else is grey: orange for the problem, blue
+for what works. Field names are renamed per visual into plain English. Every visual has alt
+text, and every card has a tooltip defining its number.
 
-### Page 1 · Overview — *"How healthy is premium income, really?"*
+The tables below list what is on each page, top to bottom.
 
-| Position | Visual | Fields |
-| -------- | ------ | ------ |
-| Top row, 4 cards | Card | `Premium Collected` · `Active Policies` · `Failure Rate` · `Involuntary Share` |
-| Left, half width | Line chart | Axis `dim_date[year_month]`, Y `Premium Collected` |
-| Right, half width | Line chart | Axis `dim_date[year_month]`, Y `Failure Rate` |
-| Bottom, full width | **Stacked** column chart | Axis `dim_date[year_month]`, Y `Policies Ended`, Legend `fact_lapse_events[end_type]` |
+### Page 1 · Overview: *"How healthy is premium income, really?"*
 
-Stacked is right for the bottom chart and only because Cancelled plus Lapsed *is* every exit —
-the segments sum to a meaningful whole. Anywhere the parts do not sum to the total, use
-side-by-side columns instead.
+| Visual | Title or label | Shows |
+| ------ | -------------- | ----- |
+| Card | Premium collected a year |  |
+| Card | Active policies |  |
+| Card | Premiums that fail on the first try |  |
+| Card | Ended policies nobody cancelled |  |
+| Line chart | Premium collected grew over the two years | Month, Premium collected, Month name |
+| Line chart | ...but more premiums now fail on the first try | Month, First-attempt failure rate, Month name |
+| Stacked column chart | Nearly half the policies that end each month were never cancelled | Month, Policies ended, How it ended, Month name |
 
-Single-series line charts need no legend; the title names the series.
+### Page 2 · The lapse that isn't: *"Who chose to go, and whose payment just died?"*
 
-### Page 2 · The lapse that isn't — *"Who chose to go, and whose payment just died?"*
+| Visual | Title or label | Shows |
+| ------ | -------------- | ----- |
+| Card | of ended policies were never cancelled |  |
+| Card | annual premium of policies that lapsed, Oct 2024–Sep 2026 |  |
+| Column chart | Once a card expires, first-attempt failures jump from 4.2% to 30.3% | Months from card expiry, First-attempt failure rate |
+| Bar chart | Expired cards are behind 49% of all lapses | Decline reason, Policies lapsed |
+| Column chart + line | Who they are barely matters: every state sits near 47.5% | State, Share that lapsed, All customers |
+| Matrix (heatmap) | Card + monthly: 65.5% of ended policies lapsed, against 6.3% for direct debit + annual | Payment method, Billing frequency, Share that lapsed |
 
-| Position | Visual | Fields |
-| -------- | ------ | ------ |
-| Top left | Card, large | `Involuntary Share` — the headline number of the whole project |
-| Top right | Card | `Annual Premium Lost` |
-| Middle left | **Line chart** | Axis `fact_payments[Months Since Card Expiry]` filtered to −6…+6, Y `Failure Rate` |
-| Middle right | Key influencers | Analyse `fact_lapse_events[end_type]`, Explain by `dim_payment_method[method_type]`, `billing_frequency`, product, state, channel, age band, `bank` |
-| Bottom left | Bar chart | Axis `dim_decline[decline_description]`, Y `Policies Lapsed` |
-| Bottom right | Decomposition tree | Analyse `Policies Lapsed`, Explain by `decline_category`, `decline_description`, `method_type`, `billing_frequency` |
+### Page 3 · Wasted retries: *"What do failed premiums actually cost?"*
 
-The middle-left line chart is the expiry cliff and it is the most persuasive visual in the
-report. A line is right because the x-axis is a continuous run of months and the shape — flat,
-then a wall at month 0 — *is* the finding. Add a reference line at x = 0 labelled "card
-expires".
+| Visual | Title or label | Shows |
+| ------ | -------------- | ----- |
+| Card | Dishonour fees a year |  |
+| Card | Fees a year on retries that can never work |  |
+| Card | Retries that collected the premium |  |
+| Stacked bar chart | Hard dishonours were retried 36,770 times and never succeeded | Type of dishonour, Outcome, Retries |
+| Column chart + line | Soft retries succeed 62.5% in the payday window, 23.7% on other days | Day of month, Payday window, Other days, Other-days average |
+| Table | Stopping hard-dishonour retries saves $54k a year | Decline reason, Hard or soft, Retries, Success rate, Wasted fees a year |
 
-The Annual Premium Lost card shows about $8.7M with no date filter: a year's premium for every
-policy that lapsed in the two years. That is the README's headline figure.
+### Page 4 · At risk next: *"Which premiums will fail next month, and what do we do?"*
 
-### Page 3 · Wasted retries — *"What do failed premiums actually cost?"*
+| Visual | Title or label | Shows |
+| ------ | -------------- | ----- |
+| Card | Policies at high or very high risk |  |
+| Card | Premium at risk a year |  |
+| Bar chart | Most active policies are low risk | Risk band, Policies |
+| Bar chart | High-risk policies hold most of the premium at risk | Risk band, Premium at risk a year |
+| Table | Start with the 50 policies most likely to fail next month | Policy, Product, Chance of failing, Why, Premium at risk a year |
 
-| Position | Visual | Fields |
-| -------- | ------ | ------ |
-| Top row, 3 cards | Card | `Dishonour Fees` · `Wasted Retry Fees` · `Retry Success Rate` |
-| Middle left | **Clustered** column chart | Axis `fact_payments[attempt_number]` (2 and 3 only), Y `Retry Success Rate`, Legend `dim_decline[decline_category]` |
-| Middle right | **Column chart** | Axis `dim_date[day_of_month]`, Y `Soft Retry Success Rate` |
-| Bottom | Table | `dim_decline[decline_description]`, `decline_category`, `Retry Attempts`, `Retry Success Rate`, `Wasted Retry Fees` |
+Text boxes complete two pages. Page 1 has a headline: **4,623 policies** ended without anyone
+cancelling them. Page 4 ends with the three recommendations, each with its value: $54,000 a
+year in fees, about 5,700 more payments a year, and $4.2M of annual premium that lapsed on
+expired cards. A footnote under the risk table gives the model: logistic regression, AUC 0.77,
+the riskiest 5% catch 39% of failures.
 
-Middle left is clustered, not stacked: Hard and Soft success rates are two separate rates, and
-stacking rates on top of each other would mean nothing. The Hard bars sit at zero, which is
-finding 3 in one picture.
+Two build notes:
 
-Middle right is the payday finding. Sort by day of month, not by value — the whole point is
-*where* in the month the good days fall. Use conditional formatting on the bars so days in the
-payday window are the brand blue and the rest are grey. Add a text box: "soft-dishonour retries
-landing on the 1st or 15th, or the two days after, succeed 2.6× as often."
-
-### Page 4 · At risk next — *"Which premiums will fail next month, and what do we do?"*
-
-| Position | Visual | Fields |
-| -------- | ------ | ------ |
-| Top row, 2 cards | Card | `Policies at High Risk` · `Premium at Risk` |
-| Left | Bar chart | Axis `fact_risk_scores[risk_band]`, Y count of policies. Sort Low → Very high manually |
-| Middle | Bar chart | Axis `risk_band`, Y `Premium at Risk` |
-| Right | Table, top 50 | `policy_id`, `product`, `risk_score`, `premium_at_risk`, sorted descending |
-| Bottom, full width | Text box | The three recommendations, each with its number |
-
-The bottom text box is what turns the project from a dashboard into analysis. Write it plainly.
-The cards on pages 1–3 cover the whole two years unless a date is filtered; these
-recommendations quote per-year figures, which are half of those totals.
-
-> **1. Stop retrying hard dishonours.** They were retried 36,770 times in 24 months and
-> succeeded zero times. Saving: **$54,000 a year** in dishonour fees.
->
-> **2. Move soft-dishonour retries into the payday window.** Retries on the 1st or 15th, or the
-> two days after, succeed 62.5% of the time against 23.7% on other days. Recovers roughly
-> **5,700 more payments a year**.
->
-> **3. Warn customers before their card expires.** Once a stored card passes its expiry date the
-> failure rate goes from 4.2% to 30.3%, and expired cards are behind **49% of all lapses**.
-
-Risk bands are an ordered category, so they are bars in order, not a donut. A donut is only for
-three or four parts of a genuine whole, read at a glance.
+- The payday chart's bars are two measures with fixed colours, blue and grey. A per-bar colour
+  rule was ignored by this combo chart, and every bar came out blue.
+- KPI cards need small top and bottom padding (4px); at 10px the label under the number is
+  cut off.
 
 ---
 
-## 8. The AI visuals
+## 8. The AI visuals: tried, then replaced
 
-All free in Power BI Desktop; no Fabric capacity needed.
+The first build used four of Power BI's AI features. Three were replaced, because a reader got the
+answer faster from a plain chart:
 
-- **Key influencers** (page 2) — already in the table above. Set it to analyse `end_type` =
-  Lapsed. It should pick out two things:
-  - Paying by card: 60% of ended card policies lapsed, against 36% for direct debit.
-  - Monthly billing: 54% lapsed, against 13% for annual payers, who mostly leave by cancelling
-    at renewal.
+- **Key influencers** (page 2) found what was expected, card payment and monthly billing. But it
+  re-runs its analysis every time the page opens, and its bubbles need explaining. A heatmap of
+  lapse share by payment method × billing frequency replaced it: card + monthly 65.5%, against
+  6.3% for direct debit + annual.
+- **Decomposition tree** (page 2) showed nothing until clicked, and repeated the decline-reason
+  chart beside it. It became lapse share by state, flat at about 47%: who customers are barely
+  matters next to how they pay.
+- **Q&A** (page 1) is being retired by Microsoft in February 2027 and showed a warning. A
+  headline text box replaced it.
+- **Anomaly detection** is still worth adding to page 1's failure-rate line: select it →
+  Analytics pane → **Find anomalies** → Add. It is not in the saved report yet.
 
-  State, age, channel and bank barely move it (45–49% everywhere). That is part of the story:
-  the lapse is about how people pay, not who they are.
-- **Decomposition tree** (page 2) — let it drill `Policies Lapsed` down through Hard/Soft to
-  the decline reason, then the payment method.
-- **Anomaly detection** — on the page 1 failure-rate line chart: select it → Analytics pane →
-  **Find anomalies** → Add.
-- **Q&A visual** — put one on page 1. Then teach it the vocabulary an insurer would use:
-  Modelling → Q&A setup → **Field synonyms**, and add *lapse*, *lapsed policy*, *involuntary
-  exit* for `end_type`, and *dishonour*, *bounce*, *failed premium* for `payment_status`. Five
-  minutes of synonyms is the difference between a demo that works and one that shrugs.
+That trade-off, AI features out where plain charts read faster, is worth explaining in an
+interview.
 
 ---
 
@@ -487,27 +558,30 @@ edit those files like any other source file.
 > `.gitignore` already excludes `.pbi/localSettings.json` and `cache.abf` — machine-specific
 > files that would otherwise churn on every commit.
 
-## 10. Publish and screenshot
+## 10. Export, screenshot and publish
 
-**Publishing** needs a work or school email; a Gmail address is rejected. You own
-datavalix.com, so create an address on that domain and sign up to Power BI with it. Then
-Home → **Publish** → My workspace, and in the Power BI service: the report → File → **Embed
-report** → *Publish to web (public)*. Copy the link into the README.
+**PDF.** File → Export → **Export to PDF**. This version of Power BI Desktop has no Print option,
+and the export asks for no file name: Power BI builds the file and opens it in Edge from its temp
+folder, `%TEMP%\2\Power BI Desktop\print-job-…\LapseThatIsnt.pdf`. Copy it from there to
+`docs/lapse-that-isnt.pdf`.
 
-If that fails for any reason, plan B is just as good for a portfolio: screenshots plus a short
-screen-recording GIF in the README. Do not lose a day to it.
-
-**Screenshots for the README** — take these four, save them into `docs/img/`:
+**README images.** Don't screenshot the remote desktop, which scales the screen and blurs the
+text. Render the PDF's pages instead: the PDF holds real text, so the images stay sharp. On the
+Mac this was done with PDFKit, 1800 px wide, into `docs/img/`:
 
 | File | What |
 | ---- | ---- |
-| `01-overview.png` | Page 1, whole page |
-| `02-lapse.png` | Page 2, whole page — the hero image, leads the README |
-| `03-expiry-cliff.png` | Just the expiry-cliff line chart, cropped |
-| `04-risk.png` | Page 4, whole page |
+| `01-overview.png` | Page 1 |
+| `02-lapse.png` | Page 2, the hero image at the top of the README |
+| `03-retries.png` | Page 3 |
+| `04-risk.png` | Page 4 |
 
-Then update the README: swap the commented-out image lines for real ones, and paste the
-published link into the "Open the live dashboard" line.
+For LinkedIn, post the PDF itself as a document: it shows as a swipeable carousel.
+
+**Publishing** is optional. It needs a work or school email; a Gmail address is rejected. You own
+datavalix.com, so create an address on that domain and sign up to Power BI with it. Then Home →
+**Publish** → My workspace, and in the Power BI service: the report → File → **Embed report** →
+*Publish to web (public)*. Put the link in the README.
 
 ---
 
@@ -525,3 +599,9 @@ published link into the "Open the live dashboard" line.
 | "The remote certificate is invalid" | Supabase's certificate is not trusted on this machine yet. Install it — see §2 |
 | Power BI cannot find the server | The direct `db.….supabase.co` address is IPv6-only. Use the Session pooler host — see §2 |
 | Nothing connects after a quiet week | Free Supabase projects pause after a week without use. Supabase dashboard → **Restore project** |
+| "A circular dependency was detected" when the project opens | A DAX column is the sort-by column of the column it is built from. Build the sort column in Power Query instead — see §5 |
+| Windows App error 0x704 | The saved PC has an old IP. Add the PC again with the instance's new public IP |
+| Copy and paste don't work in the remote desktop | Paste with Ctrl+V. If that fails, add the PC again with **Clipboard** ticked under Devices & Audio |
+| Export to PDF seems to do nothing | It opens the file in Edge from Power BI's temp folder — see §10 |
+| A card's label is cut off under the number | Lower the card's top and bottom padding to 4px |
+| A chart ignores a per-bar colour rule | Split the bars into two measures with fixed colours — see §7 |
