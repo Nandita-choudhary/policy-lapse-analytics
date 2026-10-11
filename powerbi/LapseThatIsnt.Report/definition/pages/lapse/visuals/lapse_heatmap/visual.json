@@ -3,9 +3,9 @@
   "name": "lapse_heatmap",
   "position": {
     "x": 36,
-    "y": 512,
+    "y": 540,
     "z": 15000,
-    "height": 172,
+    "height": 148,
     "width": 584,
     "tabOrder": 15000
   },
@@ -124,7 +124,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "16D"
+                  "Value": "14D"
                 }
               }
             },
@@ -185,7 +185,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -209,7 +209,7 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "12D"
+                  "Value": "11D"
                 }
               }
             },
@@ -240,7 +240,7 @@
             "rowPadding": {
               "expr": {
                 "Literal": {
-                  "Value": "18D"
+                  "Value": "6D"
                 }
               }
             },
@@ -303,7 +303,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "200D"
+                  "Value": "184D"
                 }
               }
             }
@@ -317,7 +317,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "180D"
+                  "Value": "190D"
                 }
               }
             }
@@ -375,6 +375,40 @@
               "expr": {
                 "Literal": {
                   "Value": "'Heatmap of the share of ended policies that lapsed: card and monthly 65.5%, direct debit and monthly 42.7%, card and annual 22.4%, direct debit and annual 6.3%.'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "bottom": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
                 }
               }
             }
