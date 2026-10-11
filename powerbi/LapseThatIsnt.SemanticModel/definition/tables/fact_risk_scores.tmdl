@@ -23,7 +23,7 @@ table fact_risk_scores
 
 	column scored_for_date
 		dataType: dateTime
-		formatString: Long Date
+		formatString: d mmm yyyy
 		lineageTag: 24f47090-ec95-432b-90e8-06f6e92a339e
 		summarizeBy: none
 		sourceColumn: scored_for_date
