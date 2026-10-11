@@ -60,7 +60,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Trial it on half the retries: up to 5,700 more payments a year",
+                    "value": "Trial on half first. If it holds, moving all retries recovers up to 5,700 payments a year",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",

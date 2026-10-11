@@ -31,7 +31,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Which premiums will fail next month, and what do we do?",
+                    "value": "Which premiums will fail next, and what do we do?",
                     "textStyle": {
                       "fontSize": "12pt",
                       "color": "#C8D2DE"
@@ -124,7 +124,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'At risk next. Which premiums will fail next month, and what do we do?'"
+                  "Value": "'At risk next. Which premiums will fail next, and what do we do?'"
                 }
               }
             }

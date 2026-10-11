@@ -486,7 +486,7 @@ The tables below list what is on each page, top to bottom.
 | Card | annual premium of policies that lapsed, Oct 2024–Sep 2026 |  |
 | Column chart | Once a card expires, first-attempt failures jump from 4.2% to 30.3% | Months from card expiry, First-attempt failure rate |
 | Bar chart | Expired cards are behind 49% of all lapses | Decline reason, Policies lapsed |
-| Column chart + line | Who they are barely matters: every state sits near 47.5% | State, Share that lapsed, All customers |
+| Column chart + line | Where they live barely matters: every state sits near 47.5% | State, Share that lapsed, All customers |
 | Matrix (heatmap) | Card + monthly: 65.5% of ended policies lapsed, against 6.3% for direct debit + annual | Payment method, Billing frequency, Share that lapsed |
 
 ### Page 3 · Wasted retries: *"What do failed premiums actually cost?"*
@@ -500,7 +500,7 @@ The tables below list what is on each page, top to bottom.
 | Column chart + line | Soft retries succeed 62.5% in the payday window, 23.7% on other days | Day of month, Payday window, Other days, Other-days average |
 | Table | Stopping hard-dishonour retries saves $54k a year | Decline reason, Hard or soft, Retries, Success rate, Wasted fees a year |
 
-### Page 4 · At risk next: *"Which premiums will fail next month, and what do we do?"*
+### Page 4 · At risk next: *"Which premiums will fail next, and what do we do?"*
 
 | Visual | Title or label | Shows |
 | ------ | -------------- | ----- |
@@ -512,8 +512,8 @@ The tables below list what is on each page, top to bottom.
 
 Text boxes complete two pages. Page 1 has a headline: **4,623 policies** ended without anyone
 cancelling them. Page 4 ends with the three recommendations, each sized honestly: $54,000 a
-year in fees; a trial on half the soft retries, since about 5,700 more payments a year assumes
-the payday effect holds; and up to $4.2M of annual premium lost to expired cards, since a
+year in fees; a trial on half the soft retries first, because the 5,700 extra payments a year
+assume every retry moves and the payday effect holds; and up to $4.2M of annual premium lost to expired cards, since a
 reminder won't save every policy. A footnote gives the risk model: logistic regression, AUC
 0.77, the riskiest 5% catch 39% of failures.
 
@@ -536,7 +536,7 @@ answer faster from a plain chart:
   lapse share by payment method × billing frequency replaced it: card + monthly 65.5%, against
   6.3% for direct debit + annual.
 - **Decomposition tree** (page 2) showed nothing until clicked, and repeated the decline-reason
-  chart beside it. It became lapse share by state, flat at about 47%: who customers are barely
+  chart beside it. It became lapse share by state, flat at about 47%: where customers live barely
   matters next to how they pay.
 - **Q&A** (page 1) is being retired by Microsoft in February 2027 and showed a warning. A
   headline text box replaced it.

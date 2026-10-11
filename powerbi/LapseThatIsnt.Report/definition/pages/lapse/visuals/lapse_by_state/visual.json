@@ -473,7 +473,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Who they are barely matters: every state sits near 47.5%'"
+                  "Value": "'Where they live barely matters: every state sits near 47.5%'"
                 }
               }
             },
@@ -563,7 +563,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Who they are barely matters: every state sits near 47.5%. Compare with how they pay, on the left. Dashed: all customers.'"
+                  "Value": "'Where they live barely matters: every state sits near 47.5%. Compare with how they pay, on the left. Dashed: all customers.'"
                 }
               }
             }

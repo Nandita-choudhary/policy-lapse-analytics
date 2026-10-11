@@ -60,7 +60,7 @@ pages was checked against the model behind them.
 </details>
 
 <details>
-<summary><b>At risk next</b>: which premiums will fail next month, and what do we do?</summary>
+<summary><b>At risk next</b>: which premiums will fail next, and what do we do?</summary>
 
 ![At risk next page](docs/img/04-risk.png)
 </details>
@@ -86,7 +86,7 @@ Python generator  →  PostgreSQL (Supabase)  →  Power BI
 | `etl/generate_data.py` | Builds the simulated insurer: 7 tables, 24 months | Python |
 | `etl/load_to_postgres.py` | Loads the star schema into Supabase | Python + SQL |
 | `sql/schema.sql` | Table definitions, keys and indexes | PostgreSQL |
-| `model/predict_failures.py` | Logistic regression scoring next month's payment-failure risk | Python |
+| `model/predict_failures.py` | Logistic regression scoring each policy's risk of failing at its next premium | Python |
 | `powerbi/` | The report, saved as a Power BI Project (`.pbip`) — model and DAX in plain text | Power BI |
 
 ### The data model
