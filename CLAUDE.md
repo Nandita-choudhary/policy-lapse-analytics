@@ -69,8 +69,8 @@ Nandita's phase plan, updated 4 October 2026. Keep the Status column current as 
 | 1 | Data generator, four planted patterns | Mac | Done 4 Oct: fix pass merged into `main`; the generator prints and checks every headline number | Re-run after any change and check the printed numbers; quick plots optional |
 | 2 | ETL → Supabase, star schema, data dictionary | Mac | Done 4 Oct: 8 tables loaded into Supabase (Sydney) through the Session pooler; every finding re-checked in SQL | Verify row counts after any reload |
 | 3 | Failure model, scores → Postgres | Mac | Done 4 Oct: the model reads from Supabase and wrote 40,266 rows to `fact_risk_scores` (AUC 0.769) | Document every feature in plain words |
-| 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Next. The EC2 machine is set up; the guide's connection step covers the Session pooler and Supabase's certificate | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
-| 5 | Publish + README screenshots + citations | Both | Not started | 2 days. Needs a work-style email: create one @datavalix.com |
+| 4 | Power BI: model, DAX, 4 pages, .pbip | EC2 | Done 10 Oct: 4 pages built in PBIR, every number checked against the model; PDF in `docs/` | 5–7 days. Start the machine each session, STOP it after; commit .pbip each time |
+| 5 | Publish + README screenshots + citations | Both | In progress: README shows the pages and links the PDF; publishing is optional | 2 days. Needs a work-style email: create one @datavalix.com |
 | 6 | Resume bullets + LinkedIn post + interview practice | — | Not started | 1 day. Explain the schema, one measure and the finding out loud |
 
 **Still undecided:** the insurer's name. The repo name does not depend on it. Candidates:

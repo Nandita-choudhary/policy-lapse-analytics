@@ -11,10 +11,9 @@ failed until the policy died, taking **$8.7M of annual premium** with them over 
 > confidential. The generator is calibrated to published industry research (see
 > [Sources](#sources)), and the pipeline, schema and measures would run unchanged on real data.
 
-<!-- SCREENSHOTS: add 2-3 dashboard images here once the report is built -->
-<!-- ![Overview page](docs/img/01-overview.png) -->
+![The lapse that isn't: page 2 of the Power BI report](docs/img/02-lapse.png)
 
-**[→ Open the live dashboard]()** · *(link added after publishing)*
+**[→ See all four pages as a PDF](docs/lapse-that-isnt.pdf)**
 
 ---
 
@@ -32,6 +31,38 @@ window · warn customers before their card expires.
 
 *(Findings 2 and 4 overlap — both prevent lapses — so their values are stated separately rather
 than summed.)*
+
+---
+
+## The report
+
+Four pages, each answering one question. Every chart title states its finding in plain words,
+and one accent colour marks the problem while everything else stays grey. Every number on the
+pages was checked against the model behind them.
+
+<details>
+<summary><b>Overview</b>: how healthy is premium income, really?</summary>
+
+![Overview page](docs/img/01-overview.png)
+</details>
+
+<details>
+<summary><b>The lapse that isn't</b>: who chose to go, and whose payment just died?</summary>
+
+![The lapse that isn't page](docs/img/02-lapse.png)
+</details>
+
+<details>
+<summary><b>Wasted retries</b>: what do failed premiums actually cost?</summary>
+
+![Wasted retries page](docs/img/03-retries.png)
+</details>
+
+<details>
+<summary><b>At risk next</b>: which premiums will fail next month, and what do we do?</summary>
+
+![At risk next page](docs/img/04-risk.png)
+</details>
 
 ---
 
